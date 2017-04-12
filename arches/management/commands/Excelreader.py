@@ -67,11 +67,10 @@ class Command(BaseCommand):
         ret = []
         for sheet_index,sheet in enumerate(workbook.worksheets):
             rows_count = rows_count + sheet.max_row
-            if workbook.sheetnames[sheet_index] is not 'NOT':
+            if workbook.sheetnames[sheet_index] != 'NOT':
                 ret = self.validate_value_number(sheet)
                 if ret:
                     raise ValueError("Error: cells in sheet %s do not contain an equal number of semicolon separated values. Errors are at the following lines: %s" % (workbook.sheetnames[sheet_index], ret))
-
         if (rows_count/sheet_count).is_integer() is not True:
             raise ValueError("Error: some sheets in your XLSX file have a different number of rows")
             
@@ -85,9 +84,9 @@ class Command(BaseCommand):
                     value_encoded = (unicode(cell.value)).encode('utf-8') #Values could be in Arabic or containing unicode chars, so it is essential to encode them properly.
                     cell_no = len(re.sub(ur';\s+', ';', value_encoded).split(';'))
                     values_no = values_no + cell_no
+            if (values_no/len(row)).is_integer() is not True:
+                FaultyRows.append(row_index+2) 
                     
-                    if (values_no/cell_no).is_integer() is not True:
-                        FaultyRows.append(row_index+2) 
                         
         return list(set(FaultyRows))       
     #def validate_resourcetype(self, resourcetype):
@@ -111,7 +110,7 @@ class Command(BaseCommand):
             return None
             
     def collect_concepts(self, node_conceptid, full_concept_list = []):
-        ''' Collects a full list of child concepts given  the conceptid of the node. Returns a list of a set of concepts, i.e. expounding the duplicates'''
+        ''' Collects a full list of child concepts given the conceptid of the node. Returns a list of a set of concepts, i.e. expounding the duplicates'''
         concepts_in_node = archesmodels.ConceptRelations.objects.filter(conceptidfrom = node_conceptid)
         if concepts_in_node.count() > 0:
             full_concept_list.append(node_conceptid) 
@@ -119,7 +118,7 @@ class Command(BaseCommand):
                 
                 self.collect_concepts(concept_in_node.conceptidto_id, full_concept_list)
         else:
-            full_concept_list.append(node_conceptid) 
+            full_concept_list.append(node_conceptid)
         return list(set(full_concept_list)) 
     
     def validate_geometries(self, geometry,row):
@@ -150,31 +149,32 @@ class Command(BaseCommand):
                         if row[col_index].value is not None:
                             value_encoded = (unicode(row[col_index].value)).encode('utf-8') #Values could be in Arabic or containing unicode chars, so it is essential to encode them properly.
                             for concept_index,concept in enumerate(re.sub(ur';\s+', ';', value_encoded).split(';')): #replacing a semicolon (u003b) and space (u0020) with a semicolon in case that that space in front of the semicolon exists
-                                GroupName = " ".join((sheet_name, str(GroupNo))) if sheet_name != 'NOT' else sheet_name
                                 GroupNo = GroupNo +1 if sheet_name is not 'NOT' else ''
-                                if modelinstance.businesstablename == 'domains':                                
-                                    concepts_in_node = self.collect_concepts(modelinstance.conceptid)
-                                    valueinstance =  self.validate_concept(concept, concepts_in_node)
-                                    if valueinstance is not None:
-                                        conceptinstance = archesmodels.Concepts.objects.get(pk=valueinstance[0][0].conceptid)
-                                        concept_list = [str(row_index),resourcetype,modelinstance.entitytypeid,conceptinstance.legacyoid,GroupName]
-                                        ResourceList.append(concept_list)
-    #                                     print "ResourceId %s, AttributeName %s, AttributeValue %s, GroupId %s" %(row_index,modelinstance.entitytypeid,conceptinstance.legacyoid,GroupName)
-                                    else:
-                                        FaultyConceptsList.append("{0} in {1}, at row no. {2}".format(concept,header[0].value,(row_index+2)))
-                                if modelinstance.businesstablename == 'strings':
-                                        concept_list = [str(row_index),resourcetype,modelinstance.entitytypeid,concept, GroupName]
-                                        ResourceList.append(concept_list)
-    #                                     print "ResourceId %s, AttributeName %s, AttributeValue %s, GroupId %s" %(row_index,modelinstance.entitytypeid,concept, GroupName)
-                                if modelinstance.businesstablename == 'dates':
-                                        date = self.validatedates(concept)
-                                        concept_list = [str(row_index),resourcetype,modelinstance.entitytypeid,date, GroupName]
-                                        ResourceList.append(concept_list)
-                                if modelinstance.businesstablename == 'geometries':
-                                        if self.validate_geometries(concept,row_index):
+                                GroupName = " ".join((sheet_name, str(GroupNo))) if sheet_name != 'NOT' else sheet_name
+                                if concept != 'x':
+                                    if modelinstance.businesstablename == 'domains':                                
+                                        concepts_in_node = self.collect_concepts(modelinstance.conceptid_id, full_concept_list =[])
+                                        valueinstance =  self.validate_concept(concept, concepts_in_node)
+                                        if valueinstance is not None:
+                                            conceptinstance = archesmodels.Concepts.objects.get(pk=valueinstance[0][0].conceptid)
+                                            concept_list = [str(row_index),resourcetype,modelinstance.entitytypeid,conceptinstance.legacyoid,GroupName]
+                                            ResourceList.append(concept_list)
+#                                             print "ConceptId %s, ResourceId %s, AttributeName %s, AttributeValue %s, GroupId %s" %(valueinstance[0][0].conceptid, row_index,modelinstance.entitytypeid,conceptinstance.legacyoid,GroupName)
+                                        else:
+                                            FaultyConceptsList.append("{0} in {1}, at row no. {2}".format(concept,header[0].value,(row_index+2)))
+                                    if modelinstance.businesstablename == 'strings':
                                             concept_list = [str(row_index),resourcetype,modelinstance.entitytypeid,concept, GroupName]
                                             ResourceList.append(concept_list)
-        
+        #                                     print "ResourceId %s, AttributeName %s, AttributeValue %s, GroupId %s" %(row_index,modelinstance.entitytypeid,concept, GroupName)
+                                    if modelinstance.businesstablename == 'dates':
+                                            date = self.validatedates(concept)
+                                            concept_list = [str(row_index),resourcetype,modelinstance.entitytypeid,date, GroupName]
+                                            ResourceList.append(concept_list)
+                                    if modelinstance.businesstablename == 'geometries':
+                                            if self.validate_geometries(concept,row_index):
+                                                concept_list = [str(row_index),resourcetype,modelinstance.entitytypeid,concept, GroupName]
+                                                ResourceList.append(concept_list)
+                                    
         if FaultyConceptsList:
             raise ValueError("The following concepts had issues %s" % FaultyConceptsList)
                                                                         
