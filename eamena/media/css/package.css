@@ -97,3 +97,9 @@
 .report-body {
 	overflow-y: scroll; 
 }
+
+ul.select2-choices.or-search .select2-search-choice.inverted {
+	background-color: lightgrey!important;
+	color: white;
+	border-color: grey !important;
+}

@@ -28,7 +28,8 @@ require(['jquery',
                 'click #clear-search': 'clear',
                 'click #map-filter-button': 'toggleMapFilter',
                 'click #time-filter-button': 'toggleTimeFilter',
-                'click a.dataexport': 'exportSearch'
+                'click a.dataexport': 'exportSearch',
+                'click a.search-and-or': 'onChangeAndOr'
             },
 
             initialize: function(options) { 
@@ -83,7 +84,7 @@ require(['jquery',
                         this.termFilter.removeTag(timeFilterText);
                     }
                 }, this);
-
+                this.booleanSearch = "and";
 
                 this.searchResults = new SearchResults({
                     el: $('#search-results-container')[0]
@@ -130,7 +131,8 @@ require(['jquery',
                             }),
                             spatialFilter: ko.toJSON(self.mapFilter.query.filter),
                             mapExpanded: self.mapFilter.expanded(),
-                            timeExpanded: self.timeFilter.expanded()
+                            timeExpanded: self.timeFilter.expanded(),
+                            booleanSearch: self.booleanSearch,
                         };
                         if (self.termFilter.query.filter.terms().length === 0 &&
                             self.timeFilter.query.filter.year_min_max().length === 0 &&
@@ -149,7 +151,6 @@ require(['jquery',
                         return ret;
                     }, this).extend({ rateLimit: 200 })
                 };
-
                 this.getSearchQuery();
 
                 this.searchResults.page.subscribe(function(){
@@ -245,6 +246,10 @@ require(['jquery',
                 }
                 this.termFilter.restoreState(query.termFilter);
 
+                if('booleanSearch' in query){
+                    this.onChangeAndOr(query.booleanSearch);
+                    doQuery = true;
+                }
 
                 if('temporalFilter' in query){
                     query.temporalFilter = JSON.parse(query.temporalFilter);
@@ -289,6 +294,35 @@ require(['jquery',
                     page_number_regex = /page=[0-9]+/;
                     params = params_with_page.replace(page_number_regex, format);
                 $("a.dataexport").attr("href", arches.urls.search_results_export + '?' + params);
+            },
+            
+            onChangeAndOr: function (e) {
+                var targetClass;
+                if (e.target) {
+                    if ($(e.target).hasClass("search-and")) {
+                        targetClass = "and";
+                    }
+                    if ($(e.target).hasClass("search-or")) {
+                        targetClass = "or";
+                    }
+                } else {
+                    targetClass = e;
+                }
+                if (targetClass == 'and') {
+                    if (this.booleanSearch != "and") {
+                        $(".and-or-value").html("And");
+                        this.booleanSearch = "and";
+                        $(".select2-choices").removeClass("or-search");
+                        this.doQuery();
+                    }
+                } else if (targetClass == 'or') {
+                    if (this.booleanSearch != "or") {
+                        $(".and-or-value").html("Or");
+                        this.booleanSearch = "or";
+                        $(".select2-choices").addClass("or-search");
+                        this.doQuery();
+                    }
+                }
             }
         });
         new SearchView();

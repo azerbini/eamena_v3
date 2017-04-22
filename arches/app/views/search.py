@@ -110,6 +110,7 @@ def build_search_results_dsl(request):
     export = request.GET.get('export', None)
     page = 1 if request.GET.get('page') == '' else int(request.GET.get('page', 1))
     temporal_filter = JSONDeserializer().deserialize(request.GET.get('temporalFilter', None))
+    boolean_search = request.GET.get('booleanSearch', '')
     
     se = SearchEngineFactory().create()
 
@@ -130,19 +131,29 @@ def build_search_results_dsl(request):
                 boolfilter_nested.must(Terms(field='child_entities.entitytypeid', terms=[entitytype.pk]))
                 boolfilter_nested.must(Match(field='child_entities.value', query=term['value'], type='phrase'))
                 nested = Nested(path='child_entities', query=boolfilter_nested)
-                if term['inverted']:
-                    boolfilter.must_not(nested)
-                else:    
-                    boolfilter.must(nested)
+                if boolean_search == 'or':
+                    if not term['inverted']:
+                        boolfilter.should(nested)
+                else:
+                    if term['inverted']:
+                        boolfilter.must_not(nested)
+                    else:    
+                        boolfilter.must(nested)
+                        
             elif term['type'] == 'concept':
 
                 concept_ids = _get_child_concepts(term['value'])
                 terms = Terms(field='domains.conceptid', terms=concept_ids)
                 nested = Nested(path='domains', query=terms)
-                if term['inverted']:
-                    boolfilter.must_not(nested)
+                if boolean_search == 'or':
+                    if not term['inverted']:
+                            boolfilter.should(nested)
                 else:
-                    boolfilter.must(nested)
+                    if term['inverted']:
+                        boolfilter.must_not(nested)
+                    else:
+                        boolfilter.must(nested)
+                        
             elif term['type'] == 'string':
                 boolquery2 = Bool() #This bool contains the subset of nested string queries on both domains and child_entities paths
                 boolfilter_folded = Bool() #This bool searches by string in child_entities, where free text strings get indexed
@@ -155,10 +166,16 @@ def build_search_results_dsl(request):
                 nested2 = Nested(path='domains', query=boolfilter_folded2)
                 boolquery2.should(nested)
                 boolquery2.should(nested2)
-                if term['inverted']:
-                    boolquery.must_not(boolquery2)
-                else:    
-                    boolquery.must(boolquery2)
+                if boolean_search == 'or':
+                    if not term['inverted']:
+                        # use boolfilter here instead of boolquery because boolquery
+                        # can't be combined with other boolfilters using boolean OR
+                        boolfilter.should(boolquery2)
+                else:
+                    if term['inverted']:
+                        boolquery.must_not(boolquery2)
+                    else:    
+                        boolquery.must(boolquery2)
                     
 
     if 'geometry' in spatial_filter and 'type' in spatial_filter['geometry'] and spatial_filter['geometry']['type'] != '':
@@ -176,10 +193,14 @@ def build_search_results_dsl(request):
         if 'inverted' not in spatial_filter:
             spatial_filter['inverted'] = False
 
-        if spatial_filter['inverted']:
-            boolfilter.must_not(nested)
+        if boolean_search == 'or':
+            if not spatial_filter['inverted']:
+                boolfilter.should(nested)
         else:
-            boolfilter.must(nested)
+            if spatial_filter['inverted']:
+                boolfilter.must_not(nested)
+            else:
+                boolfilter.must(nested)
 
     if 'year_min_max' in temporal_filter and len(temporal_filter['year_min_max']) == 2:
         start_date = date(temporal_filter['year_min_max'][0], 1, 1)
@@ -194,10 +215,14 @@ def build_search_results_dsl(request):
         if 'inverted' not in temporal_filter:
             temporal_filter['inverted'] = False
 
-        if temporal_filter['inverted']:
-            boolfilter.must_not(nested)
+        if boolean_search == 'or':
+            if not temporal_filter['inverted']:
+                boolfilter.should(nested)
         else:
-            boolfilter.must(nested)
+            if temporal_filter['inverted']:
+                boolfilter.must_not(nested)
+            else:
+                boolfilter.must(nested)
         
     if not boolquery.empty:
         query.add_query(boolquery)
