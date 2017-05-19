@@ -43,6 +43,7 @@ define(['jquery',
                 this.expanded = ko.observable(false);
                 this.expanded.subscribe(function(status){
                     this.toggleFilterSection($('#map-filter'), status);
+                    this.trigger('enabled', status, this.query.filter.inverted());
                 }, this);
 
                 this.query = {

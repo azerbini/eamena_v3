@@ -17,11 +17,44 @@
             <!-- Search Widget -->
             
             <div class="col-xs-12 col-md-7 col-lg-8">
-                <div class="form-group">
-                {% if 'edit' in user.user_groups %}       
-                    <input class="select2 resource_search_widget arches-select2" name="" style="width:100%" placeholder="{% trans "Search for a resource..." %}" value="">
+                <div id="term-select-template" class="search-box-container hidden">
+                    <input class="select2 arches-select2 term-search" name="" placeholder="{% trans "Search for a resource..." %}" value="">
+                    <span class="dropdown pull-right">
+                        <button class="btn btn-default dropdown-toggle select-groupping" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <span class="group-value">And</span>
+                            <i class="fa fa-chevron-down"></i>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdown-grouped">
+                                <li><a href="#" class="search-grouped search-and">And</a></li>
+                                <li><a href="#" class="search-grouped search-or">Or</a></li>
+                            </ul>
+                    </span>
+                </div>
+                <div class="form-group term-search-boxes">
+                    {% if 'edit' in user.user_groups %}
+                    <span class="dropdown pull-left global-and-or">
+                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                <span>Global </span><span class="and-or-value">And</span>
+                                <i class="fa fa-chevron-down"></i>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdown-and-or">
+                                <li><a href="#" class="search-and-or search-and">And</a></li>
+                                <li><a href="#" class="search-and-or search-or">Or</a></li>
+                            </ul>
+                    </span>
+                    <input class="select2 resource_search_widget0 select-location-time arches-select2" name="" style="width:100%" placeholder="{% trans "Time filters" %}" value="">
                     {% endif %}
                 </div>
+                {% if 'edit' in user.user_groups %}
+                <div class="pull-left add-remove-search-box">
+                    <button class="btn btn-primary add-search-box" type="button">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                    <button class="btn btn-danger remove-search-box" type="button">
+                        <i class="fa fa-remove"></i>
+                    </button>
+                </div>
+                {% endif %}
             </div>
             
             <!-- End Search Widget -->
@@ -30,9 +63,15 @@
             <!-- Advanced Search Option -->
             <div class="col-xs-12 col-md-5 col-lg-4">
               <div class="btn-group pull-right">
+                  <button type="button" class="btn btn-default advanced-search">
+                      <i class="fa fa-sliders" aria-hidden="true"></i>
+                  </button>
+
                 {% if 'edit' in user.user_groups %}
                 <button class="btn btn-success btn" id="map-filter-button" style=""> 
+                    <i class="fa fa-minus invert-btn" style="margin-right: 7px;"></i>
                     <i class="fa fa-map-marker" style="padding-right:8px;"></i>{% trans "Location Filter" %}
+                    <i class="fa fa-close close-btn" style="margin-right: 7px;"></i>
                 </button>
                 <button class="btn btn-success btn" id="time-filter-button" style=""> 
                     <i class="fa fa-clock-o" style="padding-right:8px;"></i>{% trans "Time Filter" %}
@@ -41,12 +80,14 @@
                 
                 {% else %}
                 <button class="btn btn-success btn" id="map-filter-button" style=""> 
+                    <i class="fa fa-minus invert-btn" style="margin-right: 7px;"></i>
                     <i class="fa fa-map-marker" style="padding-right:8px;"></i>{% trans "Location Filter" %}
+                    <i class="fa fa-close close-btn" style="margin-right: 7px;"></i>
                 </button>
                 {% endif %}
 
                 
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                    <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
                         {% trans "Tools" %}
                         <i class="fa fa-chevron-down"></i>
                         <span class="sr-only">{% trans "Toggle Dropdown" %}</span>                            
@@ -64,6 +105,7 @@
                         <li class="divider"></li>
                         <li><a href="javascript:void(0);" id="clear-search">{% trans "Clear Search" %}</a></li>
                     </ul>
+
                 </div>
             </div>
             <!-- End Advanced Search Option -->
