@@ -35,9 +35,12 @@ import binascii
 from arches.app.utils.encrypt import Crypter
 from arches.app.utils.spatialutils import getdates
 from datetime import datetime
-
+from django.shortcuts import redirect
 
 def report(request, resourceid):
+    if request.user.is_anonymous:
+        redirect('/auth')
+
     lang = request.GET.get('lang', request.LANGUAGE_CODE)
     page = request.GET.get('page', 1)
     se = SearchEngineFactory().create()
