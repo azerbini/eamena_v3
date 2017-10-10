@@ -21,6 +21,10 @@ from django.conf import settings
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.db.models import Max, Min
+# from django.core.paginator import Paginator
+from django.contrib.gis.geos import GEOSGeometry
+from django.core.exceptions import PermissionDenied
+
 from arches.app.models import models
 from arches.app.views.search import get_paginator
 from arches.app.views.search import build_search_results_dsl as build_base_search_results_dsl
@@ -29,6 +33,9 @@ from arches.app.utils.betterJSONSerializer import JSONSerializer, JSONDeserializ
 from arches.app.search.search_engine_factory import SearchEngineFactory
 from arches.app.search.elasticsearch_dsl_builder import Bool, Match, Query, Nested, Terms, GeoShape, Range
 from django.utils.translation import ugettext as _
+from arches.app.utils.data_management.resources.exporter import ResourceExporter
+
+from eamena.models.group import canUserAccessResource
 
 def home_page(request):
     lang = request.GET.get('lang', settings.LANGUAGE_CODE)
@@ -45,7 +52,11 @@ def home_page(request):
 
 def search_results(request):
     query = build_search_results_dsl(request)
-    results = query.search(index='entity', doc_type='') 
+    results = query.search(index='entity', doc_type='')
+    
+    for result in results['hits']['hits']:
+        result['can_edit'] = canUserAccessResource(request.user, result['_id'], 'edit')
+    
     total = results['hits']['total']
     page = 1 if request.GET.get('page') == '' else int(request.GET.get('page', 1))
 
@@ -57,7 +68,7 @@ def search_results(request):
         all_entity_ids = [hit['_id'] for hit in full_results['hits']['hits']]
     return get_paginator(results, total, page, settings.SEARCH_ITEMS_PER_PAGE, all_entity_ids)
 
-def build_search_results_dsl(request):
+def build_search_results_dsl(request, action='view'):
     temporal_filters = JSONDeserializer().deserialize(request.GET.get('temporalFilter', None))
     sorting = {
 		"child_entities.label":  {
@@ -70,6 +81,26 @@ def build_search_results_dsl(request):
 	}
     query = build_base_search_results_dsl(request)  
     boolfilter = Bool()
+
+    # require the result to be within the user's area
+    locationfilter = Bool()
+    
+    if action is 'export':
+        # User must be in the edit plus group to export resources
+        groups = request.user.groups.filter(name__startswith="editplus")
+    else:
+        groups = request.user.groups
+    
+    for group in groups.all():
+        if group.geom:
+            geojson = group.geom.geojson
+            geojson_as_dict = JSONDeserializer().deserialize(geojson)
+            geoshape = GeoShape(field='geometries.value', type=geojson_as_dict['type'], coordinates=geojson_as_dict['coordinates'])
+            
+            nested = Nested(path='geometries', query=geoshape)
+            locationfilter.should(nested)
+
+    boolfilter.must(locationfilter)
 
     if 'filters' in temporal_filters:
         for temporal_filter in temporal_filters['filters']:
@@ -104,7 +135,35 @@ def build_search_results_dsl(request):
                 boolfilter.must(nested)
 
             query.add_filter(boolfilter)
+            
+    query.add_filter(locationfilter)
+    
+    
     #  Sorting criterion added to query (AZ 08/02/17)
     query.dsl.update({'sort': sorting})
 
     return query
+    
+def export_results(request):
+    if len(request.user.groups.filter(name='editplus').all()) < 1:
+        # user is not in the edit plus group
+        raise PermissionDenied
+        
+    dsl = build_search_results_dsl(request, action='export')
+    search_results = dsl.search(index='entity', doc_type='')
+    
+    response = None
+    format = request.GET.get('export', 'csv')
+    exporter = ResourceExporter(format)
+    results = exporter.export(search_results['hits']['hits'])
+    
+    related_resources = [{'id1':rr.entityid1, 'id2':rr.entityid2, 'type':rr.relationshiptype} for rr in models.RelatedResource.objects.all()] 
+    csv_name = 'resource_relationships.csv'
+    dest = StringIO()
+    csvwriter = csv.DictWriter(dest, delimiter=',', fieldnames=['id1','id2','type'])
+    csvwriter.writeheader()
+    for csv_record in related_resources:
+        csvwriter.writerow({k:v.encode('utf8') for k,v in csv_record.items()})
+    results.append({'name':csv_name, 'outputfile': dest})
+    zipped_results = exporter.zip_response(results, '{0}_{1}_export.zip'.format(settings.PACKAGE_NAME, format))
+    return zipped_results
