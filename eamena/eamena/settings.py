@@ -187,6 +187,20 @@ ORDER_REPORT_SECTIONS_BY= {
     'PRODUCTION.E12': ['FEATURE_EVIDENCE_INTERPRETATION_TYPE.E55', 'FEATURE_EVIDENCE_TYPE.E55']
 }
 
+SEARCH_GROUP_ROOTS= [
+    ('NAME.E41', _('Resource Names')),
+    ('SITE_FUNCTION_TYPE.E55', _('Site function')),
+    ('CULTURAL_PERIOD.E55', _('Cultural period')),
+    ('ASSESSMENT_TYPE.E55', _('Assessment')),
+    ('FEATURE_EVIDENCE_ASSIGNMENT.E17', _('Feature form')),
+    ('FEATURE_EVIDENCE_INTERPRETATION_ASSIGNMENT.E17', _('Feature interpretation')),
+    ('DISTURBANCE_STATE.E3', _('Disturbance assessment')),
+    ('THREAT_STATE.E3', _('Threat assessment')),
+    ('PROTECTION_EVENT.E65', _('Designation')),
+    ('MEASUREMENT_TYPE.E55', _('Measurements')),
+    ('PLACE_ADDRESS.E45', _('Addresses'))
+]
+
 EXPORT_CONFIG = os.path.normpath(os.path.join(PACKAGE_ROOT, 'source_data', 'business_data', 'resource_export_mappings.json'))
 
 try:

@@ -16,37 +16,89 @@
             
             <!-- Search Widget -->
             
-            <div class="col-xs-12 col-md-7 col-lg-8">
-                <div class="form-group">
-                {% if 'edit' in user.user_groups %}       
-                    <input class="select2 resource_search_widget arches-select2" name="" style="width:100%" placeholder="{% trans "Search for a resource..." %}" value="">
+            <div class="col-xs-12 col-md-8 col-lg-9">
+                <div id="term-select-template" class="search-box-container hidden">
+                    <input class="select2 arches-select2 pull-left term-search" name="" placeholder="{% trans "Search for a resource..." %}" value="">
+                    <button class="btn btn-success btn time-filter-button pull-left" style=""> 
+                        <i class="fa fa-clock-o" style="padding-right:8px;"></i>{% trans "Time Filter" %}
+                    </button>
+                    <span class="dropdown pull-left term-and-or">
+                        <button class="btn btn-default dropdown-toggle select-term-and-or" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <span class="term-and-or-value">And</span>
+                            <i class="fa fa-chevron-down"></i>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdown-grouped">
+                            <li><a href="#" class="search-term-and-or search-term-and" data-value='and'>And</a></li>
+                            <li><a href="#" class="search-term-and-or search-term-or" data-value='or'>Or</a></li>
+                        </ul>
+                    </span>                    <span class="dropdown pull-left term-group">
+                        <button class="btn btn-default dropdown-toggle select-term-groupping" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <span class="term-group-value">{% trans "No group" %}</span>
+                            <i class="fa fa-chevron-down"></i>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdown-grouped">
+                            <li><a href="#" class="search-grouped" data-value='No group'>{% trans "No group" %}</a></li>
+                            {% for option in group_options %}
+                                <li><a href="#" class="search-grouped" data-value='{{option.0}}'>{{option.1}}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </span>
+                </div>
+                <div class="form-group term-search-boxes">
+                    {% if 'edit' in user.user_groups %}
+                    <div class="global-and-or-container">
+                        <span class="dropdown pull-left global-and-or">
+                                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <span>Global </span><span class="and-or-value">And</span>
+                                    <i class="fa fa-chevron-down"></i>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdown-and-or">
+                                    <li><a href="#" class="search-and-or search-and">And</a></li>
+                                    <li><a href="#" class="search-and-or search-or">Or</a></li>
+                                </ul>
+                        </span>
+                    </div>
                     {% endif %}
                 </div>
+                {% if 'edit' in user.user_groups %}
+                <div class="pull-left add-remove-search-box">
+                    <button class="btn btn-primary add-search-box" type="button">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                    <button class="btn btn-danger remove-search-box" type="button">
+                        <i class="fa fa-remove"></i>
+                    </button>
+                </div>
+                {% endif %}
             </div>
             
             <!-- End Search Widget -->
 
 
             <!-- Advanced Search Option -->
-            <div class="col-xs-12 col-md-5 col-lg-4">
+            <div class="col-xs-12 col-md-4 col-lg-3">
               <div class="btn-group pull-right">
+                  <button type="button" class="btn btn-default advanced-search">
+                      <i class="fa fa-sliders" aria-hidden="true"></i>
+                  </button>
+
                 {% if 'edit' in user.user_groups %}
                 <button class="btn btn-success btn" id="map-filter-button" style=""> 
+                    <i class="fa fa-minus invert-btn" style="margin-right: 7px;"></i>
                     <i class="fa fa-map-marker" style="padding-right:8px;"></i>{% trans "Location Filter" %}
+                    <i class="fa fa-close close-btn" style="margin-right: 7px;"></i>
                 </button>
-                <button class="btn btn-success btn" id="time-filter-button" style=""> 
-                    <i class="fa fa-clock-o" style="padding-right:8px;"></i>{% trans "Time Filter" %}
-                </button>
-                
                 
                 {% else %}
                 <button class="btn btn-success btn" id="map-filter-button" style=""> 
+                    <i class="fa fa-minus invert-btn" style="margin-right: 7px;"></i>
                     <i class="fa fa-map-marker" style="padding-right:8px;"></i>{% trans "Location Filter" %}
+                    <i class="fa fa-close close-btn" style="margin-right: 7px;"></i>
                 </button>
                 {% endif %}
 
                 
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                    <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
                         {% trans "Tools" %}
                         <i class="fa fa-chevron-down"></i>
                         <span class="sr-only">{% trans "Toggle Dropdown" %}</span>                            
@@ -64,6 +116,7 @@
                         <li class="divider"></li>
                         <li><a href="javascript:void(0);" id="clear-search">{% trans "Clear Search" %}</a></li>
                     </ul>
+
                 </div>
             </div>
             <!-- End Advanced Search Option -->
@@ -109,9 +162,10 @@
             <div class="row" id="map-filter-container" data-filtertext="{% trans "Map Filter Enabled" %}" style="margin-right: 20px;"> 
                 {% include 'views/search/map-filter.htm' %}
             </div>
-            <div class="row" id="time-filter-container" data-filtertext="{% trans "Time Filter Enabled" %}"> 
+            <div class="row hidden" id="time-filter-container-template" data-filtertext="{% trans "Time Filter Enabled" %}"> 
                 {% include 'views/search/time-filter.htm' %}
             </div>
+            <div class="time-filters"></div>
             <div class="row" id="search-results-container"> 
                 {% include 'views/search/search-results.htm' %}
             </div>
