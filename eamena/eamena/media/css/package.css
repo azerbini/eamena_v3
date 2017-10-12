@@ -231,14 +231,22 @@ button.btn-default.advanced-search {
 	display: inline-block;
 }
 
+.search-box-container .resource_search_widget_simple {
+	width: -webkit-calc(100% - 265px);
+    width: -moz-calc(100% - 265px);
+    width: calc(100% - 265px);
+}
 .search-box-container .resource_search_widget0 {
-    padding-left: 56px;
+    padding-left: 55px;
+	width: -webkit-calc(100% - 265px);
+    width: -moz-calc(100% - 265px);
+    width: calc(100% - 265px);
 }
 .search-block button.btn.toggle-combine-prev {
 	width: 55px;
 	height: 25px;
-	padding-top: -15px;
 	padding-top: 2px;
+	margin-top: -12px;
 }
 .toggle-combine-prev.toggle-combine-off {
     border-right: 10px solid grey;
