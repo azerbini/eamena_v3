@@ -237,7 +237,7 @@ button.btn-default.advanced-search {
 	width: calc(100% - 265px);
 }
 .search-box-container .resource_search_widget0 .select2-choices {
-	margin-left: 55px;
+	margin-left: 54px;
 }
 
 .search-block button.btn.toggle-combine-prev {
@@ -267,4 +267,12 @@ button.btn-default.advanced-search {
 	width: -webkit-calc(100% - 265px);
 	width: -moz-calc(100% - 265px);
 	width: calc(100% - 265px);
+}
+
+.prev-combine-box .select2-choices {
+	border-left: #5cb85c solid 4px;
+}
+
+.prev-combine-box + .search-box-container .select2-choices {
+	border-left: #5cb85c solid 4px;
 }
