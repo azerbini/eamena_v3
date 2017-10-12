@@ -236,8 +236,9 @@ button.btn-default.advanced-search {
 }
 .search-block button.btn.toggle-combine-prev {
 	width: 55px;
-	height: 34px;
-	margin-top: -15px;
+	height: 25px;
+	padding-top: -15px;
+	padding-top: 2px;
 }
 .toggle-combine-prev.toggle-combine-off {
     border-right: 10px solid grey;
