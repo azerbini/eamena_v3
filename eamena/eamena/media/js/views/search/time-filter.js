@@ -16,11 +16,16 @@ define(['jquery',
         return Backbone.View.extend({
 
             initialize: function(options) { 
+                this.index = options.index;
                 var self = this;
-                var date_picker = $('.datetimepicker').datetimepicker({pickTime: false});
+                var timeFilterClass = ".arches-time-filter";
+                if ( typeof self.index !== 'undefined') {
+                    timeFilterClass = '.resource_time_filter_widget'+self.index
+                }
+                var date_picker = $(timeFilterClass+' .datetimepicker').datetimepicker({pickTime: false});
                 
                 date_picker.on('dp.change', function(evt){
-                    $('#date').trigger('change'); 
+                    $(timeFilterClass+' #date').trigger('change'); 
                 });
 
                 ko.observableArray.fn.get = function(entitytypeid, key) {
@@ -34,7 +39,7 @@ define(['jquery',
                     return ret
                 }
 
-                this.slider = new Slider('input.slider', {});
+                this.slider = new Slider(timeFilterClass+' input.slider', {});
                 this.slider.on('slideStop', function(evt){
                     // if ther user has the slider at it's min and max, then essentially they don't want to filter by year
                     if(self.slider.getAttribute('min') === evt.value[0] && self.slider.getAttribute('max') === evt.value[1]){
@@ -42,14 +47,16 @@ define(['jquery',
                     }else{
                         self.query.filter.year_min_max(evt.value);
                     }
+                    self.trigger('change');
                 });                
 
-                this._rawdata = ko.toJSON(JSON.parse($('#timefilterdata').val()));
+                this._rawdata = ko.toJSON(JSON.parse($(timeFilterClass+' #timefilterdata').val()));
                 this.viewModel = JSON.parse(this._rawdata);
 
                 this.expanded = ko.observable(false);
                 this.expanded.subscribe(function(status){
-                    self.toggleFilterSection($('#time-filter'), status)
+                    // self.toggleFilterSection($('#time-filter'), status)
+                    self.toggleFilterSection($(timeFilterClass+'#time-filter'), status)
                 });
 
                 this.query = {
@@ -95,7 +102,8 @@ define(['jquery',
                 }, this);
 
                 this.time_filter_branchlist = new BranchList({
-                    el: $('#time-filter')[0],
+                    // el: $('#time-filter')[0],
+                    el: $.find(timeFilterClass+'#time-filter')[0],
                     data: this.viewModel,
                     dataKey: 'date_operators',
                     validateBranch: function (nodes) {
@@ -104,11 +112,12 @@ define(['jquery',
                 });
 
                 this.time_filter_branchlist.on('change', function(){
+                    self.trigger('change');
                     self.query.filter.filters.removeAll();
                     _.each(this.getData(), function(item){
                         self.query.filter.filters.push(item);
                     })                
-                })
+                });
 
                 //ko.applyBindings(this.query.filter, $('#time-filter')[0]);
             },
