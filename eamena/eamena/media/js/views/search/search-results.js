@@ -141,7 +141,6 @@ define(['jquery',
                         can_edit: this.can_edit
                     });
                 });
-
                 return data;
             },
 

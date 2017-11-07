@@ -18,6 +18,10 @@
             
             <div class="col-xs-12 col-md-8 col-lg-9">
                 <div id="term-select-template" class="search-box-container hidden">
+                    <button class="btn btn-default toggle-combine-prev pull-left toggle-combine-off" type="button">
+                        <i class="fa toggle-inactive fa-circle-o"></i>
+                        <i class="fa toggle-active fa-check-circle-o"></i>
+                    </button>
                     <input class="select2 arches-select2 pull-left term-search" name="" placeholder="{% trans "Search for a resource..." %}" value="">
                     <button class="btn btn-success btn time-filter-button pull-left" style=""> 
                         <i class="fa fa-clock-o" style="padding-right:8px;"></i>{% trans "Time Filter" %}
@@ -82,17 +86,23 @@
                       <i class="fa fa-sliders" aria-hidden="true"></i>
                   </button>
 
+                  <button class="btn btn-default toggle-related-resources toggle-related-off" type="button">
+                      <span class="term-group-value">
+                          <i class="fa fa-sitemap" style="padding: 0"></i>
+                      </span>
+                  </button>
+
                 {% if 'edit' in user.user_groups %}
                 <button class="btn btn-success btn" id="map-filter-button" style=""> 
                     <i class="fa fa-minus invert-btn" style="margin-right: 7px;"></i>
-                    <i class="fa fa-map-marker" style="padding-right:8px;"></i>{% trans "Location Filter" %}
+                    <i class="fa fa-map-marker" style="padding: 0 4px;"></i>
                     <i class="fa fa-close close-btn" style="margin-right: 7px;"></i>
                 </button>
                 
                 {% else %}
                 <button class="btn btn-success btn" id="map-filter-button" style=""> 
                     <i class="fa fa-minus invert-btn" style="margin-right: 7px;"></i>
-                    <i class="fa fa-map-marker" style="padding-right:8px;"></i>{% trans "Location Filter" %}
+                    <i class="fa fa-map-marker" style="padding-right:8px;"></i>
                     <i class="fa fa-close close-btn" style="margin-right: 7px;"></i>
                 </button>
                 {% endif %}
