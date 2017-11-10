@@ -28,7 +28,7 @@
                     </div>
                 </div>
             </div>
-                                <!-- Map: Scaleline--->
+            <!-- Map: Scaleline--->
              <div class="row" style="margin-left: -19px;">
                 <div class="col-sm-5 col-md-4 pull-right" style="">
                     <div id="scale-line" style = "position:absolute; float: right !important;left:-600px;top:300px;"></div>        
@@ -115,7 +115,7 @@
                                 </button>
 
                                 <h4 class="modal-title">
-                                    <a href="javascript:void(0);" class="text-primary" target="_blank" data-bind="{% if 'edit' in user.user_groups %} attr:{ href: selectedResource() ? selectedResource().reportLink : 'javascript:void(0);'} {% endif %}">
+                                    <a href="javascript:void(0);" class="text-primary" target="_blank" data-bind="{% if user.is_superuser %} attr:{ href: selectedResource() ? selectedResource().reportLink : 'javascript:void(0);'} {% endif %}">
                                         <i class="fa fa-trophy text-primary" data-bind="attr: { class: selectedResource() ? selectedResource().typeIcon + ' text-primary': '' }"></i> 
                                         
                                         <span data-bind="text:selectedResource() ? selectedResource().primaryname : ''"></span>

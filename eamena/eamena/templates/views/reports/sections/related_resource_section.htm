@@ -60,7 +60,7 @@
                                             
                                             {% for related_resource in related_resource_dict.HERITAGE_RESOURCE_GROUP|dictsort:"primaryname" %}
                                                 <dd class="arches-report-subsection-item">
-                                                    <a href={% if 'edit' in user.user_groups %}"{% url 'report' related_resource.entityid %}" class="" title="{% trans "View Report" %}"> {% else %} "#" > {% endif %}
+                                                    <a href={% if user.is_superuser %}"{% url 'report' related_resource.entityid %}" class="" title="{% trans "View Report" %}"> {% else %} "#" > {% endif %}
                                                         {{related_resource.primaryname}}
                                                     </a>
                                                     <span class="arches-report-subsection-item-type">
