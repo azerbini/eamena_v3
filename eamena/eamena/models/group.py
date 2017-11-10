@@ -1,4 +1,4 @@
-from django.contrib.gis.db.models import GeometryField, GeoManager
+from django.contrib.gis.db.models import GeometryField, GeoManager, MultiPolygonField
 from django.contrib.gis.geos import GEOSGeometry
 
 from arches.app.search.search_engine_factory import SearchEngineFactory
@@ -8,7 +8,7 @@ from arches.app.search.elasticsearch_dsl_builder import Query, Terms, Bool, Matc
 from django.contrib.auth.models import Group
 
 if not hasattr(Group, 'area'):
-    geom = GeometryField()
+    geom = MultiPolygonField()
     geom.contribute_to_class(Group, 'geom')
     objects = GeoManager()
     

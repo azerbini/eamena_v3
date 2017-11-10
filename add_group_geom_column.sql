@@ -1,1 +1,1 @@
-select AddGeometryColumn ( 'public', 'auth_group', 'geom', 4326, 'POLYGON', 2, false);
+select AddGeometryColumn ( 'public', 'auth_group', 'geom', 4326, 'MULTIPOLYGON', 2, false);

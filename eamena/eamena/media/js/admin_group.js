@@ -58,6 +58,11 @@ django.jQuery( document ).ready(function() {
                  return;
              }
              
+             results = results.filter( function(r) {
+                 return r.geometry.CLASS_NAME === 'OpenLayers.Geometry.Polygon';
+             })
+             
+            poly_results = engine
             //geodjango_geom is a global var created by the geodjango admin view
             geodjango_geom.clearFeatures()
             geodjango_geom.layers.vector.addFeatures(results);
