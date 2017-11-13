@@ -1,4 +1,4 @@
-from django.contrib.gis.db.models import GeometryField, GeoManager, MultiPolygonField
+from django.contrib.gis.db.models import GeometryField, GeoManager, MultiPolygonField, PolygonField
 from django.contrib.gis.geos import GEOSGeometry
 
 from arches.app.search.search_engine_factory import SearchEngineFactory
