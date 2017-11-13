@@ -26,7 +26,7 @@
 
                     <!-- Item Header -->
                     <h4>
-                        <a class="arches-search-title" style="" {% if 'edit' in user.user_groups %} data-bind="text: primaryname, attr: { href: 'reports/' + resourceid }" target="_blank"{%else%}data-bind="text: primaryname"{% endif %}></a>                   
+                        <a class="arches-search-title" style="" {% if user.is_superuser %} data-bind="text: primaryname, attr: { href: 'reports/' + resourceid }" target="_blank"{%else%}data-bind="text: primaryname"{% endif %}></a>                   
                         &nbsp;
                         <span class="">
                             <small class="arches-search-subtitle"><i data-bind="attr: { class: typeIcon }"></i><span data-bind="text: typeName"></span></small>
@@ -35,7 +35,7 @@
 
                     <!-- Sub-header -->
                     <ul class="list-inline up-ul">
-                    {% if 'edit' in user.user_groups %}
+                    {% if user.is_superuser %}
                         <li data-bind="{visible: can_edit}">
                             <i class="arches-search-link fa fa-pencil"></i>&nbsp;
                             <a href="" data-bind="attr: {'href': 'resources/' +  entitytypeid + '/default/' + resourceid}" target="_blank"><span class="arches-search-link">{% trans "Edit" %}</span></a>

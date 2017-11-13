@@ -36,6 +36,7 @@
 
 <!--                     <ul class="lenguages"> -->
                     {% for language in language_list %}
+                    
                         <li class="active">
                             <option value="{{ language.languageid }}"{% if language.languageid == LANGUAGE_CODE %} selected="selected"{% endif %}><a href="javascript:void(0);">{{ language.languagename }}<i class="fa fa-check"></i></a> </option>
                         </li>
@@ -101,7 +102,7 @@
                     </li>
                     <!-- End Map-->
 
-                    {% if 'edit' in user.user_groups %}
+                    {% if user.is_superuser %}
                     <!-- Resource Editor-->
                     <li class="dropdown {% if active_page = 'ResourceManger' %}active{% endif %}">
                         <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">

@@ -49,7 +49,7 @@
                     </span>
                 </div>
                 <div class="form-group term-search-boxes">
-                    {% if 'edit' in user.user_groups %}
+                    {% if user.is_superuser %}
                     <div class="global-and-or-container">
                         <span class="dropdown pull-left global-and-or">
                                 <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -64,7 +64,7 @@
                     </div>
                     {% endif %}
                 </div>
-                {% if 'edit' in user.user_groups %}
+                {% if user.is_superuser %}
                 <div class="pull-left add-remove-search-box">
                     <button class="btn btn-primary add-search-box" type="button">
                         <i class="fa fa-plus"></i>
@@ -92,7 +92,7 @@
                       </span>
                   </button>
 
-                {% if 'edit' in user.user_groups %}
+                {% if user.is_superuser %}
                 <button class="btn btn-success btn" id="map-filter-button" style=""> 
                     <i class="fa fa-minus invert-btn" style="margin-right: 7px;"></i>
                     <i class="fa fa-map-marker" style="padding: 0 4px;"></i>
