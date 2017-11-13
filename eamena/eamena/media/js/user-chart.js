@@ -1,9 +1,47 @@
 require([
     'jquery',
+    'arches',
     'underscore',
     'Highcharts',
-], function($, _, Highcharts) {
-    var drawCharts = function (action) {
+], function($, arches, _, Highcharts) {
+    var populateActionsList = function (headText, activity) {
+        var html = "<h1>"+ headText +"</h1>";
+        Object.keys(activity).forEach(function (a) {
+            html += '<h3 id="date-'+ activity[a].date +'">' + activity[a].date+ '</h3>';
+            html += '<h4>'
+            if ( activity[a].resourceid) {
+                html += '<a href="/resources/HERITAGE_RESOURCE_GROUP.E27/default/'+ activity[a].resourceid +'">'+ activity[a].name +'</a>'
+            } else {
+                html += '<p>'+ name +'</p>'
+            }
+            html += '</h4>'
+            activity[a].log.forEach(function (field) {
+                if (field.edittype == 'update') {
+                    html += '<div class="arches-timeline-icon edited"><i class="fa fa-pencil"></i></div>'
+                }
+                if (field.edittype == 'insert') {
+                    html += '<div class="arches-timeline-icon added"><i class="fa fa-plus"></i></div>'
+                }
+                if (field.edittype == 'create') {
+                    html += '<div class="arches-timeline-icon"><i class="fa fa-check"></i></div>'
+                }
+                if (field.edittype == 'delete') {
+                    html += '<div class="arches-timeline-icon deleted"><i class="fa fa-minus"></i></div>'
+                }
+                html +=  '<div>'+ field.edittype +' <strong>'+ field.attributeentitytypeid +'</strong></div>'
+                html += '<div>'
+                if (field.edittype == 'update') {
+                    html += 'from '+ field.oldvalue +' to'
+                }
+                html += 'field.newvalue'
+                html += '</div>'
+            })
+            html += '<br><br>'
+        })
+        $("#actions-list-container").html(html);
+    };
+    
+    var drawCharts = function (action, activitySummary) {
         var chartOptions = {
             chart: {
                 zoomType: 'x'
@@ -108,24 +146,32 @@ require([
         chartOptions.series[1].name = $('.dropdown-actions-button').text();
         Highcharts.chart('user-chart', chartOptions);
     }
-    $('.dropdown-actions-button').html('Created resources <i class="fa fa-chevron-down"></i>')
-    drawCharts('create');
-    
-    // event listeners for the action type selection button - menu
-    $('.dropdown-actions-button').on('click', function(evt) {
-        $('.dropdown-actions-menu').toggleClass('open');
-        if ($('.dropdown-actions-menu').hasClass('open')) {
-            $('.dropdown-actions-menu').show();
-        } else {
-            $('.dropdown-actions-menu').hide();
+    $('.loading-mask').show();
+    $.ajax({
+        type: "GET",
+        url: arches.urls.user_activity_data.replace('userid', userid),
+        success: function(results){
+            $('.loading-mask').hide();
+            $('.dropdown-actions-button').html('Created resources <i class="fa fa-chevron-down"></i>')
+            drawCharts('create', results.activity_summary);
+            populateActionsList(results.head_text, results.activity)
+            
+            // event listeners for the action type selection button - menu
+            $('.dropdown-actions-button').on('click', function(evt) {
+                $('.dropdown-actions-menu').toggleClass('open');
+                if ($('.dropdown-actions-menu').hasClass('open')) {
+                    $('.dropdown-actions-menu').show();
+                } else {
+                    $('.dropdown-actions-menu').hide();
+                }
+            });
+            
+            $('.select-action').on('click', function(evt) {
+                $('.dropdown-actions-menu').removeClass('open');
+                $('.dropdown-actions-menu').hide();
+                $('.dropdown-actions-button').html($(evt.target).text() +' <i class="fa fa-chevron-down"></i>')
+                drawCharts(evt.target.dataset.action, results.activity_summary);
+            });
         }
     });
-    
-    $('.select-action').on('click', function(evt) {
-        $('.dropdown-actions-menu').removeClass('open');
-        $('.dropdown-actions-menu').hide();
-        $('.dropdown-actions-button').html($(evt.target).text() +' <i class="fa fa-chevron-down"></i>')
-        drawCharts(evt.target.dataset.action);
-    });
-
 });
