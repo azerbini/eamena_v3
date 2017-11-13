@@ -24,6 +24,7 @@ from arches.app.models import models
 from arches.app.search.search_engine_factory import SearchEngineFactory
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.models import User
+from arches.app.utils.JSONResponse import JSONResponse
 import json
 import logging
 
@@ -41,6 +42,25 @@ def group_activity(request, groupid):
         users = User.objects.filter(groups__id=groupid)
         for user in users:
             user_ids.append({'id': user.id, 'name': str(user)})
+
+    return render_to_response('group_activity.htm', {
+            'groupid': groupid,
+            'user_ids': user_ids,
+            'main_script': 'group-chart',
+        }, 
+        context_instance=RequestContext(request))
+            
+def group_activity_data(request, groupid):
+    se = SearchEngineFactory().create()
+    ret_summary = {}
+    current = None
+    index = -1
+    start = request.GET.get('start', 0)
+    limit = request.GET.get('limit', 99)
+
+    if groupid != '':
+        users = User.objects.filter(groups__id=groupid)
+        for user in users:
             ret_summary[user.id] = {'id': user.id, 'name': str(user), 'startDate': "",'data': {}}
             for log in models.EditLog.objects.filter(userid = user.id).values().order_by('-timestamp', 'attributeentitytypeid'):
                 ret_summary[user.id]['startDate'] = str(log['timestamp'].date())
@@ -52,13 +72,7 @@ def group_activity(request, groupid):
                     ret_summary[user.id]['data'][str(log['timestamp'].date())][log['resourceid']] = {
                         'create': 0, 'update': 0, 'insert': 0, 'delete': 0
                     }
-
+    
                 ret_summary[user.id]['data'][str(log['timestamp'].date())][log['resourceid']][log['edittype']] = 1;
-
-    return render_to_response('group_activity.htm', {
-            'user_ids': user_ids,
-            'activity_summary': json.dumps(ret_summary),
-            'main_script': 'group-chart',
-        }, 
-        context_instance=RequestContext(request))
-            
+    
+    return JSONResponse(ret_summary)

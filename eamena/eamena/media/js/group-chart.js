@@ -1,10 +1,11 @@
 require([
     'jquery',
+    'arches',
     'underscore',
     'Highcharts'
-], function($, _, Highcharts) {
+], function($, arches, _, Highcharts) {
     // var seconds = new Date().getTime() / 1000;
-    var drawCharts = function (action) {
+    var drawCharts = function (action, activitySummary) {
         var allUsersData = {};
         var startDate;
         var chartOptions = {
@@ -102,23 +103,33 @@ require([
         Highcharts.chart('group-chart', chartOptions);
     }
     
-    $('.dropdown-actions-button').html('Created resources <i class="fa fa-chevron-down"></i>')
-    drawCharts('create');
-    
-    // event listeners for the action type selection button - menu
-    $('.dropdown-actions-button').on('click', function(evt) {
-        $('.dropdown-actions-menu').toggleClass('open');
-        if ($('.dropdown-actions-menu').hasClass('open')) {
-            $('.dropdown-actions-menu').show();
-        } else {
-            $('.dropdown-actions-menu').hide();
-        }
+    $('.loading-mask').show();
+    $.ajax({
+        type: "GET",
+        url: arches.urls.group_activity_data.replace('groupid', groupid),
+        success: function(results){
+            $('.loading-mask').hide();
+            $('.dropdown-actions-button').html('Created resources <i class="fa fa-chevron-down"></i>')
+            drawCharts('create', results);
+            
+            // event listeners for the action type selection button - menu
+            $('.dropdown-actions-button').on('click', function(evt) {
+                $('.dropdown-actions-menu').toggleClass('open');
+                if ($('.dropdown-actions-menu').hasClass('open')) {
+                    $('.dropdown-actions-menu').show();
+                } else {
+                    $('.dropdown-actions-menu').hide();
+                }
+            });
+            
+            $('.select-action').on('click', function(evt) {
+                $('.dropdown-actions-menu').removeClass('open');
+                $('.dropdown-actions-menu').hide();
+                $('.dropdown-actions-button').html($(evt.target).text() +' <i class="fa fa-chevron-down"></i>')
+                drawCharts(evt.target.dataset.action, results);
+            });
+        },
+        error: function(){}
     });
     
-    $('.select-action').on('click', function(evt) {
-        $('.dropdown-actions-menu').removeClass('open');
-        $('.dropdown-actions-menu').hide();
-        $('.dropdown-actions-button').html($(evt.target).text() +' <i class="fa fa-chevron-down"></i>')
-        drawCharts(evt.target.dataset.action);
-    });
 });
