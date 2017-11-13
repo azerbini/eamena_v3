@@ -30,9 +30,10 @@ urlpatterns = patterns('',
     url(r'^resources/(?P<resourcetypeid>[0-9a-zA-Z_.]*)/(?P<form_id>[a-zA-Z_-]*)/(?P<resourceid>%s|())$' % uuid_regex, 'eamena.views.resources.resource_manager', name="resource_manager"),
     url(r'^resources/markers/(?P<entitytypeid>.*)$', 'eamena.views.resources.map_layers', {'get_centroids':True}, name="map_markers"),
     url(r'^admin/auth/user/(?P<userid>[0-9]*)/user_activity/$' , 'eamena.views.user_activity.user_activity', name='user_activity'),
-    url(r'^admin/auth/group/(?P<groupid>[0-9]*)/group_activity/$' , 'eamena.views.group_activity.group_activity', name='user_activity'),
+    url(r'^admin/auth/group/(?P<groupid>[0-9]*)/group_activity/$' , 'eamena.views.group_activity.group_activity', name='group_activity'),
+    url(r'^admin/auth/user/(?P<userid>[0-9]*)/user_activity_data/$' , 'eamena.views.user_activity.user_activity_data', name='user_activity_data'),
+    url(r'^admin/auth/group/(?P<groupid>[0-9]*)/group_activity_data/$' , 'eamena.views.group_activity.group_activity_data', name='group_activity_data'),
 
-    
     url(r'', include(arches_urls)),
 )
 
