@@ -102,8 +102,8 @@ require([
         Highcharts.chart('group-chart', chartOptions);
     }
     
-    drawCharts('update');
-    $('.dropdown-actions-button').html('Actions: update <i class="fa fa-chevron-down"></i>')
+    $('.dropdown-actions-button').html('Created resources <i class="fa fa-chevron-down"></i>')
+    drawCharts('create');
     
     // event listeners for the action type selection button - menu
     $('.dropdown-actions-button').on('click', function(evt) {
@@ -118,7 +118,7 @@ require([
     $('.select-action').on('click', function(evt) {
         $('.dropdown-actions-menu').removeClass('open');
         $('.dropdown-actions-menu').hide();
-        $('.dropdown-actions-button').html('Actions: '+ evt.target.dataset.action +' <i class="fa fa-chevron-down"></i>')
+        $('.dropdown-actions-button').html($(evt.target).text() +' <i class="fa fa-chevron-down"></i>')
         drawCharts(evt.target.dataset.action);
     });
 });

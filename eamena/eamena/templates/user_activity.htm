@@ -14,9 +14,19 @@
     {{ block.super }}
 {% endblock javascript%}
 {% block content %}
-<div class="container">
+<div class="container activity-chart">
     <h3>{{head_text}}</h3>
     <div class="row">
+        <button type="button" class="btn btn-primary dropdown-toggle dropdown-actions-button" data-toggle="dropdown">
+            Users Actions
+            <i class="fa fa-chevron-down"></i>
+        </button>
+        <ul class="dropdown-menu dropdown-actions-menu" role="menu">
+            <li><a href="javascript:void(0);" class="select-action" data-action="create">Created resources</a></li>
+            <li><a href="javascript:void(0);" class="select-action" data-action="update">Updated resources</a></li>
+            <li><a href="javascript:void(0);" class="select-action" data-action="insert">Inserted resources</a></li>
+            <li><a href="javascript:void(0);" class="select-action" data-action="delete">Deleted resources</a></li>
+        </ul>
         <div id="user-chart"></div>
     </div>
     <div class="row">
