@@ -88,28 +88,28 @@ class SummaryForm(ResourceForm):
             'domains': {}
             }
             
-            self.data['HERITAGE_PLACE_TYPE.E55'] = {
-                'branch_lists': self.get_nodes('HERITAGE_PLACE_TYPE.E55'),
-                'domains': {'HERITAGE_PLACE_TYPE.E55' : Concept().get_e55_domain('HERITAGE_PLACE_TYPE.E55')}
-            }
-            
-            self.data['NAME.E41'] = {
-                'branch_lists': self.get_nodes('NAME.E41'),
-                'domains': {'NAME_TYPE.E55' : Concept().get_e55_domain('NAME_TYPE.E55')}
-            }
-            
-            self.data['DESIGNATION.E55'] = {
-                'branch_lists': datetime_nodes_to_dates(self.get_nodes('DESIGNATION.E55')),
-                'domains': {
-                    'DESIGNATION.E55' : Concept().get_e55_domain('DESIGNATION.E55'),
-                    'DESIGNATION_TYPE.E55' : Concept().get_e55_domain('DESIGNATION_TYPE.E55'),
-                }
-            }
-            
-            self.data['DESCRIPTION_ASSIGNEMENT.E13'] = {
-                'branch_lists': self.get_nodes('DESCRIPTION_ASSIGNEMENT.E13'),
-                'domains': {'DESCRIPTION_TYPE.E55' : Concept().get_e55_domain('DESCRIPTION_TYPE.E55')}
-            }
+            # self.data['HERITAGE_PLACE_TYPE.E55'] = {
+            #     'branch_lists': self.get_nodes('HERITAGE_PLACE_TYPE.E55'),
+            #     'domains': {'HERITAGE_PLACE_TYPE.E55' : Concept().get_e55_domain('HERITAGE_PLACE_TYPE.E55')}
+            # }
+            # 
+            # self.data['NAME.E41'] = {
+            #     'branch_lists': self.get_nodes('NAME.E41'),
+            #     'domains': {'NAME_TYPE.E55' : Concept().get_e55_domain('NAME_TYPE.E55')}
+            # }
+            # 
+            # self.data['DESIGNATION.E55'] = {
+            #     'branch_lists': datetime_nodes_to_dates(self.get_nodes('DESIGNATION.E55')),
+            #     'domains': {
+            #         'DESIGNATION.E55' : Concept().get_e55_domain('DESIGNATION.E55'),
+            #         'DESIGNATION_TYPE.E55' : Concept().get_e55_domain('DESIGNATION_TYPE.E55'),
+            #     }
+            # }
+            # 
+            # self.data['DESCRIPTION_ASSIGNEMENT.E13'] = {
+            #     'branch_lists': self.get_nodes('DESCRIPTION_ASSIGNEMENT.E13'),
+            #     'domains': {'DESCRIPTION_TYPE.E55' : Concept().get_e55_domain('DESCRIPTION_TYPE.E55')}
+            # }
 
 
 class ArchaeologicalAssessmentForm(ResourceForm):
