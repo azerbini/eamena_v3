@@ -86,9 +86,7 @@ def get_related_resource_ids(resourceids, lang, limit=1000, start=0):
 def search_results(request):
 
     query = build_search_results_dsl(request)
-    
-    for result in results['hits']['hits']:
-        result['can_edit'] = canUserAccessResource(request.user, result['_id'], 'edit')
+
     
     search_related_resources = JSONDeserializer().deserialize(request.GET.get('searchRelatedResources'))
     
@@ -98,6 +96,8 @@ def search_results(request):
         query.add_filter(ids_filter)
         
     results = query.search(index='entity', doc_type='')
+    for result in results['hits']['hits']:
+        result['can_edit'] = canUserAccessResource(request.user, result['_id'], 'edit')    
 
     
     total = results['hits']['total']
