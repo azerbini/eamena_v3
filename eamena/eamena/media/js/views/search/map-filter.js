@@ -201,7 +201,60 @@ define(['jquery',
                     hideAllPanels();
                 });
 
-                
+                var addFeature = function (feature) {                 
+                    var geom = feature.getGeometry();
+                    geom.transform(ol.proj.get('EPSG:3857'), ol.proj.get('EPSG:4326'));
+                    if (geom.getLayout() === 'XYZ'){ //Dragged&dropped KMLs have XYZ layouts which are read by default by the ol WKT parser. This routine pops the Z values out and flattens the layout to XY
+                        var FlatCoordinates = [];
+                        if ($.isArray(geom.getCoordinates()[0])) {
+                            if ($.isArray(geom.getCoordinates()[0][0])) { //Polygons
+                                FlatCoordinates[0] = []; 
+                                _.each(geom.getCoordinates()[0], function(coordinate_set){ 
+                                        if (coordinate_set.length === 3){
+                                            coordinate_set.pop();
+                                            FlatCoordinates[0].push(coordinate_set);
+                                        }
+                                });
+                            }else{ //Polylines
+                                _.each(geom.getCoordinates(), function(coordinate_set){ 
+                                        if (coordinate_set.length === 3){
+                                            coordinate_set.pop();
+                                            FlatCoordinates.push(coordinate_set);
+                                        }
+                                });
+                            }
+                        }else{ //Points
+                            FlatCoordinates = geom.getCoordinates();
+                            FlatCoordinates.pop();
+                           
+                        }
+                        geom.setCoordinates(FlatCoordinates, 'XY');
+                        
+                        feature.setGeometry(geom);
+                        return feature;
+                    }        
+                };
+                self.map.on('layerDropped', function (layer) {
+                    var features = layer.getSource().getFeatures();
+                    var geo = addFeature(features[0]);
+                    self.toggleMapTools();
+                    self.clearDrawingFeatures();
+                    self.query.filter.geometry.coordinates(geo.getGeometry().getCoordinates());
+                    self.query.filter.geometry.type(geo.getGeometry().getType());
+                    var geom = geo.getGeometry();
+                    geom.transform(ol.proj.get('EPSG:4326'),ol.proj.get('EPSG:3857'));
+                    geo.setGeometry(geom);
+                    geo.setStyle(null);
+                    var drawingOverlaySource = self.drawingFeatureOverlay.getSource();
+                    drawingOverlaySource.addFeature(geo);
+                    layer.getSource().clear();
+                    geo.on('change', function(evt) {
+                        var geometry = evt.target.getGeometry().clone();
+                        geometry.transform('EPSG:3857', 'EPSG:4326');
+                        self.query.filter.geometry.coordinates(geometry.getCoordinates());
+                    }, this);
+                });
+
                 var mouseoverFeatureTooltip = $('#feature_tooltip');
                 var currentMousePx = null;
                 var archesFeaturesCache = {};
@@ -827,7 +880,6 @@ define(['jquery',
                     var geometry = evt.feature.getGeometry().clone();
                     geometry.transform('EPSG:3857', 'EPSG:4326');
                     this.query.filter.geometry.coordinates(geometry.getCoordinates());
-
                     //this.applyBuffer();
                     
                     evt.feature.on('change', function(evt) {
