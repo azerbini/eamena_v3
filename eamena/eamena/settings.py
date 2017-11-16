@@ -127,7 +127,8 @@ def RESOURCE_TYPE_CONFIGS():
 
 #The list of resource types which should have their geometries indexed into the maplayers index for restriction by geo area.
 MAPLAYERS_INDEX_RESOURCE_TYPES = [
-    "HERITAGE_RESOURCE_GROUP.E7"
+    "HERITAGE_RESOURCE_GROUP.E27",
+    "INFORMATION_RESOURCE.E73"
 ]
 
 #Limit number of items per Search page
