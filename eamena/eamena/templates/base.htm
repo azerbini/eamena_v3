@@ -150,6 +150,8 @@
                         buffer: "{% url 'buffer'%}",
                         related_resources: "{% url 'related_resources' 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa' %}".replace('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', ''),
                         get_admin_areas: "{% url 'get_admin_areas'%}",
+                        user_activity_data: "{% url 'user_activity_data' userid %}",
+                        group_activity_data: "{% url 'group_activity_data' groupid %}",
                     },
                     mapDefaults: {
                         x: {{ map_info.x }},

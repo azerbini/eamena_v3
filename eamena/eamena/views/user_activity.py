@@ -23,11 +23,19 @@ from django.shortcuts import render_to_response
 from arches.app.models import models
 from arches.app.search.search_engine_factory import SearchEngineFactory
 from django.contrib.auth.decorators import permission_required
+from arches.app.utils.JSONResponse import JSONResponse
 import json
+import logging
 
 @permission_required('edit')
 def user_activity(request, userid):
-    se = SearchEngineFactory().create()
+    return render_to_response('user_activity.htm', {
+            'userid': userid,
+            'main_script': 'user-chart',
+        }, 
+        context_instance=RequestContext(request))
+            
+def user_activity_data(request, userid):
     ret = []
     ret_summary = {}
     current = None
@@ -36,13 +44,13 @@ def user_activity(request, userid):
     limit = request.GET.get('limit', 99)
     if userid != '':
         dates = models.EditLog.objects.filter(userid = userid).values_list('timestamp', flat=True).order_by('-timestamp').distinct('timestamp')[start:limit]
-
+    
         for log in models.EditLog.objects.filter(userid = userid, timestamp__in = dates).values().order_by('-timestamp', 'attributeentitytypeid'):
             if str(log['timestamp']) != current:
                 current = str(log['timestamp'])
                 ret.append({'date':str(log['timestamp'].date()), 'time': str(log['timestamp'].time().replace(microsecond=0).isoformat()), 'log': []})
                 index = index + 1
-
+    
             ret[index]['log'].append(log)
             try:
                 resource = se.search(index='resource', id=log['resourceid'])
@@ -68,12 +76,10 @@ def user_activity(request, userid):
             if head_text != ' ' and ret[0]['log'][0]['user_email'] != '':
                 head_text += ', '
             head_text += ret[0]['log'][0]['user_email']
-            
-    return render_to_response('user_activity.htm', {
-            'head_text': head_text,
-            'activity': ret,
-            'activity_summary': json.dumps(ret_summary),
-            'main_script': 'heat-chart',
-        }, 
-        context_instance=RequestContext(request))
-            
+        
+        return JSONResponse({
+                'head_text': head_text,
+                'activity': ret,
+                'activity_summary': ret_summary,
+            })
+    

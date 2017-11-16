@@ -59,7 +59,7 @@ django.jQuery( document ).ready(function() {
              }
              
              results = results.filter( function(r) {
-                 return r.geometry.CLASS_NAME === 'OpenLayers.Geometry.Polygon';
+                 return r.geometry.CLASS_NAME === 'OpenLayers.Geometry.Polygon' || r.geometry.CLASS_NAME === 'OpenLayers.Geometry.Collection';
              })
              
             poly_results = engine
