@@ -53,7 +53,7 @@ def add_actor(observed_field, data, user):
 def datetime_nodes_to_dates(branch_list):
     for branch in branch_list:
         for node in branch['nodes']:
-            if isinstance(node.value, datetime):
+            if hasattr(node, 'value') and isinstance(node.value, datetime):
                 node.value = node.value.date()
                 node.label = node.value
     return branch_list
@@ -146,45 +146,45 @@ class ArchaeologicalAssessmentForm(ResourceForm):
                     'FUNCTION_CERTAINTY.I6' : Concept().get_e55_domain('FUNCTION_CERTAINTY.I6')
                  }
             }
-            self.data['INTERPRETATION_BELIEF.I2'] = {
-                'branch_lists': self.get_nodes('INTERPRETATION_BELIEF.I2'),
-                'domains': {
-                    'INTERPRETATION_TYPE.I4' : Concept().get_e55_domain('INTERPRETATION_TYPE.I4'),
-                    'INTERPRETATION_CERTAINTY.I6': Concept().get_e55_domain('INTERPRETATION_CERTAINTY.I6'),
-                    'INTERPRETATION_NUMBER.E55' : Concept().get_e55_domain('INTERPRETATION_NUMBER.E55'),
-                }
-            }
-            # self.data['CULTURAL_PERIOD.E55'] = {
-            #     'branch_lists': self.get_nodes('CULTURAL_PERIOD.E55'),
-            #     'domains': {'CULTURAL_PERIOD.E55' : Concept().get_e55_domain('CULTURAL_PERIOD.E55'),'CULTURAL_PERIOD_CERTAINTY_TYPE.E55' : Concept().get_e55_domain('CULTURAL_PERIOD_CERTAINTY_TYPE.E55')
-            #     }
-            # }
-            # self.data['TIME-SPAN_PHASE.E52'] = {
-            #     'branch_lists': self.get_nodes('TIME-SPAN_PHASE.E52'),
+            # self.data['INTERPRETATION_BELIEF.I2'] = {
+            #     'branch_lists': self.get_nodes('INTERPRETATION_BELIEF.I2'),
             #     'domains': {
-            #         'TO_DATE.E55' : Concept().get_e55_domain('TO_DATE.E55'),
-            #         'FROM_DATE.E55' : Concept().get_e55_domain('FROM_DATE.E55'),
+            #         'INTERPRETATION_TYPE.I4' : Concept().get_e55_domain('INTERPRETATION_TYPE.I4'),
+            #         'INTERPRETATION_CERTAINTY.I6': Concept().get_e55_domain('INTERPRETATION_CERTAINTY.I6'),
+            #         'INTERPRETATION_NUMBER.E55' : Concept().get_e55_domain('INTERPRETATION_NUMBER.E55'),
             #     }
             # }
-            # self.data['SITE_MORPHOLOGY_TYPE.E55'] = {
-            #     'branch_lists': self.get_nodes('SITE_MORPHOLOGY_TYPE.E55'),
-            #     'domains': {'SITE_MORPHOLOGY_TYPE.E55' : Concept().get_e55_domain('SITE_MORPHOLOGY_TYPE.E55')}
+            # # self.data['CULTURAL_PERIOD.E55'] = {
+            # #     'branch_lists': self.get_nodes('CULTURAL_PERIOD.E55'),
+            # #     'domains': {'CULTURAL_PERIOD.E55' : Concept().get_e55_domain('CULTURAL_PERIOD.E55'),'CULTURAL_PERIOD_CERTAINTY_TYPE.E55' : Concept().get_e55_domain('CULTURAL_PERIOD_CERTAINTY_TYPE.E55')
+            # #     }
+            # # }
+            # # self.data['TIME-SPAN_PHASE.E52'] = {
+            # #     'branch_lists': self.get_nodes('TIME-SPAN_PHASE.E52'),
+            # #     'domains': {
+            # #         'TO_DATE.E55' : Concept().get_e55_domain('TO_DATE.E55'),
+            # #         'FROM_DATE.E55' : Concept().get_e55_domain('FROM_DATE.E55'),
+            # #     }
+            # # }
+            # # self.data['SITE_MORPHOLOGY_TYPE.E55'] = {
+            # #     'branch_lists': self.get_nodes('SITE_MORPHOLOGY_TYPE.E55'),
+            # #     'domains': {'SITE_MORPHOLOGY_TYPE.E55' : Concept().get_e55_domain('SITE_MORPHOLOGY_TYPE.E55')}
+            # # }
+            # # 
+            # # self.data['SITE_OVERALL_SHAPE_TYPE.E55'] = {
+            # #     'branch_lists': self.get_nodes('SITE_OVERALL_SHAPE_TYPE.E55'),
+            # #     'domains': {'SITE_OVERALL_SHAPE_TYPE.E55' : Concept().get_e55_domain('SITE_OVERALL_SHAPE_TYPE.E55')}
+            # # }
+            # self.data['ARCHAEOLOGY_CERTAINTY_OBSERVATION.S4'] = {
+            #     'branch_lists': self.get_nodes('ARCHAEOLOGY_CERTAINTY_OBSERVATION.S4'),
+            #     'domains': {
+            #         'ARCHAEOLOGY_CERTAINTY_VALUE.I6' : Concept().get_e55_domain('ARCHAEOLOGY_CERTAINTY_VALUE.I6')
+            #     }
             # }
             # 
-            # self.data['SITE_OVERALL_SHAPE_TYPE.E55'] = {
-            #     'branch_lists': self.get_nodes('SITE_OVERALL_SHAPE_TYPE.E55'),
-            #     'domains': {'SITE_OVERALL_SHAPE_TYPE.E55' : Concept().get_e55_domain('SITE_OVERALL_SHAPE_TYPE.E55')}
+            # self.data['FUNCTION_AND_INTERPRETATION_ACTOR.E39'] = {
+            #     'branch_lists': self.get_nodes('FUNCTION_AND_INTERPRETATION_ACTOR.E39'),
             # }
-            self.data['ARCHAEOLOGY_CERTAINTY_OBSERVATION.S4'] = {
-                'branch_lists': self.get_nodes('ARCHAEOLOGY_CERTAINTY_OBSERVATION.S4'),
-                'domains': {
-                    'ARCHAEOLOGY_CERTAINTY_VALUE.I6' : Concept().get_e55_domain('ARCHAEOLOGY_CERTAINTY_VALUE.I6')
-                }
-            }
-
-            self.data['FUNCTION_AND_INTERPRETATION_ACTOR.E39'] = {
-                'branch_lists': self.get_nodes('FUNCTION_AND_INTERPRETATION_ACTOR.E39'),
-            }
 
 class ManMadeForm(ResourceForm):
     @staticmethod
@@ -594,20 +594,12 @@ class MeasurementForm(ResourceForm):
     def load(self, lang):
         if self.resource:
             self.data['DISTURBANCE_STATE.E3'] = {
-                'branch_lists': datetime_nodes_to_dates(self.get_nodes('DISTURBANCE_STATE.E3')),
+                'branch_lists': datetime_nodes_to_dates(self.get_nodes_hierarchical('DISTURBANCE_STATE.E3', 'DISTURBANCE_EFFECT_STATE.E3')),
                 'domains': {
                     'DISTURBANCE_CAUSE_TYPE.E55' : Concept().get_e55_domain('DISTURBANCE_CAUSE_TYPE.E55'),
                     'DISTURBANCE_CAUSE_CERTAINTY_TYPE.E55': Concept().get_e55_domain('DISTURBANCE_CAUSE_CERTAINTY_TYPE.E55'),
                     'DISTURBANCE_EFFECT_1_TYPE.E55' : Concept().get_e55_domain('DISTURBANCE_EFFECT_1_TYPE.E55'),
                     'DISTURBANCE_EFFECT_1_CERTAINTY_TYPE.E55': Concept().get_e55_domain('DISTURBANCE_EFFECT_1_CERTAINTY_TYPE.E55'),
-                    'DISTURBANCE_EFFECT_2_TYPE.E55' : Concept().get_e55_domain('DISTURBANCE_EFFECT_2_TYPE.E55'),
-                    'DISTURBANCE_EFFECT_2_CERTAINTY_TYPE.E55': Concept().get_e55_domain('DISTURBANCE_EFFECT_2_CERTAINTY_TYPE.E55'),
-                    'DISTURBANCE_EFFECT_3_TYPE.E55' : Concept().get_e55_domain('DISTURBANCE_EFFECT_3_TYPE.E55'),
-                    'DISTURBANCE_EFFECT_3_CERTAINTY_TYPE.E55': Concept().get_e55_domain('DISTURBANCE_EFFECT_3_CERTAINTY_TYPE.E55'),
-                    'DISTURBANCE_EFFECT_4_TYPE.E55' : Concept().get_e55_domain('DISTURBANCE_EFFECT_4_TYPE.E55'),
-                    'DISTURBANCE_EFFECT_4_CERTAINTY_TYPE.E55': Concept().get_e55_domain('DISTURBANCE_EFFECT_4_CERTAINTY_TYPE.E55'),
-                    'DISTURBANCE_EFFECT_5_TYPE.E55' : Concept().get_e55_domain('DISTURBANCE_EFFECT_5_TYPE.E55'),
-                    'DISTURBANCE_EFFECT_5_CERTAINTY_TYPE.E55': Concept().get_e55_domain('DISTURBANCE_EFFECT_5_CERTAINTY_TYPE.E55'),
                     'DISTURBANCE_TYPE.E55' : Concept().get_e55_domain('DISTURBANCE_TYPE.E55'),
                     'DISTURBANCE_DATE_TYPE.E55' : Concept().get_e55_domain('DISTURBANCE_DATE_TYPE.E55'),
                     'DISTURBANCE_DATE_START.E49' : Concept().get_e55_domain('DISTURBANCE_DATE_START.E49'),
