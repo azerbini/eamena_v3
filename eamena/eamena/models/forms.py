@@ -146,45 +146,45 @@ class ArchaeologicalAssessmentForm(ResourceForm):
                     'FUNCTION_CERTAINTY.I6' : Concept().get_e55_domain('FUNCTION_CERTAINTY.I6')
                  }
             }
-            # self.data['INTERPRETATION_BELIEF.I2'] = {
-            #     'branch_lists': self.get_nodes('INTERPRETATION_BELIEF.I2'),
-            #     'domains': {
-            #         'INTERPRETATION_TYPE.I4' : Concept().get_e55_domain('INTERPRETATION_TYPE.I4'),
-            #         'INTERPRETATION_CERTAINTY.I6': Concept().get_e55_domain('INTERPRETATION_CERTAINTY.I6'),
-            #         'INTERPRETATION_NUMBER.E55' : Concept().get_e55_domain('INTERPRETATION_NUMBER.E55'),
+            self.data['INTERPRETATION_BELIEF.I2'] = {
+                'branch_lists': self.get_nodes('INTERPRETATION_BELIEF.I2'),
+                'domains': {
+                    'INTERPRETATION_TYPE.I4' : Concept().get_e55_domain('INTERPRETATION_TYPE.I4'),
+                    'INTERPRETATION_CERTAINTY.I6': Concept().get_e55_domain('INTERPRETATION_CERTAINTY.I6'),
+                    'INTERPRETATION_NUMBER.E55' : Concept().get_e55_domain('INTERPRETATION_NUMBER.E55'),
+                }
+            }
+            # self.data['CULTURAL_PERIOD.E55'] = {
+            #     'branch_lists': self.get_nodes('CULTURAL_PERIOD.E55'),
+            #     'domains': {'CULTURAL_PERIOD.E55' : Concept().get_e55_domain('CULTURAL_PERIOD.E55'),'CULTURAL_PERIOD_CERTAINTY_TYPE.E55' : Concept().get_e55_domain('CULTURAL_PERIOD_CERTAINTY_TYPE.E55')
             #     }
             # }
-            # # self.data['CULTURAL_PERIOD.E55'] = {
-            # #     'branch_lists': self.get_nodes('CULTURAL_PERIOD.E55'),
-            # #     'domains': {'CULTURAL_PERIOD.E55' : Concept().get_e55_domain('CULTURAL_PERIOD.E55'),'CULTURAL_PERIOD_CERTAINTY_TYPE.E55' : Concept().get_e55_domain('CULTURAL_PERIOD_CERTAINTY_TYPE.E55')
-            # #     }
-            # # }
-            # # self.data['TIME-SPAN_PHASE.E52'] = {
-            # #     'branch_lists': self.get_nodes('TIME-SPAN_PHASE.E52'),
-            # #     'domains': {
-            # #         'TO_DATE.E55' : Concept().get_e55_domain('TO_DATE.E55'),
-            # #         'FROM_DATE.E55' : Concept().get_e55_domain('FROM_DATE.E55'),
-            # #     }
-            # # }
-            # # self.data['SITE_MORPHOLOGY_TYPE.E55'] = {
-            # #     'branch_lists': self.get_nodes('SITE_MORPHOLOGY_TYPE.E55'),
-            # #     'domains': {'SITE_MORPHOLOGY_TYPE.E55' : Concept().get_e55_domain('SITE_MORPHOLOGY_TYPE.E55')}
-            # # }
-            # # 
-            # # self.data['SITE_OVERALL_SHAPE_TYPE.E55'] = {
-            # #     'branch_lists': self.get_nodes('SITE_OVERALL_SHAPE_TYPE.E55'),
-            # #     'domains': {'SITE_OVERALL_SHAPE_TYPE.E55' : Concept().get_e55_domain('SITE_OVERALL_SHAPE_TYPE.E55')}
-            # # }
-            # self.data['ARCHAEOLOGY_CERTAINTY_OBSERVATION.S4'] = {
-            #     'branch_lists': self.get_nodes('ARCHAEOLOGY_CERTAINTY_OBSERVATION.S4'),
+            # self.data['TIME-SPAN_PHASE.E52'] = {
+            #     'branch_lists': self.get_nodes('TIME-SPAN_PHASE.E52'),
             #     'domains': {
-            #         'ARCHAEOLOGY_CERTAINTY_VALUE.I6' : Concept().get_e55_domain('ARCHAEOLOGY_CERTAINTY_VALUE.I6')
+            #         'TO_DATE.E55' : Concept().get_e55_domain('TO_DATE.E55'),
+            #         'FROM_DATE.E55' : Concept().get_e55_domain('FROM_DATE.E55'),
             #     }
+            # }
+            # self.data['SITE_MORPHOLOGY_TYPE.E55'] = {
+            #     'branch_lists': self.get_nodes('SITE_MORPHOLOGY_TYPE.E55'),
+            #     'domains': {'SITE_MORPHOLOGY_TYPE.E55' : Concept().get_e55_domain('SITE_MORPHOLOGY_TYPE.E55')}
             # }
             # 
-            # self.data['FUNCTION_AND_INTERPRETATION_ACTOR.E39'] = {
-            #     'branch_lists': self.get_nodes('FUNCTION_AND_INTERPRETATION_ACTOR.E39'),
+            # self.data['SITE_OVERALL_SHAPE_TYPE.E55'] = {
+            #     'branch_lists': self.get_nodes('SITE_OVERALL_SHAPE_TYPE.E55'),
+            #     'domains': {'SITE_OVERALL_SHAPE_TYPE.E55' : Concept().get_e55_domain('SITE_OVERALL_SHAPE_TYPE.E55')}
             # }
+            self.data['ARCHAEOLOGY_CERTAINTY_OBSERVATION.S4'] = {
+                'branch_lists': self.get_nodes('ARCHAEOLOGY_CERTAINTY_OBSERVATION.S4'),
+                'domains': {
+                    'ARCHAEOLOGY_CERTAINTY_VALUE.I6' : Concept().get_e55_domain('ARCHAEOLOGY_CERTAINTY_VALUE.I6')
+                }
+            }
+            
+            self.data['FUNCTION_AND_INTERPRETATION_ACTOR.E39'] = {
+                'branch_lists': self.get_nodes('FUNCTION_AND_INTERPRETATION_ACTOR.E39'),
+            }
 
 class ManMadeForm(ResourceForm):
     @staticmethod
