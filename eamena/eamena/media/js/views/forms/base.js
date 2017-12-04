@@ -32,13 +32,15 @@ define(['jquery', 'backbone', 'knockout', 'underscore', 'plugins/knockout-select
                 }, this);
                 if (!ret) {
                     ret = [];
-                    allItems.forEach(function(item, i){
-                        if (Array.isArray(item)) {
-                            item[0].forEach(function (node) {
-                                if ('entitytypeid' in node && entitytypeid.search(node.entitytypeid()) > -1){
-                                    ret[i] = {val: node[key]()};
-                                    return true;
-                                }
+                    allItems.forEach(function(items){
+                        if (Array.isArray(items)) {
+                            items.forEach(function (item, i) {
+                                item.forEach(function (node) {
+                                    if ('entitytypeid' in node && entitytypeid.search(node.entitytypeid()) > -1){
+                                        ret[i] = {val: node[key]()};
+                                        return true;
+                                    }
+                                })
                             })
                         }
                     }, this);
