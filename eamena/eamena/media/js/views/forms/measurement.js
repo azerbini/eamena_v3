@@ -31,17 +31,6 @@
                 }
             }));
             
-            this.data['DISTURBANCE_STATE.E3'].branch_lists[0].nodes[0].push([
-                {
-                    entitytypeid:"DISTURBANCE_EFFECT_1_CERTAINTY_TYPE.E55",
-                    value: "", label: "", entityid: "",
-                },
-                {
-                    entitytypeid: "DISTURBANCE_EFFECT_1_TYPE.E55",
-                    value: "", label: "", entityid: "",
-                },
-            ])
-            
             this.addBranchList(new BranchList({
                 el: this.$el.find('#disturbance-state-section')[0],
                 data: this.data,

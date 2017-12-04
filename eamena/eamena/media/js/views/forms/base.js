@@ -32,10 +32,8 @@ define(['jquery', 'backbone', 'knockout', 'underscore', 'plugins/knockout-select
                 }, this);
                 if (!ret) {
                     ret = [];
-                    // console.log("no ret", ret);
                     allItems.forEach(function(item, i){
                         if (Array.isArray(item)) {
-                            // console.log("item",item);
                             item[0].forEach(function (node) {
                                 if ('entitytypeid' in node && entitytypeid.search(node.entitytypeid()) > -1){
                                     ret[i] = {val: node[key]()};
@@ -45,7 +43,6 @@ define(['jquery', 'backbone', 'knockout', 'underscore', 'plugins/knockout-select
                         }
                     }, this);
                 }
-                // console.log("ret", ret);
                 return ret
             }
 
@@ -194,7 +191,6 @@ define(['jquery', 'backbone', 'knockout', 'underscore', 'plugins/knockout-select
             if (this.validationMethod()){
                 this.$el.find('.form-load-mask').show();
                 this.form.find('#formdata').val(this.getData());
-                console.log('submit data', JSON.parse(this.getData()));
                 this.form.submit(); 
             }
         },
