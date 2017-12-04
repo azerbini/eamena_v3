@@ -34,13 +34,11 @@
             this.data['DISTURBANCE_STATE.E3'].branch_lists[0].nodes[0].push([
                 {
                     entitytypeid:"DISTURBANCE_EFFECT_1_CERTAINTY_TYPE.E55",
-                    value: "", label: "",
-                    entityid: "26230f9b-a24f-402b-8261-321c3698424c",
+                    value: "", label: "", entityid: "",
                 },
                 {
                     entitytypeid: "DISTURBANCE_EFFECT_1_TYPE.E55",
-                    value: "", label: "",
-                    entityid: "a242780c-b3a4-42d3-b696-468c3000f6b7",
+                    value: "", label: "", entityid: "",
                 },
             ])
             
