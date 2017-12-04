@@ -35,7 +35,7 @@ define(['jquery', 'backbone', 'knockout', 'underscore', 'plugins/knockout-select
                     // console.log("no ret", ret);
                     allItems.forEach(function(item, i){
                         if (Array.isArray(item)) {
-                            console.log("item",item);
+                            // console.log("item",item);
                             item[0].forEach(function (node) {
                                 if ('entitytypeid' in node && entitytypeid.search(node.entitytypeid()) > -1){
                                     ret[i] = {val: node[key]()};
