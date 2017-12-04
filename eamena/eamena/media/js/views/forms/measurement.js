@@ -31,15 +31,20 @@
                 }
             }));
             
-            // this.data['DISTURBANCE_STATE.E3'].branch_lists[0].nodes[0].push([
-            //     {
-            //         entitytypeid:"DISTURBANCE_EFFECT_1_CERTAINTY_TYPE.E55",
-            //         value: "", label: "", entityid: "",
-            //     }, {
-            //         entitytypeid: "DISTURBANCE_EFFECT_1_TYPE.E55",
-            //         value: "", label: "", entityid: "",
-            //     },
-            // ])
+            var maxBranchLists = 6;
+            this.data['DISTURBANCE_STATE.E3'].branch_lists.forEach(function (branchList) {
+                for (var i = branchList.nodes[0].length; i < maxBranchLists; i++) {
+                    branchList.nodes[0].push([
+                        {
+                            entitytypeid:"DISTURBANCE_EFFECT_1_CERTAINTY_TYPE.E55",
+                            value: "", label: "", entityid: "",
+                        }, {
+                            entitytypeid: "DISTURBANCE_EFFECT_1_TYPE.E55",
+                            value: "", label: "", entityid: "",
+                        },
+                    ])
+                }
+            })
 
             this.addBranchList(new BranchList({
                 el: this.$el.find('#disturbance-state-section')[0],
@@ -94,7 +99,6 @@
                     return this.validateHasValues(nodes);
                 }
             }));
-            console.log("this.data", this.data);
         }
     });
 });
