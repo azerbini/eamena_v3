@@ -19,7 +19,7 @@ before_install:
 
 
 install: 
-  - python setup.py install
+  - python ENV/lib/python2.7/site-packages/arches/setup.py install
   
 script: python manage.py test tests --pattern="*.py" --settings="tests.test_settings" 
  
