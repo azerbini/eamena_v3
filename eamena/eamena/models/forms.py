@@ -90,7 +90,7 @@ class SummaryForm(ResourceForm):
             
             self.data['HERITAGE_PLACE_TYPE.E55'] = {
                 'branch_lists': self.get_nodes('HERITAGE_PLACE_TYPE.E55'),
-                'domains': {'HERITAGE_PLACE_TYPE.E55.E55' : Concept().get_e55_domain('HERITAGE_PLACE_TYPE.E55.E55')}
+                'domains': {'HERITAGE_PLACE_TYPE.E55' : Concept().get_e55_domain('HERITAGE_PLACE_TYPE.E55')}
             }
             
             self.data['NAME.E41'] = {
