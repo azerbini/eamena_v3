@@ -128,12 +128,16 @@ class ArchaeologicalAssessmentForm(ResourceForm):
         # self.update_nodes('SITE_MORPHOLOGY_TYPE.E55', data)
         # self.update_nodes('SITE_OVERALL_SHAPE_TYPE.E55', data)
         
-        data = add_actor('FUNCTION_AND_INTERPRETATION.I5', data, self.user)
-        self.update_nodes('FUNCTION_AND_INTERPRETATION_ACTOR.E39', data)
+        # data = add_observed_values('ARCHAEOLOGY_CERTAINTY_OBSERVATION.S4', data)
+        # data = add_actor('FUNCTION_AND_INTERPRETATION.I5', data, self.user)
+        # self.update_nodes('FUNCTION_AND_INTERPRETATION_ACTOR.E39', data)
+        logging.warning('------> ArchaeologicalAssessmentForm update0: %s', JSONResponse(data, indent=4))
+        # 
         self.update_nodes('FUNCTION_BELIEF.I2', data)
         self.update_nodes('INTERPRETATION_BELIEF.I2', data)
         self.update_nodes('ARCHAEOLOGY_CERTAINTY_OBSERVATION.S4', data)
-    
+        # self.update_nodes('PHASE_TYPE_ASSIGNMENT.E17', data)
+        return
 
     
     
@@ -151,7 +155,7 @@ class ArchaeologicalAssessmentForm(ResourceForm):
                 'domains': {
                     'INTERPRETATION_TYPE.I4' : Concept().get_e55_domain('INTERPRETATION_TYPE.I4'),
                     'INTERPRETATION_CERTAINTY.I6': Concept().get_e55_domain('INTERPRETATION_CERTAINTY.I6'),
-                    'INTERPRETATION_NUMBER.E55' : Concept().get_e55_domain('INTERPRETATION_NUMBER.E55'),
+                    'INTERPRETATION_NUMBER_TYPE.E55' : Concept().get_e55_domain('INTERPRETATION_NUMBER_TYPE.E55'),
                 }
             }
             # self.data['CULTURAL_PERIOD.E55'] = {
@@ -178,13 +182,13 @@ class ArchaeologicalAssessmentForm(ResourceForm):
             self.data['ARCHAEOLOGY_CERTAINTY_OBSERVATION.S4'] = {
                 'branch_lists': self.get_nodes('ARCHAEOLOGY_CERTAINTY_OBSERVATION.S4'),
                 'domains': {
-                    'ARCHAEOLOGY_CERTAINTY_VALUE.I6' : Concept().get_e55_domain('ARCHAEOLOGY_CERTAINTY_VALUE.I6')
+                    'OVERALL_ARCHAEOLOGICAL_CERTAINTY_VALUE.I6' : Concept().get_e55_domain('OVERALL_ARCHAEOLOGICAL_CERTAINTY_VALUE.I6')
                 }
             }
             
-            self.data['FUNCTION_AND_INTERPRETATION_ACTOR.E39'] = {
-                'branch_lists': self.get_nodes('FUNCTION_AND_INTERPRETATION_ACTOR.E39'),
-            }
+            # self.data['FUNCTION_AND_INTERPRETATION_ACTOR.E39'] = {
+            #     'branch_lists': self.get_nodes('FUNCTION_AND_INTERPRETATION_ACTOR.E39'),
+            # }
 
 class ManMadeForm(ResourceForm):
     @staticmethod

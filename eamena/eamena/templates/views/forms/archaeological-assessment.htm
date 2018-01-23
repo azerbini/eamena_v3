@@ -99,7 +99,7 @@
                                 <br>
 
                                 <!-- Measurement Unit -->
-                                <input style="width:30%; display:inline-block;" class="select2 arches-select2-crud-form name-type hidden-xs" id="resource-measurement-unit" data-bind="select2: {value: getEditedNode('INTERPRETATION_NUMBER.E55', 'value'), placeholder: '{% trans "Interpretation number" %}', dataKey: 'INTERPRETATION_NUMBER.E55'}"></input>&nbsp;
+                                <input style="width:30%; display:inline-block;" class="select2 arches-select2-crud-form name-type hidden-xs" id="resource-measurement-unit" data-bind="select2: {value: getEditedNode('INTERPRETATION_NUMBER_TYPE.E55', 'value'), placeholder: '{% trans "Interpretation number" %}', dataKey: 'INTERPRETATION_NUMBER_TYPE.E55'}"></input>&nbsp;
                                 
 
                                 
@@ -135,7 +135,7 @@
                                 <a href="javascript:void(0)" class="arches-CRUD-child arches-CRUD-edit" data-bind='click: $parent.editItem.bind($parent)' title="{% trans "Edit this measurement" %}">
                                     <span data-bind="{text: nodes.get('INTERPRETATION_TYPE.I4', 'label')}" style="padding-right:2px"></span><span class="text-muted arches-crud-type-identifier"> ({% trans " interpretation type " %}),</span>
                                     <span data-bind="{text: nodes.get('INTERPRETATION_CERTAINTY.I6', 'label')}" style="padding-right:2px"></span><span class="text-muted arches-crud-type-identifier"> ({% trans " intepretation certainty " %}),</span>
-                                    <span data-bind="{text: nodes.get('INTERPRETATION_NUMBER.E55', 'label')}" style="padding-right:2px"></span><span class="text-muted arches-crud-type-identifier"> ({% trans " interpretation number type " %})</span>
+                                    <span data-bind="{text: nodes.get('INTERPRETATION_NUMBER_TYPE.E55', 'label')}" style="padding-right:2px"></span><span class="text-muted arches-crud-type-identifier"> ({% trans " interpretation number type " %})</span>
 
                                 </a>
                             </div>
@@ -168,9 +168,9 @@
                     <dd>
                         <div class="row">
                             <div class="col-xs-12">
-                                <input style="width:33%; height: 36px; padding-top: 2px;" class="select2 arches-select2-crud-form resource-type hidden-xs" id="overall-dropdown" placeholder="{% trans 'Certainty' %}" data-bind="select2: {value: getEditedNode('ARCHAEOLOGY_CERTAINTY_VALUE.I6', 'value'), dataKey: 'ARCHAEOLOGY_CERTAINTY_VALUE.I6'}"></input>
+                                <input style="width:33%; height: 36px; padding-top: 2px;" class="select2 arches-select2-crud-form resource-type hidden-xs" id="overall-dropdown" placeholder="{% trans 'Certainty' %}" data-bind="select2: {value: getEditedNode('OVERALL_ARCHAEOLOGICAL_CERTAINTY_VALUE.I6', 'value'), dataKey: 'OVERALL_ARCHAEOLOGICAL_CERTAINTY_VALUE.I6'}"></input>
                             
-                                <input style="width:33%; height: 36px; padding-top: 2px;" class="select2 arches-select2-crud-form resource-type  hidden-sm hidden-md hidden-lg" id="overall-dropdown" placeholder= "{% trans 'Certainty' %}" data-bind="select2: {value: getEditedNode('ARCHAEOLOGY_CERTAINTY_VALUE.I6', 'value'), dataKey: 'ARCHAEOLOGY_CERTAINTY_VALUE.I6'}"></input>
+                                <input style="width:33%; height: 36px; padding-top: 2px;" class="select2 arches-select2-crud-form resource-type  hidden-sm hidden-md hidden-lg" id="overall-dropdown" placeholder= "{% trans 'Certainty' %}" data-bind="select2: {value: getEditedNode('OVERALL_ARCHAEOLOGICAL_CERTAINTY_VALUE.I6', 'value'), dataKey: 'OVERALL_ARCHAEOLOGICAL_CERTAINTY_VALUE.I6'}"></input>
                                 
                                 <!-- Spacer (for xs screens) -->
                                 <div class="margin-top-5 hidden-sm hidden-md hidden-lg"></div>
@@ -201,7 +201,7 @@
                         <div data-bind='foreach: getBranchLists()'>
                             <div class="arches-crud-record">
                                 <a href="javascript:void(0)" class="arches-CRUD-child" title="{% trans "Delete this keyword" %}"><i data-bind="click: $parent.deleteItem.bind($parent)" class="arches-CRUD-delete fa fa-times-circle"></i></a>
-                                <a href="javascript:void(0)" class="arches-CRUD-child arches-CRUD-edit" data-bind="click: $parent.editItem.bind($parent)" title="{% trans "Edit this keyword" %}"><span data-bind='{text: nodes.get("ARCHAEOLOGY_CERTAINTY_VALUE.I6", "label")}' style="padding-right:2px;"></span>
+                                <a href="javascript:void(0)" class="arches-CRUD-child arches-CRUD-edit" data-bind="click: $parent.editItem.bind($parent)" title="{% trans "Edit this keyword" %}"><span data-bind='{text: nodes.get("OVERALL_ARCHAEOLOGICAL_CERTAINTY_VALUE.I6", "label")}' style="padding-right:2px;"></span>
                                 </a>
                             </div>
                         </div>
