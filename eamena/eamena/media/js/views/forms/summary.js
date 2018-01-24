@@ -9,8 +9,10 @@ define(['jquery',
             initialize: function() {
                 BaseForm.prototype.initialize.apply(this);                
                 var self = this;
+                console.log("this.data", self.data);
                 var date_picker = $('.datetimepicker').datetimepicker({pickTime: false});
                 date_picker.on('dp.change', function(evt){
+                    // console.log("change");
                     $(this).find('input').trigger('change'); 
                 });
 
@@ -56,22 +58,23 @@ define(['jquery',
                 this.addBranchList(new BranchList({
                     el: this.$el.find('#designation-section')[0],
                     data: this.data,
-                    dataKey: 'DESIGNATION.E55',
+                    dataKey: 'RIGHT.E30',
                     rules: true,
                     validateBranch: function (nodes) {
+                        console.log("nodes", nodes);
                         return this.validateHasValues(nodes);
                     }
                 }));
-
-                this.addBranchList(new BranchList({
-                    el: this.$el.find('#description-section')[0],
-                    data: this.data,
-                    dataKey: 'DESCRIPTION_ASSIGNEMENT.E13',
-                    rules: true,
-                    validateBranch: function (nodes) {
-                        return this.validateHasValues(nodes);
-                    }
-                }));
+                
+                // this.addBranchList(new BranchList({
+                //     el: this.$el.find('#description-section')[0],
+                //     data: this.data,
+                //     dataKey: 'DESCRIPTION_ASSIGNEMENT.E13',
+                //     rules: true,
+                //     validateBranch: function (nodes) {
+                //         return this.validateHasValues(nodes);
+                //     }
+                // }));
 
             }
         });
