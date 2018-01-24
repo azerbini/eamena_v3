@@ -1,18 +1,17 @@
 define(['jquery', 
+    'summernote',
     'underscore', 
     'knockout-mapping', 
     'views/forms/base', 
     'views/forms/sections/branch-list',
     'bootstrap-datetimepicker',], 
-    function ($, _, koMapping, BaseForm, BranchList) {
+    function ($, summernote, _, koMapping, BaseForm, BranchList) {
         return BaseForm.extend({
             initialize: function() {
                 BaseForm.prototype.initialize.apply(this);                
                 var self = this;
-                console.log("this.data", self.data);
                 var date_picker = $('.datetimepicker').datetimepicker({pickTime: false});
                 date_picker.on('dp.change', function(evt){
-                    // console.log("change");
                     $(this).find('input').trigger('change'); 
                 });
 
@@ -61,21 +60,18 @@ define(['jquery',
                     dataKey: 'RIGHT.E30',
                     rules: true,
                     validateBranch: function (nodes) {
-                        console.log("nodes", nodes);
                         return this.validateHasValues(nodes);
                     }
                 }));
                 
-                // this.addBranchList(new BranchList({
-                //     el: this.$el.find('#description-section')[0],
-                //     data: this.data,
-                //     dataKey: 'DESCRIPTION_ASSIGNEMENT.E13',
-                //     rules: true,
-                //     validateBranch: function (nodes) {
-                //         return this.validateHasValues(nodes);
-                //     }
-                // }));
-
+                this.addBranchList(new BranchList({
+                    el: this.$el.find('#description-section')[0],
+                    data: this.data,
+                    dataKey: 'DESCRIPTION_ASSIGNMENT.E13',
+                    validateBranch: function(nodes){
+                        return this.validateHasValues(nodes);
+                    }
+                }));
             }
         });
     }

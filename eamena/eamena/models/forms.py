@@ -58,7 +58,7 @@ def datetime_nodes_to_dates(branch_list):
                 node.label = node.value
     return branch_list
 
-
+# --- Resource Summary -> SummaryForm ------------------------------------------
 class SummaryForm(ResourceForm):
     @staticmethod
     def get_info():
@@ -70,58 +70,30 @@ class SummaryForm(ResourceForm):
         }
 
     def update(self, data, files):
-        # self.update_nodes('HERITAGE_PLACE_TYPE.E55', data)
         self.update_nodes('SITE_ID.E42', data)
         self.update_nodes('NAME.E41', data)
         self.update_nodes('RIGHT.E30', data)
-        
-        # self.update_nodes('DESIGNATION_TIMESPAN.E52', data)
-        # self.update_nodes('DESIGNATION.E55', data)
-        # self.update_nodes('DESCRIPTION_ASSIGNEMENT.E13', data)
+        self.update_nodes('DESCRIPTION_ASSIGNMENT.E13', data)
         return
 
     def load(self, lang):
         if self.resource:
-            # logging.warning('------> DESIGNATION_EVENT data0: %s', JSONResponse(self.get_nodes('DESIGNATION_EVENT.E65'), indent=4))
-            
             self.data['SITE_ID.E42'] = {
                 'branch_lists': self.get_nodes('SITE_ID.E42'),
                 'domains': {}
             }
-            
-            # self.data['HERITAGE_PLACE_TYPE.E55'] = {
-            #     'branch_lists': self.get_nodes('HERITAGE_PLACE_TYPE.E55'),
-            #     'domains': {'HERITAGE_PLACE_TYPE.E55' : Concept().get_e55_domain('HERITAGE_PLACE_TYPE.E55')}
-            # }
-            
             self.data['NAME.E41'] = {
                 'branch_lists': self.get_nodes('NAME.E41'),
                 'domains': {'NAME_TYPE.E55' : Concept().get_e55_domain('NAME_TYPE.E55')}
             }
-            
             self.data['RIGHT.E30'] = {
                 'branch_lists': datetime_nodes_to_dates(self.get_nodes('RIGHT.E30')),
-                'domains': {
-                    # 'DESIGNATION_EVENT.E65' : Concept().get_e55_domain('DESIGNATION_EVENT.E65'),
-                    'DESIGNATION_TYPE.E55' : Concept().get_e55_domain('DESIGNATION_TYPE.E55'),
-                }
+                'domains': {'DESIGNATION_TYPE.E55' : Concept().get_e55_domain('DESIGNATION_TYPE.E55')}
             }
-            # self.data['DESIGNATION_TIMESPAN.E52'] = {
-            #     'branch_lists': datetime_nodes_to_dates(self.get_nodes('DESIGNATION_TIMESPAN.E52')),
-            #     'domains': {
-            #         # 'DESIGNATION_EVENT.E65' : Concept().get_e55_domain('DESIGNATION_EVENT.E65'),
-            #         # 'DESIGNATION_TYPE.E55' : Concept().get_e55_domain('DESIGNATION_TYPE.E55'),
-            #     }
-            # }
-
-            # DESIGNATION_TIMESPAN.E52
-            # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            
-            # 
-            # self.data['DESCRIPTION_ASSIGNEMENT.E13'] = {
-            #     'branch_lists': self.get_nodes('DESCRIPTION_ASSIGNEMENT.E13'),
-            #     'domains': {'DESCRIPTION_TYPE.E55' : Concept().get_e55_domain('DESCRIPTION_TYPE.E55')}
-            # }
+            self.data['DESCRIPTION_ASSIGNMENT.E13'] = {
+                'branch_lists': datetime_nodes_to_dates(self.get_nodes('DESCRIPTION_ASSIGNMENT.E13')),
+                'domains': {'GENERAL_DESCRIPTION_TYPE.E55' : Concept().get_e55_domain('GENERAL_DESCRIPTION_TYPE.E55')}
+            }
 
 
 class ArchaeologicalAssessmentForm(ResourceForm):
