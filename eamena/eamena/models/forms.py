@@ -73,7 +73,7 @@ class SummaryForm(ResourceForm):
         # self.update_nodes('HERITAGE_PLACE_TYPE.E55', data)
         self.update_nodes('SITE_ID.E42', data)
         self.update_nodes('NAME.E41', data)
-        # self.update_nodes('RIGHT.E30', data)
+        self.update_nodes('RIGHT.E30', data)
         
         # self.update_nodes('DESIGNATION_TIMESPAN.E52', data)
         # self.update_nodes('DESIGNATION.E55', data)
