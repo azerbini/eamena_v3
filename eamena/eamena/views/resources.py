@@ -34,10 +34,18 @@ from django.contrib.gis.geos import GEOSGeometry
 import binascii
 from arches.app.utils.encrypt import Crypter
 from arches.app.utils.spatialutils import getdates
-from datetime import datetime
+from arches.app.utils.eamena_utils import validatedates
+from django.shortcuts import redirect
 
+import logging
 
 def report(request, resourceid):
+    logging.warning("Viewing Report. User=%s", request.user)
+
+    # Redirect non-logged-in users to the login screen
+    if request.user.is_anonymous:
+	redirect('/auth')
+
     lang = request.GET.get('lang', request.LANGUAGE_CODE)
     page = request.GET.get('page', 1)
     se = SearchEngineFactory().create()
@@ -50,7 +58,6 @@ def report(request, resourceid):
         report_info['source']['primaryname'] = primaryname['_source']['primaryname'] 
     del report_info['_source']
     del report_info['_type']            
-    
     geometry = JSONSerializer().serialize(report_info['source']['geometry'])
     GeoCrypt = Crypter(settings.ENCODING_KEY)
     iv, encrypted = GeoCrypt.encrypt(geometry, GeoCrypt.KEY)
@@ -65,7 +72,7 @@ def report(request, resourceid):
         }
     else:
         result = None
-
+    
     if report_info['type'] == "INFORMATION_RESOURCE.E73": # These clauses produce subtypes for Imagery, Shared Dataset and Cartography Info Resources, with the aim of producing different Report pages for each of these Resource Types
         report_info['subtype'] = ''
         report_info['filepath'] =''
@@ -103,6 +110,7 @@ def report(request, resourceid):
                 report_info['filepath'], report_info['has_image'] = flickr_feed['url'], True
             except:
                 pass
+                
     def get_evaluation_path(valueid):
         value = models.Values.objects.get(pk=valueid)
         concept_graph = Concept().get(id=value.conceptid_id, include_subconcepts=False, 
@@ -179,7 +187,6 @@ def report(request, resourceid):
 
     related_resource_info = get_related_resources(resourceid, lang) 
     # parse the related entities into a dictionary by resource type
-
     for related_resource in related_resource_info['related_resources']:
         VirtualGlobeName = []
         OtherImageryName = []
@@ -227,7 +234,7 @@ def report(request, resourceid):
                 if entity['entitytypeid'] == 'THUMBNAIL.E62':
                     related_resource['thumbnail'] = settings.MEDIA_URL + entity['label']
                     information_resource_type = 'IMAGE'
-                if entity['entitytypeid'] == 'TILE_SQUARE_DETAILS.E44': #If this node is populated, the Info resource is assumed to be a Map and its default name is set to Sheet Name
+                if entity['entitytypeid'] == 'TILE_SQUARE_DETAILS.E44' or entity['entitytypeid'] == 'TILE_SQUARE_APPELLATION.E44': #If this node is populated, the Info resource is assumed to be a Map and its default name is set to Sheet Name
                     related_resource['primaryname'] = entity['label']
                     information_resource_type = 'MAP'                      
                 elif entity['entitytypeid'] == 'SHARED_DATA_SOURCE_APPELLATION.E82' or entity['entitytypeid'] == 'SHARED_DATA_SOURCE_AFFILIATION.E82' or entity['entitytypeid'] == 'SHARED_DATA_SOURCE_CREATOR_APPELLATION.E82': #If this node is populated, the Info resource is assumed to be a Shared Dataset and its default name is set to Shared Dated Source
@@ -245,13 +252,8 @@ def report(request, resourceid):
                     related_resource['primaryname'] = entity['value']
 
             for entity in related_resource['dates']:
-                if entity['entitytypeid'] == 'DATE_OF_ACQUISITION.E50':
-                    try:
-                        d = datetime.strptime(entity['label'], '%Y-%m-%dT%H:%M:%S') #Checks for format  YYYY-MM-DD hh:mm:ss
-                        date = d.strftime('%Y-%m-%d')
-                    except:
-                        raise ValueError("The value %s inserted is not a date" % entity['label'])                        
-                    related_resource['date'] = date                                
+                if entity['entitytypeid'] == 'DATE_OF_ACQUISITION.E50':                 
+                    related_resource['date'] = validatedates(entity['label'])                                
             if VirtualGlobe == True and OtherImagery == True: #This routine creates the concatenated primary name for a Virtual Globe related resource
                 for entity in related_resource['domains']:
                     if entity['entitytypeid'] == 'IMAGERY_SOURCE_TYPE.E55':
