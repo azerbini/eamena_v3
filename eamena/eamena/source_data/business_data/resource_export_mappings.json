@@ -571,7 +571,9 @@
         {"field_name": "ThreatCause","source": "field_map", "data_type":"str", "data_length":"128"},
         {"field_name": "ThrCauseCert","source": "field_map", "data_type":"str", "data_length":"128"},
         {"field_name": "Desc_Type","source": "field_map", "data_type":"str", "data_length":"128"},
-        {"field_name": "Description","source": "field_map", "data_type":"str", "data_length":"128"}
+        {"field_name": "Description","source": "field_map", "data_type":"str", "data_length":"128"},
+        {"field_name": "Assessor","source": "field_map", "data_type":"str", "data_length":"128"},
+        {"field_name": "Country","source": "field_map", "data_type":"str", "data_length":"128"}
         ],
         "RESOURCE_TYPES": {
             "HERITAGE_RESOURCE_GROUP.E27": {
@@ -759,6 +761,14 @@
                 {
                 "field_name": "Description",
                 "entitytypeid": "DESCRIPTION.E62"
+                },
+                {
+                "field_name": "Assessor",
+                "entitytypeid": "ASSESSOR_NAME_TYPE.E55"
+                },
+                {
+                "field_name": "Country",
+                "entitytypeid": "MODERN_COUNTRY_TERRITORY.E55"
                 }
                 ]
             }
