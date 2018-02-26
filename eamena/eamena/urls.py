@@ -26,7 +26,7 @@ urlpatterns = patterns('',
     url(r'^search/resources$', 'eamena.views.search.search_results', name="search_results"),
     url(r'^search/export$', 'eamena.views.search.export_results', name="search_results_export"),
     url(r'^reports/(?P<resourceid>%s)$' % uuid_regex , 'eamena.views.resources.report', name='report'),
-    
+    url('^', include('django.contrib.auth.urls')),
     url(r'', include(arches_urls)),
 )
 
