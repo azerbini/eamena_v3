@@ -96,6 +96,38 @@ class SummaryForm(ResourceForm):
             }
 
 
+# --- Measurements -> MeasurementvaluesForm ------------------------------------------
+class MeasurementvaluesForm(ResourceForm):
+    @staticmethod
+    def get_info():
+        return {
+            'id': 'measurementvalues',
+            'icon': 'fa-map-marker',
+            'name': _('Measurements'),
+            'class': MeasurementvaluesForm
+    }
+
+    def update(self, data, files):
+        self.update_nodes('MEASUREMENTS.E16', data)
+    
+    # Dimension (Measurement_Number.E60) 
+    # & Unit (Measurement_Unit.E58)
+    # & Dimension Type (Dimension_Type.E55) 
+    # & Measurement Source (Measurement_Source_Type.E55)
+    def load(self, lang):
+        if self.resource:
+            self.data['MEASUREMENTS.E16'] = {
+                'branch_lists': self.get_nodes('MEASUREMENTS.E16'),
+                'domains': {
+                    'MEASUREMENT_SOURCE_TYPE.E55' : Concept().get_e55_domain('MEASUREMENT_SOURCE_TYPE.E55'),
+                    'MEASUREMENT_UNIT.E58': Concept().get_e55_domain('MEASUREMENT_UNIT.E58'),
+                    'DIMENSION_TYPE.E55' : Concept().get_e55_domain('DIMENSION_TYPE.E55')
+                 }
+            }
+
+
+
+
 class ArchaeologicalAssessmentForm(ResourceForm):
     @staticmethod
     def get_info():
@@ -504,32 +536,6 @@ class InformationResourceSummaryForm(ResourceForm):
 
             # self.data['primaryname_conceptid'] = self.data['TITLE.E41']['domains']['TITLE_TYPE.E55'][3]['id']
  
-
-
-
-class MeasurementvaluesForm(ResourceForm):
-    @staticmethod
-    def get_info():
-        return {
-            'id': 'measurementvalues',
-            'icon': 'fa-map-marker',
-            'name': _('Measurements'),
-            'class': MeasurementvaluesForm
-    }
-
-    def update(self, data, files):
-        self.update_nodes('MEASUREMENT_TYPE.E55', data)
-    
-    
-    def load(self, lang):
-        if self.resource:
-            self.data['MEASUREMENT_TYPE.E55'] = {
-                'branch_lists': self.get_nodes('MEASUREMENT_TYPE.E55'),
-                'domains': {
-                    'MEASUREMENT_TYPE.E55' : Concept().get_e55_domain('MEASUREMENT_TYPE.E55'),
-                    'UNIT_OF_MEASUREMENT.E55': Concept().get_e55_domain('UNIT_OF_MEASUREMENT.E55')
-                 }
-            }
 
 class DescriptionForm(ResourceForm):
     @staticmethod
