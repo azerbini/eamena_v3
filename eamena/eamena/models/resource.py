@@ -53,8 +53,8 @@ class Resource(ArchesResource):
 
         elif self.entitytypeid == 'HERITAGE_RESOURCE_GROUP.E27':
             description_group['forms'][:0] = [
+                forms.AssessmentSummaryForm.get_info(),
                 forms.SummaryForm.get_info(),
-                
                 forms.MeasurementvaluesForm.get_info(),
                 forms.ArchaeologicalAssessmentForm.get_info(),
                 forms.ConditionAssessmentForm.get_info(),

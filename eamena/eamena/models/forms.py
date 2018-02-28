@@ -96,6 +96,33 @@ class SummaryForm(ResourceForm):
             }
 
 
+
+# --- Assessment  Summary -> AssessmentSummaryForm ------------------------------------------
+class AssessmentSummaryForm(ResourceForm):
+    @staticmethod
+    def get_info():
+        return {
+            'id': 'assessment-summary',
+            'icon': 'fa-tag',
+            'name': _('Assessment Summary'),
+            'class': AssessmentSummaryForm
+        }
+
+    def update(self, data, files):
+        self.update_nodes('INVESTIGATION_ASSESSMENT_ACTIVITY.E7', data)
+        return
+
+    def load(self, lang):
+        if self.resource:
+            self.data['INVESTIGATION_ASSESSMENT_ACTIVITY.E7'] = {
+                'branch_lists': datetime_nodes_to_dates(self.get_nodes('INVESTIGATION_ASSESSMENT_ACTIVITY.E7')),
+                'domains': {
+                    'INVESTIGATOR_ROLE_TYPE.E55' : Concept().get_e55_domain('INVESTIGATOR_ROLE_TYPE.E55'),
+                    'ASSESSMENT_ACTIVITY_TYPE.E55' : Concept().get_e55_domain('ASSESSMENT_ACTIVITY_TYPE.E55'),
+                }
+            }
+
+
 # --- Measurements -> MeasurementvaluesForm ------------------------------------------
 class MeasurementvaluesForm(ResourceForm):
     @staticmethod
