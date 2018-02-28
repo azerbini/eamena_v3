@@ -10,33 +10,61 @@ define(['jquery',
                 BaseForm.prototype.initialize.apply(this);                
                 
                 var self = this;
-                // var date_picker = $('.datetimepicker').datetimepicker({pickTime: false});
-                // date_picker.on('dp.change', function(evt){
-                //     $(this).find('input').trigger('change'); 
-                // });
-                // 
+                console.log("self.data", self.data);
+                var date_picker = $('.datetimepicker').datetimepicker({pickTime: false});
+                date_picker.on('dp.change', function(evt){
+                    $(this).find('input').trigger('change'); 
+                });
+                
                 this.addBranchList(new BranchList({
-                    el: this.$el.find('#subjects-section')[0],
+                    el: this.$el.find('#overall-archaeological-certainty')[0],
                     data: this.data,
-                    dataKey: 'FUNCTION_BELIEF.I2',
+                    dataKey: 'ARCHAEOLOGICAL_CERTAINTY_OBSERVATION.S4',
                     rules: true,
                     validateBranch: function (nodes) {
                         return this.validateHasValues(nodes);
                     }
                 }));
                 this.addBranchList(new BranchList({
-                    el: this.$el.find('#interpretation-section')[0],
+                    el: this.$el.find('#cultural-period')[0],
                     data: this.data,
-                    dataKey: 'INTERPRETATION_BELIEF.I2',
+                    dataKey: 'CULTURAL_PERIOD_BELIEF.I2',
                     rules: true,
                     validateBranch: function (nodes) {
                         return this.validateHasValues(nodes);
                     }
                 }));
                 this.addBranchList(new BranchList({
-                    el: this.$el.find('#overall-certainty-section')[0],
+                    el: this.$el.find('#period-of-occupation')[0],
                     data: this.data,
-                    dataKey: 'ARCHAEOLOGY_CERTAINTY_OBSERVATION.S4',
+                    dataKey: 'ARCHAEOLOGICAL_TIMESPAN.E52',
+                    rules: true,
+                    validateBranch: function (nodes) {
+                        return this.validateHasValues(nodes);
+                    }
+                }));
+                this.addBranchList(new BranchList({
+                    el: this.$el.find('#morphology')[0],
+                    data: this.data,
+                    dataKey: 'FEATURE_ASSIGNMENT.E13',
+                    rules: true,
+                    validateBranch: function (nodes) {
+                         return this.validateHasValues(nodes);
+                    }
+                }));
+                this.addBranchList(new BranchList({
+                    el: this.$el.find('#feature-morphology')[0],
+                    data: this.data,
+                    dataKey: 'FEATURE_ASSIGNMENT.E13',
+                    rules: true,
+                    validateBranch: function (nodes) {
+                         return this.validateHasValues(nodes);
+                    }
+                }));
+                this.addBranchList(new BranchList({
+                    el: this.$el.find('#feature-interpretation')[0],
+                    data: this.data,
+                    dataKey: 'FUNCTION_INTERPRETATION_INFERENCE_MAKING.I5',
                     rules: true,
                     validateBranch: function (nodes) {
                          return this.validateHasValues(nodes);
@@ -59,48 +87,7 @@ define(['jquery',
                 //     $(".edit-actors-row").removeClass('hidden');
                 // }
                 
-                // this.addBranchList(new BranchList({
-                //      el: this.$el.find('#culturalperiod-section')[0],
-                //      data: this.data,
-                //      dataKey: 'CULTURAL_PERIOD.E55',
-                //      rules: true,
-                //      validateBranch: function (nodes) {
-                //            return this.validateHasValues(nodes);
-                //      }
-                // }));
-                // 
-                // this.addBranchList(new BranchList({
-                //      el: this.$el.find('#phase-section')[0],
-                //      data: this.data,
-                //      dataKey: 'TIME-SPAN_PHASE.E52',
-                //      validateBranch: function (nodes) {
-                //           return true;
-                //           return this.validateHasValues(nodes);
-                //      }
-                // }));
-                // 
-                // this.addBranchList(new BranchList({
-                //     el: this.$el.find('#sitemorph-section')[0],
-                //     data: this.data,
-                //     dataKey: 'SITE_MORPHOLOGY_TYPE.E55',
-                //     rules: true,
-                //     validateBranch: function (nodes) {
-                //          return this.validateHasValues(nodes);
-                //     }
-                // }));
-                //                
-                // this.addBranchList(new BranchList({
-                //     el: this.$el.find('#siteshape-section')[0],
-                //     data: this.data,
-                //     dataKey: 'SITE_OVERALL_SHAPE_TYPE.E55',
-                //     rules: true,
-                //     validateBranch: function (nodes) {
-                //          return this.validateHasValues(nodes);
-                //     }                                         
-                // }));
-                //                
 
-                               
             },
             
             // toggleEditActor: function (e) {
