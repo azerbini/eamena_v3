@@ -149,9 +149,10 @@ class ArchaeologicalAssessmentForm(ResourceForm):
         # self.update_nodes('FUNCTION_AND_INTERPRETATION_ACTOR.E39', data)
         logging.warning('------> ArchaeologicalAssessmentForm update0: %s', JSONResponse(data, indent=4))
         # 
-        self.update_nodes('FUNCTION_BELIEF.I2', data)
-        self.update_nodes('INTERPRETATION_BELIEF.I2', data)
         self.update_nodes('ARCHAEOLOGY_CERTAINTY_OBSERVATION.S4', data)
+        self.update_nodes('CULTURAL_PERIOD_BELIEF.I2', data)
+        self.update_nodes('FEATURE_ASSIGNMENT.E13', data)
+        self.update_nodes('FUNCTION_INTERPRETATION_INFERENCE_MAKING.I5', data)
         # self.update_nodes('PHASE_TYPE_ASSIGNMENT.E17', data)
         return
 
@@ -159,21 +160,21 @@ class ArchaeologicalAssessmentForm(ResourceForm):
     
     def load(self, lang):
         if self.resource:
-            self.data['FUNCTION_BELIEF.I2'] = {
-                'branch_lists': self.get_nodes('FUNCTION_BELIEF.I2'),
-                'domains': {
-                    'FUNCTION_TYPE.I4' : Concept().get_e55_domain('FUNCTION_TYPE.I4'),
-                    'FUNCTION_CERTAINTY.I6' : Concept().get_e55_domain('FUNCTION_CERTAINTY.I6')
-                 }
-            }
-            self.data['INTERPRETATION_BELIEF.I2'] = {
-                'branch_lists': self.get_nodes('INTERPRETATION_BELIEF.I2'),
-                'domains': {
-                    'INTERPRETATION_TYPE.I4' : Concept().get_e55_domain('INTERPRETATION_TYPE.I4'),
-                    'INTERPRETATION_CERTAINTY.I6': Concept().get_e55_domain('INTERPRETATION_CERTAINTY.I6'),
-                    'INTERPRETATION_NUMBER_TYPE.E55' : Concept().get_e55_domain('INTERPRETATION_NUMBER_TYPE.E55'),
-                }
-            }
+            # self.data['FUNCTION_BELIEF.I2'] = {
+            #     'branch_lists': self.get_nodes('FUNCTION_BELIEF.I2'),
+            #     'domains': {
+            #         'FUNCTION_TYPE.I4' : Concept().get_e55_domain('FUNCTION_TYPE.I4'),
+            #         'FUNCTION_CERTAINTY.I6' : Concept().get_e55_domain('FUNCTION_CERTAINTY.I6')
+            #      }
+            # }
+            # self.data['INTERPRETATION_BELIEF.I2'] = {
+            #     'branch_lists': self.get_nodes('INTERPRETATION_BELIEF.I2'),
+            #     'domains': {
+            #         'INTERPRETATION_TYPE.I4' : Concept().get_e55_domain('INTERPRETATION_TYPE.I4'),
+            #         'INTERPRETATION_CERTAINTY.I6': Concept().get_e55_domain('INTERPRETATION_CERTAINTY.I6'),
+            #         'INTERPRETATION_NUMBER_TYPE.E55' : Concept().get_e55_domain('INTERPRETATION_NUMBER_TYPE.E55'),
+            #     }
+            # }
             # self.data['CULTURAL_PERIOD.E55'] = {
             #     'branch_lists': self.get_nodes('CULTURAL_PERIOD.E55'),
             #     'domains': {'CULTURAL_PERIOD.E55' : Concept().get_e55_domain('CULTURAL_PERIOD.E55'),'CULTURAL_PERIOD_CERTAINTY_TYPE.E55' : Concept().get_e55_domain('CULTURAL_PERIOD_CERTAINTY_TYPE.E55')
@@ -201,7 +202,40 @@ class ArchaeologicalAssessmentForm(ResourceForm):
                     'OVERALL_ARCHAEOLOGICAL_CERTAINTY_VALUE.I6' : Concept().get_e55_domain('OVERALL_ARCHAEOLOGICAL_CERTAINTY_VALUE.I6')
                 }
             }
+            self.data['CULTURAL_PERIOD_BELIEF.I2'] = {
+                'branch_lists': self.get_nodes('CULTURAL_PERIOD_BELIEF.I2'),
+                'domains': {
+                    'CULTURAL_PERIOD_CERTAINTY.I6' : Concept().get_e55_domain('CULTURAL_PERIOD_CERTAINTY.I6'),
+                    'CULTURAL_PERIOD_TYPE.I4' : Concept().get_e55_domain('CULTURAL_PERIOD_TYPE.I4'),
+                    'CULTURAL_PERIOD_DETAIL_TYPE.E55' : Concept().get_e55_domain('CULTURAL_PERIOD_DETAIL_TYPE.E55'),
+                }
+            }
+            # ARCHAEOLOGICAL_TIMESPAN.E52
             
+            # FEATURE_MORPHOLOGY_TYPE.E55
+            # self.data['FEATURE_FORM_SHAPE_ASSIGNMENT.E13'] = {
+            self.data['FEATURE_ASSIGNMENT.E13'] = {
+                'branch_lists': self.get_nodes('FEATURE_FORM_SHAPE_ASSIGNMENT.E13'),
+                'domains': {
+                    'FEATURE_MORPHOLOGY_TYPE.E55' : Concept().get_e55_domain('FEATURE_MORPHOLOGY_TYPE.E55'),
+                    'FEATURE_FORM_TYPE.I4' : Concept().get_e55_domain('FEATURE_FORM_TYPE.I4'),
+                    'FEATURE_FORM_TYPE_CERTAINTY.I6' : Concept().get_e55_domain('FEATURE_FORM_TYPE_CERTAINTY.I6'),
+                    'FEATURE_SHAPE_TYPE.E55' : Concept().get_e55_domain('FEATURE_SHAPE_TYPE.E55'),
+                    'FEATURE_ARRANGEMENT_TYPE.E55' : Concept().get_e55_domain('FEATURE_ARRANGEMENT_TYPE.E55'),
+                    'FEATURE_NUMBER_TYPE.E55' : Concept().get_e55_domain('FEATURE_NUMBER_TYPE.E55')
+                }
+            }
+            # FUNCTION_INTERPRETATION_INFERENCE_MAKING.I5
+            self.data['FUNCTION_INTERPRETATION_INFERENCE_MAKING.I5'] = {
+                'branch_lists': self.get_nodes('FUNCTION_INTERPRETATION_INFERENCE_MAKING.I5'),
+                'domains': {
+                    'INTERPRETATION_TYPE.I4' : Concept().get_e55_domain('INTERPRETATION_TYPE.I4'),
+                    'INTERPRETATION_CERTAINTY.I6' : Concept().get_e55_domain('INTERPRETATION_CERTAINTY.I6'),
+                    'INTERPRETATION_NUMBER_TYPE.E55' : Concept().get_e55_domain('INTERPRETATION_NUMBER_TYPE.E55'),
+                    'FUNCTION_TYPE.I4' : Concept().get_e55_domain('FUNCTION_TYPE.I4'),
+                    'FUNCTION_CERTAINTY.I6' : Concept().get_e55_domain('FUNCTION_CERTAINTY.I6')
+                }
+            }
             # self.data['FUNCTION_AND_INTERPRETATION_ACTOR.E39'] = {
             #     'branch_lists': self.get_nodes('FUNCTION_AND_INTERPRETATION_ACTOR.E39'),
             # }
