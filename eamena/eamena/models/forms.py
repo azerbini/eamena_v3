@@ -123,7 +123,7 @@ class MeasurementvaluesForm(ResourceForm):
 
 
 
-# --- Archaeological Assessment (formerly ‘Forms and Interpretations) -> ArchaeologicalAssessmentForm ------------------------------------------
+# --- Archaeological Assessment (formerly Forms and Interpretations) -> ArchaeologicalAssessmentForm ------------------------------------------
 class ArchaeologicalAssessmentForm(ResourceForm):
     @staticmethod
     def get_info():
@@ -191,6 +191,65 @@ class ArchaeologicalAssessmentForm(ResourceForm):
             # self.data['FUNCTION_AND_INTERPRETATION_ACTOR.E39'] = {
             #     'branch_lists': self.get_nodes('FUNCTION_AND_INTERPRETATION_ACTOR.E39'),
             # }
+
+# --- Condition Assessment -> ConditionAssessmentForm ------------------------------------------
+class ConditionAssessmentForm(ResourceForm):
+    @staticmethod
+    def get_info():
+        return {
+            'id': 'condition-assessment',
+            'icon': 'fa-th-large',
+            'name': _('Condition Assessment'),
+            'class': ConditionAssessmentForm
+        }
+
+    def update(self, data, files):
+        self.update_nodes('OVERALL_CONDITION_STATE_TYPE.E55', data)
+        self.update_nodes('DAMAGE_EXTENT_TYPE.E55', data)
+        self.update_nodes('THREAT_INFERENCE_MAKING.I5', data)
+        self.update_nodes('DAMAGE_STATE.E3', data)
+        return
+    
+    def load(self, lang):
+        if self.resource:
+            self.data['OVERALL_CONDITION_STATE_TYPE.E55'] = {
+                'branch_lists': self.get_nodes('OVERALL_CONDITION_STATE_TYPE.E55'),
+                'domains': {
+                    'OVERALL_CONDITION_STATE_TYPE.E55' : Concept().get_e55_domain('OVERALL_CONDITION_STATE_TYPE.E55'),
+                }
+            }
+
+            self.data['DAMAGE_EXTENT_TYPE.E55'] = {
+                'branch_lists': self.get_nodes('DAMAGE_EXTENT_TYPE.E55'),
+                'domains': {
+                    'DAMAGE_EXTENT_TYPE.E55' : Concept().get_e55_domain('DAMAGE_EXTENT_TYPE.E55')
+                }
+            }
+
+            self.data['THREAT_INFERENCE_MAKING.I5'] = {
+                # 'branch_lists': datetime_nodes_to_dates(self.get_nodes_hierarchical('DISTURBANCE_STATE.E3', 'DISTURBANCE_EFFECT_STATE.E3')),
+                'branch_lists': self.get_nodes('THREAT_INFERENCE_MAKING.I5'),
+                'domains': {
+                    'THREAT_CATEGORY.I4' : Concept().get_e55_domain('THREAT_CATEGORY.I4'),
+                    'THREAT_TYPE.I4' : Concept().get_e55_domain('THREAT_TYPE.I4'),
+                    'THREAT_PROBABILITY.I6' : Concept().get_e55_domain('THREAT_PROBABILITY.I6')
+                }
+            }
+
+            self.data['DAMAGE_STATE.E3'] = {
+                # 'branch_lists': datetime_nodes_to_dates(self.get_nodes_hierarchical('DISTURBANCE_STATE.E3', 'DISTURBANCE_EFFECT_STATE.E3')),
+                'branch_lists': self.get_nodes('DAMAGE_STATE.E3'),
+                'domains': {
+                    'DISTURBANCE_CAUSE_CATEGORY_TYPE.E55' : Concept().get_e55_domain('DISTURBANCE_CAUSE_CATEGORY_TYPE.E55'),
+                    'DISTURBANCE_CAUSE_TYPE.I4' : Concept().get_e55_domain('DISTURBANCE_CAUSE_TYPE.I4'),
+                    'DISTURBANCE_CAUSE_CERTAINTY.I6' : Concept().get_e55_domain('DISTURBANCE_CAUSE_CERTAINTY.I6'),
+                    'EFFECT_TYPE.I4' : Concept().get_e55_domain('EFFECT_TYPE.I4'),
+                    'EFFECT_CERTAINTY.I6' : Concept().get_e55_domain('EFFECT_CERTAINTY.I6'),
+                    'DAMAGE_TREND_TYPE.E55' : Concept().get_e55_domain('DAMAGE_TREND_TYPE.E55')
+                }
+            }
+
+
 
 class ManMadeForm(ResourceForm):
     @staticmethod

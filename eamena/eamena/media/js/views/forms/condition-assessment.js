@@ -16,59 +16,45 @@ define(['jquery',
                 });
                 
                 this.addBranchList(new BranchList({
-                    el: this.$el.find('#overall-archaeological-certainty')[0],
+                    el: this.$el.find('#overall-site-condition')[0],
                     data: this.data,
-                    dataKey: 'ARCHAEOLOGICAL_CERTAINTY_OBSERVATION.S4',
+                    dataKey: 'OVERALL_CONDITION_STATE_TYPE.E55',
                     rules: true,
                     validateBranch: function (nodes) {
                         return this.validateHasValues(nodes);
                     }
                 }));
+                
                 this.addBranchList(new BranchList({
-                    el: this.$el.find('#cultural-period')[0],
+                    el: this.$el.find('#damage-overall-extent')[0],
                     data: this.data,
-                    dataKey: 'CULTURAL_PERIOD_BELIEF.I2',
+                    dataKey: 'DAMAGE_EXTENT_TYPE.E55',
                     rules: true,
                     validateBranch: function (nodes) {
                         return this.validateHasValues(nodes);
                     }
                 }));
+                
                 this.addBranchList(new BranchList({
-                    el: this.$el.find('#period-of-occupation')[0],
+                    el: this.$el.find('#disturbances')[0],
                     data: this.data,
-                    dataKey: 'ARCHAEOLOGICAL_TIMESPAN.E52',
+                    dataKey: 'DAMAGE_STATE.E3',
                     rules: true,
                     validateBranch: function (nodes) {
                         return this.validateHasValues(nodes);
                     }
                 }));
+                
                 this.addBranchList(new BranchList({
-                    el: this.$el.find('#morphology')[0],
+                    el: this.$el.find('#threats')[0],
                     data: this.data,
-                    dataKey: 'FEATURE_ASSIGNMENT.E13',
+                    dataKey: 'THREAT_INFERENCE_MAKING.I5',
                     rules: true,
                     validateBranch: function (nodes) {
-                         return this.validateHasValues(nodes);
+                        return this.validateHasValues(nodes);
                     }
                 }));
-                this.addBranchList(new BranchList({
-                    el: this.$el.find('#feature-morphology')[0],
-                    data: this.data,
-                    dataKey: 'FEATURE_ASSIGNMENT.E13',
-                    rules: true,
-                    validateBranch: function (nodes) {
-                         return this.validateHasValues(nodes);
-                    }
-                }));
-                this.addBranchList(new BranchList({
-                    el: this.$el.find('#feature-interpretation')[0],
-                    data: this.data,
-                    dataKey: 'FUNCTION_INTERPRETATION_INFERENCE_MAKING.I5',
-                    rules: true,
-                    validateBranch: function (nodes) {
-                         return this.validateHasValues(nodes);
-                    }
-                }));
+
                 // this.addBranchList(new BranchList({
                 //     el: this.$el.find('#function-actor')[0],
                 //     data: this.data,
