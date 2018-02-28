@@ -45,7 +45,7 @@ define(['jquery',
                 this.addBranchList(new BranchList({
                     el: this.$el.find('#morphology')[0],
                     data: this.data,
-                    dataKey: 'FEATURE_ASSIGNMENT.E13',
+                    dataKey: 'FEATURE_MORPHOLOGY_TYPE.E55',
                     rules: true,
                     validateBranch: function (nodes) {
                          return this.validateHasValues(nodes);
