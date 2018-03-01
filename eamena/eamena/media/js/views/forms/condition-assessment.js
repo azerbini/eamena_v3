@@ -41,8 +41,23 @@ define(['jquery',
                     dataKey: 'DAMAGE_STATE.E3',
                     rules: true,
                     validateBranch: function (nodes) {
-                        return true
-                        // return this.validateHasValues(nodes);
+                        var canBeEmpty = [
+                            'DISTURBANCE_DATE_FROM.E61',
+                            'DISTURBANCE_DATE_TO.E61',
+                            'DISTURBANCE_DATE_OCCURRED_BEFORE.E61',
+                            'DISTURBANCE_DATE_OCCURRED_BEFORE',
+                            'DISTURBANCE_DATE_OCCURRED_ON.E61',
+                            'DISTURBANCE_CAUSE_ASSIGNMENT_ASSESSOR_NAME.E41',
+                        ]
+                        var valid = nodes != undefined && nodes.length > 0;
+                        _.each(nodes, function (node) {
+                            if (node.entityid === '' && node.value === '' &&
+                                canBeEmpty.indexOf(node.entitytypeid) == -1
+                            ){
+                                valid = false;
+                            }
+                        }, this);
+                        return valid;
                     }
                 }));
                 
@@ -72,7 +87,6 @@ define(['jquery',
             
             dateEdit: function (e, b) {
                 _.each(b.nodes(), function (node) {
-                    console.log("a", node.entitytypeid(), node.value());
                     if (node.entitytypeid() == 'DISTURBANCE_DATE_FROM.E61' && node.value() && node.value() != '') {
                         $('.div-date').addClass('hidden')
                         $('.div-date-from-to').removeClass('hidden')
