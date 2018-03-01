@@ -240,6 +240,14 @@
                                 <input style="width:33%; display:inline-block;" class="select2 arches-select2-crud-form name-type hidden-xs" data-bind="select2: {value: getEditedNode('THREAT_TYPE.I4', 'value'), placeholder: '{% trans "Type" %}', dataKey: 'THREAT_TYPE.I4'}"></input>&nbsp;
                                 <!-- Certainty/Probability Type-->
                                 <input style="width:33%; display:inline-block;" class="select2 arches-select2-crud-form name-type hidden-xs" data-bind="select2: {value: getEditedNode('THREAT_PROBABILITY.I6', 'value'), placeholder: '{% trans "Certainty/Probability Type" %}', dataKey: 'THREAT_PROBABILITY.I6'}"></input>&nbsp;
+                                <div id="arches-names-form" class="section-headline">
+                                    {% trans "On behalf of" %}
+                                    <i class="fa fa-pencil edit-actor-threat show-box" aria-hidden="true"></i>
+                                    <i class="fa fa-pencil-square edit-actor-threat hide-box hidden" aria-hidden="true"></i>
+                                </div>
+                                <div class="row edit-actors-row hidden">
+                                    <input class="form-control arches-form-input" id="actor-name" style="width: 18%;" placeholder='{% trans "Name" %}' data-bind='value: getEditedNode("THREAT_INFERENCE_MAKING_ASSESSOR_NAME.E41", "value")'>
+                                </div>
                                 {% include 'views/components/add-item-button.htm' %}
                             </div>
                         </div>
@@ -265,6 +273,9 @@
                                     <span data-bind="{text: nodes.get('THREAT_CATEGORY.I4', 'label')}" style="padding-right:2px"></span>
                                     <span data-bind="{text: nodes.get('THREAT_TYPE.I4', 'label')}" style="padding-right:2px"></span>
                                     <span data-bind="{text: nodes.get('THREAT_PROBABILITY.I6', 'label')}" style="padding-right:2px"></span>
+                                    <span class="text-muted" data-bind="{visible: nodes.get('THREAT_INFERENCE_MAKING_ASSESSOR_NAME.E41', 'value').length > 0}"> by: </span>
+                                    <span data-bind='text: nodes.get("THREAT_INFERENCE_MAKING_ASSESSOR_NAME.E41", "value")' style="padding-right:2px;"></span><span class="text-muted arches-crud-type-identifier"></span>
+
                                 </a>
                             </div>
                         </div>

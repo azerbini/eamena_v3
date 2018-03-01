@@ -67,7 +67,16 @@ define(['jquery',
                     dataKey: 'THREAT_INFERENCE_MAKING.I5',
                     rules: true,
                     validateBranch: function (nodes) {
-                        return this.validateHasValues(nodes);
+                        var canBeEmpty = ['THREAT_INFERENCE_MAKING_ASSESSOR_NAME.E41'];
+                        var valid = nodes != undefined && nodes.length > 0;
+                        _.each(nodes, function (node) {
+                            if (node.entityid === '' && node.value === '' &&
+                                canBeEmpty.indexOf(node.entitytypeid) == -1
+                            ){
+                                valid = false;
+                            }
+                        }, this);
+                        return valid;
                     }
                 }));
                 this.listenTo(this,'change', this.dateEdit)
@@ -118,6 +127,7 @@ define(['jquery',
             events: function(){
                 var events = BaseForm.prototype.events.apply(this);
                 events['click .edit-actor'] = 'toggleEditActor';
+                events['click .edit-actor-threat'] = 'toggleEditActor';
                 events['click .disturbance-date-item'] = 'showDate';
                 events['click .disturbance-date-edit'] = 'dateEdit';
                 return events;

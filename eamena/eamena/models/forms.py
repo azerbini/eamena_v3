@@ -243,6 +243,7 @@ class ConditionAssessmentForm(ResourceForm):
 
     def update(self, data, files):
         data = add_actor('DAMAGE_STATE.E3', 'DISTURBANCE_CAUSE_ASSIGNMENT_ASSESSOR_NAME.E41', data, self.user)
+        data = add_actor('THREAT_INFERENCE_MAKING.I5', 'THREAT_INFERENCE_MAKING_ASSESSOR_NAME.E41', data, self.user)
         self.update_nodes('OVERALL_CONDITION_STATE_TYPE.E55', data)
         self.update_nodes('DAMAGE_EXTENT_TYPE.E55', data)
         self.update_nodes('THREAT_INFERENCE_MAKING.I5', data)
