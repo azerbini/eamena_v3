@@ -115,37 +115,56 @@
                                 <!-- Cause Certainty -->
                                 <input style="width:33%; height: 36px; padding-top: 2px;" class="select2 arches-select2-crud-form resource-type" placeholder="{% trans 'Cause Certainty' %}" data-bind="select2: {value: getEditedNode('DISTURBANCE_CAUSE_CERTAINTY.I6', 'value'), dataKey: 'DISTURBANCE_CAUSE_CERTAINTY.I6'}"></input>
                                 <!-- Effect -->
+                                <br>
                                 <input style="width:33%; height: 36px; padding-top: 2px;" class="select2 arches-select2-crud-form resource-type" placeholder="{% trans 'Effect' %}" data-bind="select2: {value: getEditedNode('EFFECT_TYPE.I4', 'value'), dataKey: 'EFFECT_TYPE.I4'}"></input>
                                 <!-- Effect Certainty -->
                                 <input style="width:33%; height: 36px; padding-top: 2px;" class="select2 arches-select2-crud-form resource-type" placeholder="{% trans 'Effect Certainty' %}" data-bind="select2: {value: getEditedNode('EFFECT_CERTAINTY.I6', 'value'), dataKey: 'EFFECT_CERTAINTY.I6'}"></input>
+                                <br>
                                 <!-- Effect Trend -->
                                 <input style="width:33%; height: 36px; padding-top: 2px;" class="select2 arches-select2-crud-form resource-type" placeholder="{% trans 'Effect Trend' %}" data-bind="select2: {value: getEditedNode('DAMAGE_TREND_TYPE.E55', 'value'), dataKey: 'DAMAGE_TREND_TYPE.E55'}"></input>
-                                <!-- From Date -->
-                                <div class="form-group datetimepicker" style="width:20%;">
-                                    <div class="input-group">
-                                        <input type="text" name="mydate" id="date-from" placeholder='{% trans "from (yyyy-mm-dd)" %}' class="form-control datepicker" data-date-format="YYYY-MM-DD" data-bind="{value: getEditedNode('DISTURBANCE_DATE_FROM.E61', 'value')} ">
-                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                    </div>
-                                </div>&nbsp;
-                                <!-- To date -->
-                                <div class="form-group datetimepicker" style="width:20%;">
-                                    <div class="input-group">
-                                        <input type="text" name="mydate" id="date-to" placeholder='{% trans "to (yyyy-mm-dd)" %}' class="form-control datepicker" data-date-format="YYYY-MM-DD"collapse-resource-description data-bind="{value: getEditedNode('DISTURBANCE_DATE_TO.E61', 'value')} ">
-                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                <br>
+                                <span class="dropdown pull-left disturbance-date">
+                                    <button class="btn btn-default dropdown-toggle select-disturbance-date" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        <span class="disturbance-date-value">From-To</span><i class="fa fa-chevron-down"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-disturbance-date" aria-labelledby="dropdown-grouped">
+                                        <li><a href="#" class="disturbance-date-item disturbance-date-from-to" data-value='From-To'>From-To</a></li>
+                                        <li><a href="#" class="disturbance-date-item disturbance-date-on" data-value='or'>On</a></li>
+                                        <li><a href="#" class="disturbance-date-item disturbance-date-before" data-value='or'>Before</a></li>
+                                    </ul>
+                                </span>
+                                <div class="div-date div-date-from-to">
+                                    <!-- From Date -->
+                                    <div class="form-group datetimepicker" style="width:20%;">
+                                        <div class="input-group">
+                                            <input type="text" name="mydate" id="date-from" placeholder='{% trans "from (yyyy-mm-dd)" %}' class="form-control datepicker" data-date-format="YYYY-MM-DD" data-bind="{value: getEditedNode('DISTURBANCE_DATE_FROM.E61', 'value')} ">
+                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        </div>
+                                    </div>&nbsp;
+                                    <!-- To date -->
+                                    <div class="form-group datetimepicker" style="width:20%;">
+                                        <div class="input-group">
+                                            <input type="text" name="mydate" id="date-to" placeholder='{% trans "to (yyyy-mm-dd)" %}' class="form-control datepicker" data-date-format="YYYY-MM-DD"collapse-resource-description data-bind="{value: getEditedNode('DISTURBANCE_DATE_TO.E61', 'value')} ">
+                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        </div>
                                     </div>
                                 </div>
-                                <!-- Before date -->
-                                <div class="form-group datetimepicker" style="width:20%;">
-                                    <div class="input-group">
-                                        <input type="text" name="mydate" id="date-to" placeholder='{% trans "before (yyyy-mm-dd)" %}' class="form-control datepicker" data-date-format="YYYY-MM-DD"collapse-resource-description data-bind="{value: getEditedNode('DISTURBANCE_DATE_OCCURRED_BEFORE', 'value')} ">
-                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                <div class="div-date div-date-before hidden">
+                                    <!-- Before date -->
+                                    <div class="form-group datetimepicker" style="width:20%;">
+                                        <div class="input-group">
+                                            <input type="text" name="mydate" id="date-before" placeholder='{% trans "before (yyyy-mm-dd)" %}' class="form-control datepicker" data-date-format="YYYY-MM-DD"collapse-resource-description data-bind="{value: getEditedNode('DISTURBANCE_DATE_OCCURRED_BEFORE', 'value')} ">
+                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        </div>
                                     </div>
                                 </div>
-                                <!-- On date -->
-                                <div class="form-group datetimepicker" style="width:20%;">
-                                    <div class="input-group">
-                                        <input type="text" name="mydate" id="date-to" placeholder='{% trans "on (yyyy-mm-dd)" %}' class="form-control datepicker" data-date-format="YYYY-MM-DD"collapse-resource-description data-bind="{value: getEditedNode('DISTURBANCE_DATE_OCCURRED_ON.E61', 'value')} ">
-                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                <div class="div-date div-date-on hidden">
+                                    <!-- On date -->
+                                    <div class="form-group datetimepicker" style="width:20%;">
+                                        <div class="input-group">
+                                            <input type="text" name="mydate" id="date-on" placeholder='{% trans "on (yyyy-mm-dd)" %}' class="form-control datepicker" data-date-format="YYYY-MM-DD"collapse-resource-description data-bind="{value: getEditedNode('DISTURBANCE_DATE_OCCURRED_ON.E61', 'value')} ">
+                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        </div>
                                     </div>
                                 </div>
                                 <div id="arches-names-form" class="section-headline">
@@ -177,22 +196,22 @@
                         <div data-bind='foreach: getBranchLists()'>
                             <div class="arches-crud-record">
                                 <a href="javascript:void(0)" class="arches-CRUD-child" title="{% trans "Delete this Disturbance" %}"><i data-bind="click: $parent.deleteItem.bind($parent)" class="arches-CRUD-delete fa fa-times-circle"></i></a>
-                                <a href="javascript:void(0)" class="arches-CRUD-child arches-CRUD-edit" data-bind="click: $parent.editItem.bind($parent)" title="{% trans "Edit this Disturbance" %}">
+                                <a href="javascript:void(0)" class="arches-CRUD-child arches-CRUD-edit disturbance-date-edit" data-bind="click: $parent.editItem.bind($parent)" title="{% trans "Edit this Disturbance" %}">
                                     <span data-bind='{text: nodes.get("DISTURBANCE_CAUSE_CATEGORY_TYPE.E55", "label")}' style="padding-right:2px;"></span>
                                     <span data-bind='{text: nodes.get("DISTURBANCE_CAUSE_TYPE.I4", "label")}' style="padding-right:2px;"></span>
                                     <span data-bind='{text: nodes.get("DISTURBANCE_CAUSE_CERTAINTY.I6", "label")}' style="padding-right:2px;"></span>
                                     <span data-bind='{text: nodes.get("EFFECT_TYPE.I4", "label")}' style="padding-right:2px;"></span>
                                     <span data-bind='{text: nodes.get("EFFECT_CERTAINTY.I6", "label")}' style="padding-right:2px;"></span>
                                     <span data-bind='{text: nodes.get("DAMAGE_TREND_TYPE.E55", "label")}' style="padding-right:2px;"></span>
-                                    <span class="text-muted"> from </span>
+                                    <span class="text-muted" data-bind="visible: nodes.get('DISTURBANCE_DATE_FROM.E61', 'value').length > 0"> from </span>
                                     <span data-bind="{text: nodes.get('DISTURBANCE_DATE_FROM.E61', 'value')}" style="padding-right:2px"></span>
-                                    <span class="text-muted"> to </span>
+                                    <span class="text-muted" data-bind="visible: nodes.get('DISTURBANCE_DATE_TO.E61', 'value').length > 0"> to </span>
                                     <span data-bind="{text: nodes.get('DISTURBANCE_DATE_TO.E61', 'value')}"></span>
-                                    <span class="text-muted"> before </span>
+                                    <span class="text-muted" data-bind="visible: nodes.get('DISTURBANCE_DATE_OCCURRED_BEFORE.E61', 'value').length > 0"> before </span>
                                     <span data-bind="{text: nodes.get('DISTURBANCE_DATE_OCCURRED_BEFORE', 'value')}"></span>
-                                    <span class="text-muted"> on </span>
+                                    <span class="text-muted" data-bind="{visible: nodes.get('DISTURBANCE_DATE_OCCURRED_ON.E61', 'value').length > 0}"> on </span>
                                     <span data-bind="{text: nodes.get('DISTURBANCE_DATE_OCCURRED_ON.E61', 'value')}"></span>
-                                    <span class="text-muted"> by: </span>
+                                    <span class="text-muted" data-bind="{visible: nodes.get('DISTURBANCE_CAUSE_ASSIGNMENT_ASSESSOR_NAME.E41', 'value').length > 0}"> by: </span>
                                     <span data-bind='text: nodes.get("DISTURBANCE_CAUSE_ASSIGNMENT_ASSESSOR_NAME.E41", "value")' style="padding-right:2px;"></span><span class="text-muted arches-crud-type-identifier"></span>
                                 </a>
                             </div>

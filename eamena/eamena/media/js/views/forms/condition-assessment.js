@@ -55,6 +55,7 @@ define(['jquery',
                         return this.validateHasValues(nodes);
                     }
                 }));
+                this.listenTo(this,'change', this.dateEdit)
             },
             
             toggleEditActor: function (e) {
@@ -68,9 +69,43 @@ define(['jquery',
                     $(".edit-actors-row").addClass('hidden');
                 }
             },
+            
+            dateEdit: function (e, b) {
+                _.each(b.nodes(), function (node) {
+                    console.log("a", node.entitytypeid(), node.value());
+                    if (node.entitytypeid() == 'DISTURBANCE_DATE_FROM.E61' && node.value() && node.value() != '') {
+                        $('.div-date').addClass('hidden')
+                        $('.div-date-from-to').removeClass('hidden')
+                        $('.disturbance-date-value').html('From-To')
+                    } else if (node.entitytypeid() == 'DISTURBANCE_DATE_OCCURRED_ON.E61' && node.value() && node.value() != '') {
+                        $('.div-date').addClass('hidden')
+                        $('.div-date-on').removeClass('hidden')
+                        $('.disturbance-date-value').html('On')
+                    } else if (node.entitytypeid() == 'DISTURBANCE_DATE_OCCURRED_BEFORE.E61' && node.value() && node.value() != '') {
+                        $('.div-date').addClass('hidden')
+                        $('.div-date-before').removeClass('hidden')
+                        $('.disturbance-date-value').html('Before')
+                    }
+                })
+            },
+            
+            showDate: function (e) {
+                $('.div-date').addClass('hidden')
+                $('.disturbance-date-value').html($(e.target).html())
+                if ($(e.target).hasClass("disturbance-date-from-to")) {
+                    $('.div-date-from-to').removeClass('hidden')
+                } else if ($(e.target).hasClass("disturbance-date-on")) {
+                    $('.div-date-on').removeClass('hidden')
+                } else if ($(e.target).hasClass("disturbance-date-before")) {
+                    $('.div-date-before').removeClass('hidden')
+                }
+            },
+            
             events: function(){
                 var events = BaseForm.prototype.events.apply(this);
                 events['click .edit-actor'] = 'toggleEditActor';
+                events['click .disturbance-date-item'] = 'showDate';
+                events['click .disturbance-date-edit'] = 'dateEdit';
                 return events;
             },
 
