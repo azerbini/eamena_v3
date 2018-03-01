@@ -148,6 +148,14 @@
                                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                     </div>
                                 </div>
+                                <div id="arches-names-form" class="section-headline">
+                                    {% trans "On behalf of" %}
+                                    <i class="fa fa-pencil edit-actor show-box" aria-hidden="true"></i>
+                                    <i class="fa fa-pencil-square edit-actor hide-box hidden" aria-hidden="true"></i>
+                                </div>
+                                <div class="row edit-actors-row hidden">
+                                    <input class="form-control arches-form-input" id="actor-name" style="width: 18%;" placeholder='{% trans "Name" %}' data-bind='value: getEditedNode("DISTURBANCE_CAUSE_ASSIGNMENT_ASSESSOR_NAME.E41", "value")'>
+                                </div>
                                 {% include 'views/components/add-item-button.htm' %}
                             </div>
                         </div>
@@ -184,6 +192,8 @@
                                     <span data-bind="{text: nodes.get('DISTURBANCE_DATE_OCCURRED_BEFORE', 'value')}"></span>
                                     <span class="text-muted"> on </span>
                                     <span data-bind="{text: nodes.get('DISTURBANCE_DATE_OCCURRED_ON.E61', 'value')}"></span>
+                                    <span class="text-muted"> by: </span>
+                                    <span data-bind='text: nodes.get("DISTURBANCE_CAUSE_ASSIGNMENT_ASSESSOR_NAME.E41", "value")' style="padding-right:2px;"></span><span class="text-muted arches-crud-type-identifier"></span>
                                 </a>
                             </div>
                         </div>

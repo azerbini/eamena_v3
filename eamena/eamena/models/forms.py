@@ -37,16 +37,21 @@ import logging
 from arches.app.utils.JSONResponse import JSONResponse
 
 
-def add_actor(observed_field, data, user):
-    observed_row = settings.ADD_ACTOR_TO[observed_field]
-    if not observed_row in data or len(data[observed_row]) == 0:
-        data[observed_row] = [{
-            "nodes": [{
+def add_actor(observed_field, actor_field, data, user):
+    observed = data[observed_field]
+    for nodes_obj in observed:
+        actor_found = False
+        nodes = nodes_obj['nodes']
+        for node in nodes:
+            if node['entitytypeid'] == actor_field and not node['value'].strip() == '':
+                actor_found = True
+                
+        if not actor_found :
+            nodes.append({
                 "entityid": "",
-                "entitytypeid": observed_row,
+                "entitytypeid": actor_field,
                 "value": user.first_name + ' ' + user.last_name,
-            }]
-        }]
+            })
         
     return data
 
@@ -237,6 +242,7 @@ class ConditionAssessmentForm(ResourceForm):
         }
 
     def update(self, data, files):
+        data = add_actor('DAMAGE_STATE.E3', 'DISTURBANCE_CAUSE_ASSIGNMENT_ASSESSOR_NAME.E41', data, self.user)
         self.update_nodes('OVERALL_CONDITION_STATE_TYPE.E55', data)
         self.update_nodes('DAMAGE_EXTENT_TYPE.E55', data)
         self.update_nodes('THREAT_INFERENCE_MAKING.I5', data)
@@ -260,7 +266,6 @@ class ConditionAssessmentForm(ResourceForm):
             }
 
             self.data['THREAT_INFERENCE_MAKING.I5'] = {
-                # 'branch_lists': datetime_nodes_to_dates(self.get_nodes_hierarchical('DISTURBANCE_STATE.E3', 'DISTURBANCE_EFFECT_STATE.E3')),
                 'branch_lists': self.get_nodes('THREAT_INFERENCE_MAKING.I5'),
                 'domains': {
                     'THREAT_CATEGORY.I4' : Concept().get_e55_domain('THREAT_CATEGORY.I4'),
@@ -270,7 +275,6 @@ class ConditionAssessmentForm(ResourceForm):
             }
 
             self.data['DAMAGE_STATE.E3'] = {
-                # 'branch_lists': datetime_nodes_to_dates(self.get_nodes_hierarchical('DISTURBANCE_STATE.E3', 'DISTURBANCE_EFFECT_STATE.E3')),
                 'branch_lists': self.get_nodes('DAMAGE_STATE.E3'),
                 'domains': {
                     'DISTURBANCE_CAUSE_CATEGORY_TYPE.E55' : Concept().get_e55_domain('DISTURBANCE_CAUSE_CATEGORY_TYPE.E55'),
@@ -278,10 +282,9 @@ class ConditionAssessmentForm(ResourceForm):
                     'DISTURBANCE_CAUSE_CERTAINTY.I6' : Concept().get_e55_domain('DISTURBANCE_CAUSE_CERTAINTY.I6'),
                     'EFFECT_TYPE.I4' : Concept().get_e55_domain('EFFECT_TYPE.I4'),
                     'EFFECT_CERTAINTY.I6' : Concept().get_e55_domain('EFFECT_CERTAINTY.I6'),
-                    'DAMAGE_TREND_TYPE.E55' : Concept().get_e55_domain('DAMAGE_TREND_TYPE.E55')
+                    'DAMAGE_TREND_TYPE.E55' : Concept().get_e55_domain('DAMAGE_TREND_TYPE.E55'),
                 }
             }
-
 
 
 class ManMadeForm(ResourceForm):
