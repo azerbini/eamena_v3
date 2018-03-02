@@ -773,8 +773,8 @@ class LocationForm(ResourceForm):
     def update(self, data, files):
 
         #if self.resource.entitytypeid not in ['ACTOR.E39']:
-        self.update_nodes('SPATIAL_COORDINATES_GEOMETRY.E47', data)
-        self.update_nodes('DECLARATIVE_PLACE.SP6', data)
+        # self.update_nodes('SPATIAL_COORDINATES_GEOMETRY.E47', data)
+        self.update_nodes('GEOMETRIC_PLACE_EXPRESSION.SP5', data)
         self.update_nodes('ADMINISTRATIVE_SUBDIVISION.E48', data)
         self.update_nodes('SITE_LOCATION_CERTAINTY_TYPE.E55', data)
         self.update_nodes('SITE_SIZE_CERTAINTY_TYPE.E55', data)
@@ -790,26 +790,12 @@ class LocationForm(ResourceForm):
         return
 
     def load(self, lang):
-        geom = self.get_nodes('SPATIAL_COORDINATES_GEOMETRY.E47')[0]['nodes'][0] if self.get_nodes('SPATIAL_COORDINATES_GEOMETRY.E47') else ''
-        self.data['SPATIAL_COORDINATES_GEOMETRY.E47'] = {
-            'branch_lists': self.get_nodes('SPATIAL_COORDINATES_GEOMETRY.E47'),
-            'domains': {
-                'GEOMETRY_QUALIFIER.E55': Concept().get_e55_domain('GEOMETRY_QUALIFIER.E55')
-            },
+        geom = self.get_nodes('GEOMETRIC_PLACE_EXPRESSION.SP5')[0]['nodes'][0] if self.get_nodes('GEOMETRIC_PLACE_EXPRESSION.SP5') else ''
+        self.data['GEOMETRIC_PLACE_EXPRESSION.SP5'] = {
+            'branch_lists': self.get_nodes('GEOMETRIC_PLACE_EXPRESSION.SP5'),
+            'domains': {},
             'BingDates': getdates(geom.value) if geom else ''
         }
-        
-        # DECLARATIVE_PLACE.SP6
-        # GEOMETRIC_PLACE_EXPRESSION.SP5
-        geom2 = self.get_nodes('DECLARATIVE_PLACE.SP6')[0]['nodes'][0] if self.get_nodes('DECLARATIVE_PLACE.SP6') else ''
-        self.data['DECLARATIVE_PLACE.SP6'] = {
-            'branch_lists': self.get_nodes('DECLARATIVE_PLACE.SP6'),
-            'domains': {
-                'GEOMETRIC_PLACE_EXPRESSION.SP5': Concept().get_e55_domain('GEOMETRIC_PLACE_EXPRESSION.SP5')
-            },
-            'BingDates': getdates(geom2.value) if geom2 else ''
-        }
-
         
         self.data['PLACE_ADDRESS.E45'] = {
             'branch_lists': self.get_nodes('PLACE_ADDRESS.E45'),

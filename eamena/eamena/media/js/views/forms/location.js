@@ -38,69 +38,7 @@ define([
                 var locationBranchList = new LocationBranchList({
                     el: this.$el.find('#geom-list-section')[0],
                     data: this.data,
-                    dataKey: 'SPATIAL_COORDINATES_GEOMETRY.E47'
-                });
-                locationBranchList.on('geometrychange', function(feature, wkt) {
-                    $.ajax({
-                        url: arches.urls.get_admin_areas + '?geom=' + wkt,
-                        success: function (response) {
-                            _.each(response.results, function(item) {
-                                var duplicate = false;
-                                _.each(adminAreaBranchList.viewModel.branch_lists(), function(branch) {
-                                    var sameName = false;
-                                    var sameType = false;
-                                    _.each(branch.nodes(), function (node) {
-                                        if (node.entitytypeid() === "ADMINISTRATIVE_SUBDIVISION_TYPE.E55" &&
-                                            node.label() === item.overlayty) {
-                                            sameType = true;
-                                        }
-                                        if (node.entitytypeid() === "ADMINISTRATIVE_SUBDIVISION.E48" &&
-                                            node.value() === item.overlayval) {
-                                            sameName = true;
-                                        }
-                                    });
-                                    if (sameName && sameType) {
-                                        duplicate = true;
-                                    }
-                                });
-                                // adminAreaBranchList.viewModel.branch_lists
-                                if (adminAreaTypeLookup[item.overlayty] && !duplicate) {
-                                    adminAreaBranchList.viewModel.branch_lists.push(koMapping.fromJS({
-                                        'editing':ko.observable(false),
-                                        'nodes': ko.observableArray([
-                                            koMapping.fromJS({
-                                              "property": "",
-                                              "entitytypeid": "ADMINISTRATIVE_SUBDIVISION_TYPE.E55",
-                                              "entityid": "",
-                                              "value": adminAreaTypeLookup[item.overlayty],
-                                              "label": item.overlayty,
-                                              "businesstablename": "",
-                                              "child_entities": []
-                                            }),
-                                            koMapping.fromJS({
-                                              "property": "",
-                                              "entitytypeid": "ADMINISTRATIVE_SUBDIVISION.E48",
-                                              "entityid": "",
-                                              "value": item.overlayval,
-                                              "label": "",
-                                              "businesstablename": "",
-                                              "child_entities": []
-                                            })
-                                        ])
-                                    }));
-                                }
-                            });
-                        }
-                    })
-                });
-                this.addBranchList(locationBranchList);
-            }
-
-            if (includeMap) {
-                var locationBranchList = new LocationBranchList({
-                    el: this.$el.find('#geom-list-section2')[0],
-                    data: this.data,
-                    dataKey: 'DECLARATIVE_PLACE.SP6'
+                    dataKey: 'GEOMETRIC_PLACE_EXPRESSION.SP5'
                 });
                 locationBranchList.on('geometrychange', function(feature, wkt) {
                     $.ajax({
