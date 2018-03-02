@@ -903,6 +903,106 @@ class LocationResForm(ResourceForm):
         return
 
 
+class LocationForm(ResourceForm):
+    @staticmethod
+    def get_info():
+        return {
+            'id': 'location',
+            'icon': 'fa-map-marker',
+            'name': _('Location'),
+            'class': LocationForm
+        }
+
+    def update(self, data, files):
+
+        #if self.resource.entitytypeid not in ['ACTOR.E39']:
+        self.update_nodes('SPATIAL_COORDINATES_GEOMETRY.E47', data)
+        self.update_nodes('ADMINISTRATIVE_SUBDIVISION.E48', data)
+        self.update_nodes('SITE_LOCATION_CERTAINTY_TYPE.E55', data)
+        self.update_nodes('SITE_SIZE_CERTAINTY_TYPE.E55', data)
+        self.update_nodes('MODERN_COUNTRY_TERRITORY.E55', data)
+        self.update_nodes('PLACE_TOPOGRAPHY_TYPE.E55', data)
+        self.update_nodes('GRID_ID.E42', data)
+        
+        if self.resource.entitytypeid not in ['ACTOR.E39', 'ACTIVITY.E7', 'HISTORICAL_EVENT.E5']:
+            self.update_nodes('PLACE_APPELLATION_CADASTRAL_REFERENCE.E44', data)
+
+        self.update_nodes('PLACE_ADDRESS.E45', data)
+        self.update_nodes('DESCRIPTION_OF_LOCATION.E62', data)
+        return
+
+    def load(self, lang):
+        geom = self.get_nodes('SPATIAL_COORDINATES_GEOMETRY.E47')[0]['nodes'][0] if self.get_nodes('SPATIAL_COORDINATES_GEOMETRY.E47') else ''
+        self.data['SPATIAL_COORDINATES_GEOMETRY.E47'] = {
+            'branch_lists': self.get_nodes('SPATIAL_COORDINATES_GEOMETRY.E47'),
+            'domains': {
+                'GEOMETRY_QUALIFIER.E55': Concept().get_e55_domain('GEOMETRY_QUALIFIER.E55')
+            },
+            'BingDates': getdates(geom.value) if geom else ''
+        }
+        
+        
+        
+        self.data['PLACE_ADDRESS.E45'] = {
+            'branch_lists': self.get_nodes('PLACE_ADDRESS.E45'),
+            'domains': {
+                'ADDRESS_TYPE.E55': Concept().get_e55_domain('ADDRESS_TYPE.E55')
+            }
+        }
+        
+        self.data['DESCRIPTION_OF_LOCATION.E62'] = {
+            'branch_lists': self.get_nodes('DESCRIPTION_OF_LOCATION.E62'),
+            'domains': {}
+        }
+
+        
+        self.data['PLACE_TOPOGRAPHY_TYPE.E55'] = {
+            'branch_lists': self.get_nodes('PLACE_TOPOGRAPHY_TYPE.E55'),
+            'domains': {
+                'PLACE_TOPOGRAPHY_TYPE.E55': Concept().get_e55_domain('PLACE_TOPOGRAPHY_TYPE.E55')
+            }
+        }
+        self.data['SITE_LOCATION_CERTAINTY_TYPE.E55'] = {
+            'branch_lists': self.get_nodes('SITE_LOCATION_CERTAINTY_TYPE.E55'),
+            'domains': {
+                'SITE_LOCATION_CERTAINTY_TYPE.E55': Concept().get_e55_domain('SITE_LOCATION_CERTAINTY_TYPE.E55')
+            }
+        }
+
+        self.data['SITE_SIZE_CERTAINTY_TYPE.E55'] = {
+            'branch_lists': self.get_nodes('SITE_SIZE_CERTAINTY_TYPE.E55'),
+            'domains': {
+                'SITE_SIZE_CERTAINTY_TYPE.E55': Concept().get_e55_domain('SITE_SIZE_CERTAINTY_TYPE.E55')
+            }
+        }
+
+        self.data['MODERN_COUNTRY_TERRITORY.E55'] = {
+            'branch_lists': self.get_nodes('MODERN_COUNTRY_TERRITORY.E55'),
+            'domains': {
+                'MODERN_COUNTRY_TERRITORY.E55': Concept().get_e55_domain('MODERN_COUNTRY_TERRITORY.E55')
+            }
+        }
+
+        self.data['GRID_ID.E42'] = {
+                'branch_lists': self.get_nodes('GRID_ID.E42'),
+                'domains': {}
+            }
+
+        self.data['ADMINISTRATIVE_SUBDIVISION.E48'] = {
+            'branch_lists': self.get_nodes('ADMINISTRATIVE_SUBDIVISION.E48'),
+            'domains': {
+                'ADMINISTRATIVE_SUBDIVISION_TYPE.E55': Concept().get_e55_domain('ADMINISTRATIVE_SUBDIVISION_TYPE.E55')
+            }
+        }
+
+        self.data['PLACE_APPELLATION_CADASTRAL_REFERENCE.E44'] = {
+            'branch_lists': self.get_nodes('PLACE_APPELLATION_CADASTRAL_REFERENCE.E44'),
+            'domains': {}
+        }
+
+        return
+
+
 class CoverageForm(ResourceForm):
     @staticmethod
     def get_info():
