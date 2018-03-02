@@ -99,7 +99,10 @@ define([
             this.addBranchList(new BranchList({
                 el: this.$el.find('#spatial-coordinates-ref-system')[0],
                 data: this.data,
-                dataKey: 'SPATIAL_COORDINATES_REF_SYSTEM.SP4'
+                dataKey: 'SPATIAL_COORDINATES_REF_SYSTEM.SP4',
+                validateBranch: function (nodes) {
+                    return this.validateHasValues(nodes);
+                }
             }));
 
             // this.addBranchList(new BranchList({
@@ -111,83 +114,77 @@ define([
             this.addBranchList(new BranchList({
                 el: this.$el.find('#certainty-of-location')[0],
                 data: this.data,
-                dataKey: 'LOCATION_CERTAINTY.I6'
+                dataKey: 'LOCATION_CERTAINTY.I6',
+                rules: true,
+                validateBranch: function (nodes) {
+                    return this.validateHasValues(nodes);
+                }
             }));
 
-            // 
-            // if (includeParcels) {
-            //     this.addBranchList(new BranchList({
-            //         el: this.$el.find('#parcel-section')[0],
-            //         data: this.data,
-            //         dataKey: 'PLACE_APPELLATION_CADASTRAL_REFERENCE.E44'
-            //     }));
-            // }
-            // 
-            // this.addBranchList(new BranchList({
-            //     el: this.$el.find('#address-section')[0],
-            //     data: this.data,
-            //     dataKey: 'PLACE_ADDRESS.E45'
-            // }));
-            // 
-            // 
-            // this.addBranchList(new BranchList({
-            //     el: this.$el.find('#locationcertainty-section')[0],
-            //     data: this.data,
-            //     dataKey: 'SITE_LOCATION_CERTAINTY_TYPE.E55',
-            //     rules: true,
-            //     validateBranch: function (nodes) {
-            //         return this.validateHasValues(nodes);
-            //     }
-            // }));
-            // 
-            // this.addBranchList(new BranchList({
-            //     el: this.$el.find('#size-section')[0],
-            //     data: this.data,
-            //     dataKey: 'SITE_SIZE_CERTAINTY_TYPE.E55',
-            //     rules: true,
-            //     validateBranch: function (nodes) {
-            //         return this.validateHasValues(nodes);
-            //     }
-            // }));
-            // 
-            // this.addBranchList(new BranchList({
-            //     el: this.$el.find('#country-section')[0],
-            //     data: this.data,
-            //     dataKey: 'MODERN_COUNTRY_TERRITORY.E55',
-            //     rules: true,
-            //     validateBranch: function (nodes) {
-            //         return this.validateHasValues(nodes);
-            //     }
-            // }));
-            // 
-            // this.addBranchList(new BranchList({
-            //     el: this.$el.find('#toposetting-section')[0],
-            //     data: this.data,
-            //     dataKey: 'PLACE_TOPOGRAPHY_TYPE.E55',
-            //     rules: true,
-            //     validateBranch: function (nodes) {
-            //         return this.validateHasValues(nodes);
-            //     }                
-            // 
-            // }));
-            // 
-            // this.addBranchList(new BranchList({
-            //     el: this.$el.find('#grid_ID-section')[0],
-            //     data: this.data,
-            //     dataKey: 'GRID_ID.E42',
-            //     rules: true,
-            //     validateBranch: function (nodes) {
-            //         return this.validateHasValues(nodes);
-            //     }
-            // }));
-            // 
-            // this.addBranchList(new BranchList({
-            //     el: this.$el.find('#description-section')[0],
-            //     data: this.data,
-            //     dataKey: 'DESCRIPTION_OF_LOCATION.E62',
-            //     singleEdit: true
-            // }));
-            // console.log("this.data", this.data);
+            this.addBranchList(new BranchList({
+                el: this.$el.find('#certainty-of-geometry')[0],
+                data: this.data,
+                dataKey: 'GEOMETRY_EXTENT_CERTAINTY.I6',
+                rules: true,
+                validateBranch: function (nodes) {
+                    return this.validateHasValues(nodes);
+                }
+            }));
+
+            this.addBranchList(new BranchList({
+                el: this.$el.find('#grid_ID-section')[0],
+                data: this.data,
+                dataKey: 'GRID_ID.E42',
+                rules: true,
+                validateBranch: function (nodes) {
+                    return this.validateHasValues(nodes);
+                }
+            }));
+
+            this.addBranchList(new BranchList({
+                el: this.$el.find('#topography')[0],
+                data: this.data,
+                dataKey: 'TOPOGRAPHY_TYPE.E55',
+                rules: true,
+                validateBranch: function (nodes) {
+                    return this.validateHasValues(nodes);
+                }
+            }));
+
+            this.addBranchList(new BranchList({
+                el: this.$el.find('#country')[0],
+                data: this.data,
+                dataKey: 'COUNTRY_TYPE.E55',
+                rules: true,
+                validateBranch: function (nodes) {
+                    return this.validateHasValues(nodes);
+                }
+            }));
+
+            this.addBranchList(new BranchList({
+                el: this.$el.find('#administrative-area')[0],
+                data: this.data,
+                dataKey: 'ADMINISTRATIVE_DIVISION.E53',
+                rules: true,
+                validateBranch: function (nodes) {
+                    return this.validateHasValues(nodes);
+                }
+            }));
+            
+            this.addBranchList(new BranchList({
+                el: this.$el.find('#address')[0],
+                data: this.data,
+                dataKey: 'ADDRESS.E45',
+            }));
+            
+            this.addBranchList(new BranchList({
+                el: this.$el.find('#cadastral-reference')[0],
+                data: this.data,
+                dataKey: 'CADASTRAL_REFERENCE.E44',
+                validateBranch: function (nodes) {
+                    return this.validateHasValues(nodes);
+                }
+            }));
         }
     });
 });
