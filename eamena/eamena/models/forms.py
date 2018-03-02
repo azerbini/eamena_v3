@@ -775,18 +775,21 @@ class LocationResForm(ResourceForm):
         #if self.resource.entitytypeid not in ['ACTOR.E39']:
         # self.update_nodes('SPATIAL_COORDINATES_GEOMETRY.E47', data)
         self.update_nodes('GEOMETRIC_PLACE_EXPRESSION.SP5', data)
-        self.update_nodes('ADMINISTRATIVE_SUBDIVISION.E48', data)
-        self.update_nodes('SITE_LOCATION_CERTAINTY_TYPE.E55', data)
-        self.update_nodes('SITE_SIZE_CERTAINTY_TYPE.E55', data)
-        self.update_nodes('MODERN_COUNTRY_TERRITORY.E55', data)
-        self.update_nodes('PLACE_TOPOGRAPHY_TYPE.E55', data)
-        self.update_nodes('GRID_ID.E42', data)
+        self.update_nodes('SPATIAL_COORDINATES_REF_SYSTEM.SP4', data)
+        # self.update_nodes('SITE_OVERALL_SHAPE_TYPE.E55', data)
+        self.update_nodes('LOCATION_CERTAINTY.I6', data)
+        # self.update_nodes('ADMINISTRATIVE_SUBDIVISION.E48', data)
+        # self.update_nodes('SITE_LOCATION_CERTAINTY_TYPE.E55', data)
+        # self.update_nodes('SITE_SIZE_CERTAINTY_TYPE.E55', data)
+        # self.update_nodes('MODERN_COUNTRY_TERRITORY.E55', data)
+        # self.update_nodes('PLACE_TOPOGRAPHY_TYPE.E55', data)
+        # self.update_nodes('GRID_ID.E42', data)
         
-        if self.resource.entitytypeid not in ['ACTOR.E39', 'ACTIVITY.E7', 'HISTORICAL_EVENT.E5']:
-            self.update_nodes('PLACE_APPELLATION_CADASTRAL_REFERENCE.E44', data)
-
-        self.update_nodes('PLACE_ADDRESS.E45', data)
-        self.update_nodes('DESCRIPTION_OF_LOCATION.E62', data)
+        # if self.resource.entitytypeid not in ['ACTOR.E39', 'ACTIVITY.E7', 'HISTORICAL_EVENT.E5']:
+        #     self.update_nodes('PLACE_APPELLATION_CADASTRAL_REFERENCE.E44', data)
+        # 
+        # self.update_nodes('PLACE_ADDRESS.E45', data)
+        # self.update_nodes('DESCRIPTION_OF_LOCATION.E62', data)
         return
 
     def load(self, lang):
@@ -806,12 +809,25 @@ class LocationResForm(ResourceForm):
             }
         }
 
-        # Site Overall Shape
-        # SITE_OVERALL_SHAPE_TYPE.E55
-        # 
+        # # Site Overall Shape
+        # # SITE_OVERALL_SHAPE_TYPE.E55
+        # self.data['SITE_OVERALL_SHAPE_TYPE.E55'] = {
+        #     'branch_lists': self.get_nodes('SITE_OVERALL_SHAPE_TYPE.E55'),
+        #     'domains': {
+        #         'SITE_OVERALL_SHAPE_TYPE.E55': Concept().get_e55_domain('SITE_OVERALL_SHAPE_TYPE.E55')
+        #     }
+        # }
+        
         # Certainty of Location
         # LOCATION_CERTAINTY.I6
-        # 
+        self.data['LOCATION_CERTAINTY.I6'] = {
+            'branch_lists': self.get_nodes('LOCATION_CERTAINTY.I6'),
+            'domains': {
+                'LOCATION_CERTAINTY.I6': Concept().get_e55_domain('LOCATION_CERTAINTY.I6')
+            }
+        }
+
+        
         # Certainty of Geometric Extent
         # GEOMETRY_EXTENT_CERTAINTY.I6
         # 

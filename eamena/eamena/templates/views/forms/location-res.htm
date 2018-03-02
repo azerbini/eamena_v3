@@ -250,7 +250,7 @@
                     <dd>
                         <div class="row">
                             <div class="col-xs-12">
-                                <input style="width:33%; height: 36px; padding-top: 2px;" class="select2 arches-select2-crud-form resource-type" id="overall-archaeological-certainty-value" placeholder="{% trans 'System' %}" data-bind="select2: {value: getEditedNode('SPATIAL_COORDINATES_REF_SYSTEM.SP4', 'value'), dataKey: 'SPATIAL_COORDINATES_REF_SYSTEM.SP4'}"></input>
+                                <input style="width:33%; height: 36px; padding-top: 2px;" class="select2 arches-select2-crud-form resource-type" placeholder="{% trans 'System' %}" data-bind="select2: {value: getEditedNode('SPATIAL_COORDINATES_REF_SYSTEM.SP4', 'value'), dataKey: 'SPATIAL_COORDINATES_REF_SYSTEM.SP4'}"></input>
                                 {% include 'views/components/add-item-button.htm' %}
                             </div>
                         </div>
@@ -285,6 +285,51 @@
 </div>
 
 
+
+<div id="certainty-of-location">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="padding-left-10">
+                <dl>
+                    <dt>
+                        <h5 id="arches-subjects-form" class="section-headline">{% trans "Certainty of Location" %}</h5>
+                    </dt>
+                    <dd>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <input style="width:33%; height: 36px; padding-top: 2px;" class="select2 arches-select2-crud-form resource-type" placeholder="{% trans 'Certainty' %}" data-bind="select2: {value: getEditedNode('LOCATION_CERTAINTY.I6', 'value'), dataKey: 'LOCATION_CERTAINTY.I6'}"></input>
+                                {% include 'views/components/add-item-button.htm' %}
+                            </div>
+                        </div>
+                    </dd>
+                    <div class="alert alert-danger branch-invalid-alert" role="alert" style="display:none;">{% trans "Certainty required." %}</div>
+                </dl>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="arches-crud-child-section">
+                <dl>
+                    <dd class="arches-CRUD-child-title">
+                        {% trans "Certainty of Location of this heritage resource:" %}
+                    </dd>
+                    <dd class="margin-left-5" style="display: none;" data-bind="visible: true">
+                        <div data-bind="visible: getBranchLists().length == 0" class="txt-color-blue">{% trans "No Certainty Defined" %}</div>
+                        <div data-bind='foreach: getBranchLists()'>
+                            <div class="arches-crud-record">
+                                <a href="javascript:void(0)" class="arches-CRUD-child" title="{% trans "Delete this Certainty" %}"><i data-bind="click: $parent.deleteItem.bind($parent)" class="arches-CRUD-delete fa fa-times-circle"></i></a>
+                                <a href="javascript:void(0)" class="arches-CRUD-child arches-CRUD-edit" data-bind="click: $parent.editItem.bind($parent)" title="{% trans "Edit this Certainty" %}">
+                                    <span data-bind='{text: nodes.get("LOCATION_CERTAINTY.I6", "label")}' style="padding-right:2px;"></span>
+                                </a>
+                            </div>
+                        </div>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% include 'views/forms/sections/SaveEditsFooter.htm' %}
 {% endblock form_content %}

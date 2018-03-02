@@ -102,6 +102,17 @@ define([
                 dataKey: 'SPATIAL_COORDINATES_REF_SYSTEM.SP4'
             }));
 
+            // this.addBranchList(new BranchList({
+            //     el: this.$el.find('#site-overall-shape')[0],
+            //     data: this.data,
+            //     dataKey: 'SITE_OVERALL_SHAPE_TYPE.E55'
+            // }));
+
+            this.addBranchList(new BranchList({
+                el: this.$el.find('#certainty-of-location')[0],
+                data: this.data,
+                dataKey: 'LOCATION_CERTAINTY.I6'
+            }));
 
             // 
             // if (includeParcels) {
