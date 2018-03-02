@@ -167,12 +167,12 @@ class ArchaeologicalAssessmentForm(ResourceForm):
         }
 
     def update(self, data, files):
-        # data = add_observed_values('ARCHAEOLOGY_CERTAINTY_OBSERVATION.S4', data)
-        # data = add_actor('FUNCTION_AND_INTERPRETATION.I5', data, self.user)
-        # self.update_nodes('FUNCTION_AND_INTERPRETATION_ACTOR.E39', data)
-        logging.warning('------> ArchaeologicalAssessmentForm update0: %s', JSONResponse(data, indent=4))
+        data = add_actor('DATE_INFERENCE_MAKING.I5', 'DATE_INFERENCE_MAKING_ACTOR_NAME.E41', data, self.user)
+        data = add_actor('FEATURE_ASSIGNMENT.E13', 'FEATURE_ASSIGNMENT_INVESTIGATOR_NAME.E41', data, self.user)
+        data = add_actor('FUNCTION_INTERPRETATION_INFERENCE_MAKING.I5', 'FUNCTION_INTERPRETATION_INFERENCE_MAKING_ACTOR_NAME.E41', data, self.user)
+        
         self.update_nodes('ARCHAEOLOGICAL_CERTAINTY_OBSERVATION.S4', data)
-        self.update_nodes('CULTURAL_PERIOD_BELIEF.I2', data)
+        self.update_nodes('DATE_INFERENCE_MAKING.I5', data)
         self.update_nodes('ARCHAEOLOGICAL_TIMESPAN.E52', data)
         self.update_nodes('FEATURE_MORPHOLOGY_TYPE.E55', data)
         self.update_nodes('FEATURE_ASSIGNMENT.E13', data)
@@ -188,8 +188,8 @@ class ArchaeologicalAssessmentForm(ResourceForm):
                     'OVERALL_ARCHAEOLOGICAL_CERTAINTY_VALUE.I6' : Concept().get_e55_domain('OVERALL_ARCHAEOLOGICAL_CERTAINTY_VALUE.I6')
                 }
             }
-            self.data['CULTURAL_PERIOD_BELIEF.I2'] = {
-                'branch_lists': self.get_nodes('CULTURAL_PERIOD_BELIEF.I2'),
+            self.data['DATE_INFERENCE_MAKING.I5'] = {
+                'branch_lists': self.get_nodes('DATE_INFERENCE_MAKING.I5'),
                 'domains': {
                     'CULTURAL_PERIOD_TYPE.I4' : Concept().get_e55_domain('CULTURAL_PERIOD_TYPE.I4'),
                     'CULTURAL_PERIOD_CERTAINTY.I6' : Concept().get_e55_domain('CULTURAL_PERIOD_CERTAINTY.I6'),
@@ -226,9 +226,6 @@ class ArchaeologicalAssessmentForm(ResourceForm):
                     'FUNCTION_CERTAINTY.I6' : Concept().get_e55_domain('FUNCTION_CERTAINTY.I6')
                 }
             }
-            # self.data['FUNCTION_AND_INTERPRETATION_ACTOR.E39'] = {
-            #     'branch_lists': self.get_nodes('FUNCTION_AND_INTERPRETATION_ACTOR.E39'),
-            # }
 
 # --- Condition Assessment -> ConditionAssessmentForm ------------------------------------------
 class ConditionAssessmentForm(ResourceForm):

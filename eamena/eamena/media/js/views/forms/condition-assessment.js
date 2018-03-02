@@ -101,14 +101,15 @@ define(['jquery',
             },
             
             toggleEditActor: function (e) {
+                var actorClass = e.target.dataset.actor;
                 if ($(e.target).hasClass("show-box")) {
-                    $(".show-box").addClass('hidden');
-                    $(".hide-box").removeClass('hidden');
-                    $(".edit-actors-row").removeClass('hidden');
+                    $(".show-box." + actorClass).addClass('hidden');
+                    $(".hide-box." + actorClass).removeClass('hidden');
+                    $(".edit-actors-row." + actorClass).removeClass('hidden');
                 } else {
-                    $(".show-box").removeClass('hidden');
-                    $(".hide-box").addClass('hidden');
-                    $(".edit-actors-row").addClass('hidden');
+                    $(".show-box." + actorClass).removeClass('hidden');
+                    $(".hide-box." + actorClass).addClass('hidden');
+                    $(".edit-actors-row." + actorClass).addClass('hidden');
                 }
             },
             

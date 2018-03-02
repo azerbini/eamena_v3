@@ -25,12 +25,21 @@ define(['jquery',
                     }
                 }));
                 this.addBranchList(new BranchList({
-                    el: this.$el.find('#cultural-period')[0],
+                    el: this.$el.find('#date-inference-making')[0],
                     data: this.data,
-                    dataKey: 'CULTURAL_PERIOD_BELIEF.I2',
+                    dataKey: 'DATE_INFERENCE_MAKING.I5',
                     rules: true,
                     validateBranch: function (nodes) {
-                        return this.validateHasValues(nodes);
+                        var canBeEmpty = ['DATE_INFERENCE_MAKING_ACTOR_NAME.E41'];
+                        var valid = nodes != undefined && nodes.length > 0;
+                        _.each(nodes, function (node) {
+                            if (node.entityid === '' && node.value === '' &&
+                                canBeEmpty.indexOf(node.entitytypeid) == -1
+                            ){
+                                valid = false;
+                            }
+                        }, this);
+                        return valid;
                     }
                 }));
                 this.addBranchList(new BranchList({
@@ -57,7 +66,16 @@ define(['jquery',
                     dataKey: 'FEATURE_ASSIGNMENT.E13',
                     rules: true,
                     validateBranch: function (nodes) {
-                         return this.validateHasValues(nodes);
+                        var canBeEmpty = ['FEATURE_ASSIGNMENT_INVESTIGATOR_NAME.E41'];
+                        var valid = nodes != undefined && nodes.length > 0;
+                        _.each(nodes, function (node) {
+                            if (node.entityid === '' && node.value === '' &&
+                                canBeEmpty.indexOf(node.entitytypeid) == -1
+                            ){
+                                valid = false;
+                            }
+                        }, this);
+                        return valid;
                     }
                 }));
                 this.addBranchList(new BranchList({
@@ -66,40 +84,32 @@ define(['jquery',
                     dataKey: 'FUNCTION_INTERPRETATION_INFERENCE_MAKING.I5',
                     rules: true,
                     validateBranch: function (nodes) {
-                         return this.validateHasValues(nodes);
+                        var canBeEmpty = ['FUNCTION_INTERPRETATION_INFERENCE_MAKING_ACTOR_NAME.E41'];
+                        var valid = nodes != undefined && nodes.length > 0;
+                        _.each(nodes, function (node) {
+                            if (node.entityid === '' && node.value === '' &&
+                                canBeEmpty.indexOf(node.entitytypeid) == -1
+                            ){
+                                valid = false;
+                            }
+                        }, this);
+                        return valid;
                     }
                 }));
-                // this.addBranchList(new BranchList({
-                //     el: this.$el.find('#function-actor')[0],
-                //     data: this.data,
-                //     dataKey: 'FUNCTION_AND_INTERPRETATION_ACTOR.E39',
-                //     rules: false,
-                //     validateBranch: function (nodes) {
-                //          return this.validateHasValues(nodes);
-                //     }
-                // }));
-                // var actorList = this.data['FUNCTION_AND_INTERPRETATION_ACTOR.E39'].branch_lists;
-                // 
-                // if (actorList.length) {
-                //     $(".show-box").addClass('hidden');
-                //     $(".hide-box").addClass('hidden');
-                //     $(".edit-actors-row").removeClass('hidden');
-                // }
-                
-
             },
             
-            // toggleEditActor: function (e) {
-            //     if ($(e.target).hasClass("show-box")) {
-            //         $(".show-box").addClass('hidden');
-            //         $(".hide-box").removeClass('hidden');
-            //         $(".edit-actors-row").removeClass('hidden');
-            //     } else {
-            //         $(".show-box").removeClass('hidden');
-            //         $(".hide-box").addClass('hidden');
-            //         $(".edit-actors-row").addClass('hidden');
-            //     }
-            // },
+            toggleEditActor: function (e) {
+                var actorClass = e.target.dataset.actor;
+                if ($(e.target).hasClass("show-box")) {
+                    $(".show-box." + actorClass).addClass('hidden');
+                    $(".hide-box." + actorClass).removeClass('hidden');
+                    $(".edit-actors-row." + actorClass).removeClass('hidden');
+                } else {
+                    $(".show-box." + actorClass).removeClass('hidden');
+                    $(".hide-box." + actorClass).addClass('hidden');
+                    $(".edit-actors-row." + actorClass).addClass('hidden');
+                }
+            },
             
             events: function(){
                 var events = BaseForm.prototype.events.apply(this);
