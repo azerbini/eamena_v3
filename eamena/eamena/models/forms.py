@@ -760,14 +760,14 @@ class Classification1Form(ResourceForm):
                 }
             }
 
-class LocationForm(ResourceForm):
+class LocationResForm(ResourceForm):
     @staticmethod
     def get_info():
         return {
-            'id': 'location',
+            'id': 'location-res',
             'icon': 'fa-map-marker',
             'name': _('Location'),
-            'class': LocationForm
+            'class': LocationResForm
         }
 
     def update(self, data, files):
@@ -797,62 +797,108 @@ class LocationForm(ResourceForm):
             'BingDates': getdates(geom.value) if geom else ''
         }
         
-        self.data['PLACE_ADDRESS.E45'] = {
-            'branch_lists': self.get_nodes('PLACE_ADDRESS.E45'),
+        # Spatial coordinate reference system
+        # SPATIAL_COORDINATES_REF_SYSTEM.SP4
+        self.data['SPATIAL_COORDINATES_REF_SYSTEM.SP4'] = {
+            'branch_lists': self.get_nodes('SPATIAL_COORDINATES_REF_SYSTEM.SP4'),
             'domains': {
-                'ADDRESS_TYPE.E55': Concept().get_e55_domain('ADDRESS_TYPE.E55')
+                'SPATIAL_COORDINATES_REF_SYSTEM.SP4': Concept().get_e55_domain('SPATIAL_COORDINATES_REF_SYSTEM.SP4')
             }
         }
+
+        # Site Overall Shape
+        # SITE_OVERALL_SHAPE_TYPE.E55
+        # 
+        # Certainty of Location
+        # LOCATION_CERTAINTY.I6
+        # 
+        # Certainty of Geometric Extent
+        # GEOMETRY_EXTENT_CERTAINTY.I6
+        # 
+        # Grid ID
+        # GRID_ID.E42
+        # 
+        # Topography
+        # TOPOGRAPHY_TYPE.E55
+        # 
+        # Country
+        # COUNTRY_TYPE.E55
+        # 
+        # parent: ADMINISTRATIVE_DIVISION.E53
+        # Administrative Area
+        # ADMINISTRATIVE_DIVISION_NAME.E44
+        # Administrative Area Type
+        # ADMINISTRATIVE_DIVISION_TYPE.E55
+        # 
+        # parent: Address
+        # ADDRESS.E45
+        # Address Type
+        # ADDRESS_TYPE.E55
+        # 
+        # Cadastral Reference
+        # CADASTRAL_REFERENCE.E44
+        # 
+        # 
         
-        self.data['DESCRIPTION_OF_LOCATION.E62'] = {
-            'branch_lists': self.get_nodes('DESCRIPTION_OF_LOCATION.E62'),
-            'domains': {}
-        }
-
         
-        self.data['PLACE_TOPOGRAPHY_TYPE.E55'] = {
-            'branch_lists': self.get_nodes('PLACE_TOPOGRAPHY_TYPE.E55'),
+        
+        # 
+        # self.data['PLACE_ADDRESS.E45'] = {
+        #     'branch_lists': self.get_nodes('PLACE_ADDRESS.E45'),
+        #     'domains': {
+        #         'ADDRESS_TYPE.E55': Concept().get_e55_domain('ADDRESS_TYPE.E55')
+        #     }
+        # }
+        # 
+        # self.data['DESCRIPTION_OF_LOCATION.E62'] = {
+        #     'branch_lists': self.get_nodes('DESCRIPTION_OF_LOCATION.E62'),
+        #     'domains': {}
+        # }
+        # 
+        # 
+        # self.data['PLACE_TOPOGRAPHY_TYPE.E55'] = {
+        #     'branch_lists': self.get_nodes('PLACE_TOPOGRAPHY_TYPE.E55'),
+        #     'domains': {
+        #         'PLACE_TOPOGRAPHY_TYPE.E55': Concept().get_e55_domain('PLACE_TOPOGRAPHY_TYPE.E55')
+        #     }
+        # }
+        # self.data['SITE_LOCATION_CERTAINTY_TYPE.E55'] = {
+        #     'branch_lists': self.get_nodes('SITE_LOCATION_CERTAINTY_TYPE.E55'),
+        #     'domains': {
+        #         'SITE_LOCATION_CERTAINTY_TYPE.E55': Concept().get_e55_domain('SITE_LOCATION_CERTAINTY_TYPE.E55')
+        #     }
+        # }
+        # 
+        # self.data['SITE_SIZE_CERTAINTY_TYPE.E55'] = {
+        #     'branch_lists': self.get_nodes('SITE_SIZE_CERTAINTY_TYPE.E55'),
+        #     'domains': {
+        #         'SITE_SIZE_CERTAINTY_TYPE.E55': Concept().get_e55_domain('SITE_SIZE_CERTAINTY_TYPE.E55')
+        #     }
+        # }
+        # 
+        # self.data['MODERN_COUNTRY_TERRITORY.E55'] = {
+        #     'branch_lists': self.get_nodes('MODERN_COUNTRY_TERRITORY.E55'),
+        #     'domains': {
+        #         'MODERN_COUNTRY_TERRITORY.E55': Concept().get_e55_domain('MODERN_COUNTRY_TERRITORY.E55')
+        #     }
+        # }
+        # 
+        # self.data['GRID_ID.E42'] = {
+        #         'branch_lists': self.get_nodes('GRID_ID.E42'),
+        #         'domains': {}
+        #     }
+        # 
+        self.data['ADMINISTRATIVE_DIVISION.E53'] = {
+            'branch_lists': self.get_nodes('ADMINISTRATIVE_DIVISION.E53'),
             'domains': {
-                'PLACE_TOPOGRAPHY_TYPE.E55': Concept().get_e55_domain('PLACE_TOPOGRAPHY_TYPE.E55')
+                'ADMINISTRATIVE_DIVISION_TYPE.E55': Concept().get_e55_domain('ADMINISTRATIVE_DIVISION_TYPE.E55')
             }
         }
-        self.data['SITE_LOCATION_CERTAINTY_TYPE.E55'] = {
-            'branch_lists': self.get_nodes('SITE_LOCATION_CERTAINTY_TYPE.E55'),
-            'domains': {
-                'SITE_LOCATION_CERTAINTY_TYPE.E55': Concept().get_e55_domain('SITE_LOCATION_CERTAINTY_TYPE.E55')
-            }
-        }
-
-        self.data['SITE_SIZE_CERTAINTY_TYPE.E55'] = {
-            'branch_lists': self.get_nodes('SITE_SIZE_CERTAINTY_TYPE.E55'),
-            'domains': {
-                'SITE_SIZE_CERTAINTY_TYPE.E55': Concept().get_e55_domain('SITE_SIZE_CERTAINTY_TYPE.E55')
-            }
-        }
-
-        self.data['MODERN_COUNTRY_TERRITORY.E55'] = {
-            'branch_lists': self.get_nodes('MODERN_COUNTRY_TERRITORY.E55'),
-            'domains': {
-                'MODERN_COUNTRY_TERRITORY.E55': Concept().get_e55_domain('MODERN_COUNTRY_TERRITORY.E55')
-            }
-        }
-
-        self.data['GRID_ID.E42'] = {
-                'branch_lists': self.get_nodes('GRID_ID.E42'),
-                'domains': {}
-            }
-
-        self.data['ADMINISTRATIVE_SUBDIVISION.E48'] = {
-            'branch_lists': self.get_nodes('ADMINISTRATIVE_SUBDIVISION.E48'),
-            'domains': {
-                'ADMINISTRATIVE_SUBDIVISION_TYPE.E55': Concept().get_e55_domain('ADMINISTRATIVE_SUBDIVISION_TYPE.E55')
-            }
-        }
-
-        self.data['PLACE_APPELLATION_CADASTRAL_REFERENCE.E44'] = {
-            'branch_lists': self.get_nodes('PLACE_APPELLATION_CADASTRAL_REFERENCE.E44'),
-            'domains': {}
-        }
+        # 
+        # self.data['PLACE_APPELLATION_CADASTRAL_REFERENCE.E44'] = {
+        #     'branch_lists': self.get_nodes('PLACE_APPELLATION_CADASTRAL_REFERENCE.E44'),
+        #     'domains': {}
+        # }
 
         return
 
