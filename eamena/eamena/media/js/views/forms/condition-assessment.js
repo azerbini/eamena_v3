@@ -79,6 +79,24 @@ define(['jquery',
                         return valid;
                     }
                 }));
+                
+                this.addBranchList(new BranchList({
+                    el: this.$el.find('#type-of-recommendation')[0],
+                    data: this.data,
+                    dataKey: 'RECOMMENDATION_PLAN.E100',
+                    validateBranch: function (nodes) {
+                        return true;
+                    }
+                }));
+                this.addBranchList(new BranchList({
+                    el: this.$el.find('#priority')[0],
+                    data: this.data,
+                    dataKey: 'PRIORITY_ASSIGNMENT.E13',
+                    validateBranch: function (nodes) {
+                        return true;
+                    }
+                }));
+
                 this.listenTo(this,'change', this.dateEdit)
             },
             

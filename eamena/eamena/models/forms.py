@@ -248,6 +248,8 @@ class ConditionAssessmentForm(ResourceForm):
         self.update_nodes('DAMAGE_EXTENT_TYPE.E55', data)
         self.update_nodes('THREAT_INFERENCE_MAKING.I5', data)
         self.update_nodes('DAMAGE_STATE.E3', data)
+        self.update_nodes('RECOMMENDATION_PLAN.E100', data)
+        self.update_nodes('PRIORITY_ASSIGNMENT.E13', data)
         return
     
     def load(self, lang):
@@ -284,6 +286,21 @@ class ConditionAssessmentForm(ResourceForm):
                     'EFFECT_TYPE.I4' : Concept().get_e55_domain('EFFECT_TYPE.I4'),
                     'EFFECT_CERTAINTY.I6' : Concept().get_e55_domain('EFFECT_CERTAINTY.I6'),
                     'DAMAGE_TREND_TYPE.E55' : Concept().get_e55_domain('DAMAGE_TREND_TYPE.E55'),
+                }
+            }
+            
+            self.data['RECOMMENDATION_PLAN.E100'] = {
+                'branch_lists': self.get_nodes('RECOMMENDATION_PLAN.E100'),
+                'domains': {
+                    'RECOMMENDATION_TYPE.E55' : Concept().get_e55_domain('RECOMMENDATION_TYPE.E55'),
+                    'INTERVENTION_ACTIVITY_TYPE.E55' : Concept().get_e55_domain('INTERVENTION_ACTIVITY_TYPE.E55'),
+                }
+            }
+            
+            self.data['PRIORITY_ASSIGNMENT.E13'] = {
+                'branch_lists': self.get_nodes('PRIORITY_ASSIGNMENT.E13'),
+                'domains': {
+                    'PRIORITY_TYPE.E55' : Concept().get_e55_domain('PRIORITY_TYPE.E55'),
                 }
             }
 
