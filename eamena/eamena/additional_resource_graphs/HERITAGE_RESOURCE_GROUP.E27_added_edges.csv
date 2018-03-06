@@ -169,9 +169,7 @@ Source,Target,Type,Id,Label,timeset,Weight
 257,258,Directed,3060,-P71,,1
 235,259,Directed,3061,P4,,1
 259,260,Directed,3062,P82b,,1
-260,261,Directed,3063,-P71,,1
 259,262,Directed,3064,P82a,,1
-262,263,Directed,3065,-P71,,1
 218,264,Directed,3066,-O8,,1
 264,265,Directed,3067,O9,,1
 265,266,Directed,3068,-P70,,1
