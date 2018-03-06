@@ -50,12 +50,15 @@
                         <div data-bind='foreach: getBranchLists()'>
                             <div class="arches-crud-record">
                                 <a href="javascript:void(0)" class="arches-CRUD-child" title="{% trans "Delete this Summary" %}"><i data-bind="click: $parent.deleteItem.bind($parent)" class="arches-CRUD-delete fa fa-times-circle"></i></a>
-                                <a href="javascript:void(0)" class="arches-CRUD-child arches-CRUD-edit" data-bind="click: $parent.editItem.bind($parent)" title="{% trans "Edit this Summary" %}"><span data-bind='text: nodes.get("INVESTIGATOR_NAME.E41", "value")' style="padding-right:2px;"></span><span class="text-muted arches-crud-type-identifier">(<span data-bind='text: nodes.get("INVESTIGATOR_ROLE_TYPE.E55", "label")'></span>)</span>
-                                    <span data-bind='{text: nodes.get("INVESTIGATOR_NAME.E41", "label")}' style="padding-right:2px;"></span>
-                                    <span data-bind='{text: nodes.get("INVESTIGATOR_ROLE_TYPE.E55", "label")}' style="padding-right:2px;"></span>
+                                <a href="javascript:void(0)" class="arches-CRUD-child arches-CRUD-edit" data-bind="click: $parent.editItem.bind($parent)" title="{% trans "Edit this Summary" %}">
+                                    <span data-bind='text: nodes.get("INVESTIGATOR_NAME.E41", "value")' style="padding-right:2px;"></span>
+                                    <span class="text-muted arches-crud-type-identifier">
+                                        (<span data-bind='text: nodes.get("INVESTIGATOR_ROLE_TYPE.E55", "label")'></span>)
+                                    </span>
                                     <span data-bind='{text: nodes.get("ASSESSMENT_ACTIVITY_TYPE.E55", "label")}' style="padding-right:2px;"></span>
-                                    <span class="text-muted"> on </span>
+                                    <span class="text-muted"> (type) </span>
                                     <span data-bind="{text: nodes.get('ASSESSMENT_ACTIVITY_DATE.E49', 'value')}" style="padding-right:2px"></span>
+                                    <span class="text-muted"> (Date of Assessment) </span>
                                 </a>
                             </div>
                         </div>
